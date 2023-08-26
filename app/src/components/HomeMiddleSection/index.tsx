@@ -1,7 +1,9 @@
 import {
   BannerWrapper,
   BannersContainer,
+  BookmarkButton,
   CardOverlay,
+  CarouselWrapper,
   HomeMiddleSectionWrapper,
   RecentlyAddedCard,
   RecentlyAddedText,
@@ -9,6 +11,8 @@ import {
 import CarouselComponent from "../CarouselComponent"
 import { useQuery } from "react-query"
 import { api } from "../../lib/api"
+import { BookmarkSimple } from "@phosphor-icons/react"
+import { useState } from "react"
 
 type TrendingFilms = Array<{
   id: number
@@ -18,6 +22,8 @@ type TrendingFilms = Array<{
 }>
 
 const HomeMiddleSection = () => {
+  const [changeBookmark, setChangeBookmark] = useState(false)
+
   const { data: trendings, isLoading } = useQuery({
     queryKey: ["getHomeTrendings"],
 
@@ -39,11 +45,7 @@ const HomeMiddleSection = () => {
       <RecentlyAddedText>
         <h1>Recently Added</h1>
       </RecentlyAddedText>
-      <div
-        style={{
-          padding: "0px 50px 0px 50px",
-        }}
-      >
+      <CarouselWrapper>
         <CarouselComponent>
           {trendings?.data.map((film) => {
             return (
@@ -57,12 +59,22 @@ const HomeMiddleSection = () => {
                       <div>
                         <p>{film.name}</p>
                         <p>
-                          Release:
+                          Release:{" "}
                           {new Date(film.first_air_date).toLocaleDateString(
                             "en-US"
                           )}
                         </p>
                       </div>
+                      <BookmarkButton
+                        onMouseOver={() => setChangeBookmark(true)}
+                        onMouseLeave={() => setChangeBookmark(false)}
+                      >
+                        <BookmarkSimple
+                          weight={changeBookmark ? "fill" : "regular"}
+                          color="#fff"
+                          size={35}
+                        />
+                      </BookmarkButton>
                     </CardOverlay>
                   </RecentlyAddedCard>
                 </BannerWrapper>
@@ -70,7 +82,7 @@ const HomeMiddleSection = () => {
             )
           })}
         </CarouselComponent>
-      </div>
+      </CarouselWrapper>
     </HomeMiddleSectionWrapper>
   )
 }

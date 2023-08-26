@@ -54,6 +54,10 @@ export const RecentlyAddedCard = styled.div`
   }
 `
 
+export const CarouselWrapper = styled.div`
+  padding: 0px 50px 0px 50px;
+`
+
 export const CardOverlay = styled.div`
   position: absolute;
   -webkit-box-shadow: inset 0px -166px 84px -25px rgba(0, 0, 0, 0.94);
@@ -83,4 +87,11 @@ export const CardOverlay = styled.div`
   &:hover {
     opacity: 1;
   }
+`
+
+export const BookmarkButton = styled.button`
+  all: unset;
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
 `
