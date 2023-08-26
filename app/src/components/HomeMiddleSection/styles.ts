@@ -15,18 +15,18 @@ export const HomeMiddleSectionWrapper = styled.section`
 export const RecentlyAddedText = styled.div`
   color: #fff;
   font-size: 1rem;
-  padding-left: 50px;
-  padding-right: 50px;
-  padding-top: 20px;
+  padding-left: 3.125rem;
+  padding-right: 3.125rem;
+  padding-top: 1.25rem;
   text-transform: uppercase;
 `
 
-export const BannersContainer = styled.div`
+export const Banner = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: center;
-  padding-top: 10px;
+  padding-top: 0.625rem;
 `
 
 export const BannerWrapper = styled.div`
@@ -55,7 +55,7 @@ export const RecentlyAddedCard = styled.div`
 `
 
 export const CarouselWrapper = styled.div`
-  padding: 0px 50px 0px 50px;
+  padding: 0px 3.125rem 0px 3.125rem;
 `
 
 export const CardOverlay = styled.div`
@@ -73,8 +73,8 @@ export const CardOverlay = styled.div`
   transition: all 0.2s ease-in-out;
 
   div {
-    padding-left: 20px;
-    padding-bottom: 20px;
+    padding-left: 1.25rem;
+    padding-bottom: 1.25rem;
     align-self: end;
 
     p:first-child {

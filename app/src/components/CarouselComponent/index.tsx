@@ -10,7 +10,7 @@ import {
 import { CaretLeft, CaretRight } from "@phosphor-icons/react"
 
 const CarouselComponent = ({ children }: { children: React.ReactNode }) => {
-  const [currentSlide, setCurrentSlide] = useState(0)
+  const [_, setCurrentSlide] = useState(0)
   const [loaded, setLoaded] = useState(false)
   const [sliderRef, instanceRef] = useKeenSlider({
     loop: true,
@@ -27,8 +27,6 @@ const CarouselComponent = ({ children }: { children: React.ReactNode }) => {
       setLoaded(true)
     },
   })
-
-  const isLastSlide = instanceRef?.current?.track?.details?.slides?.length ?? 0
 
   return (
     <>

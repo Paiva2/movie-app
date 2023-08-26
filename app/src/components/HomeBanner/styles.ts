@@ -62,6 +62,7 @@ export const BannerButtons = styled.button<BannerButtons>`
   background-color: ${(props) => (props.$bg ? props.$bg : "transparent")};
   color: ${(props) => (props.$fontColor ? props.$fontColor : "#000")};
   transition: all 0.2s ease-in-out;
+  line-height: 0.9375rem;
 
   &:hover {
     background-color: ${(props) => (props.$bgHover ? props.$bgHover : "none")};
