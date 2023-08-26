@@ -1,9 +1,7 @@
 import GlobalStyle, { AppContainer } from "./globalStyles"
 import Header from "./components/Header"
-import PageContainer from "./components/PageContainer"
-import HomeBanner from "./components/HomeBanner"
-import HomeMiddleSection from "./components/HomeMiddleSection"
 import { QueryClient, QueryClientProvider } from "react-query"
+import RoutesHandler from "./routes"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,11 +17,7 @@ function App() {
       <AppContainer>
         <GlobalStyle />
         <Header />
-
-        <PageContainer>
-          <HomeBanner />
-          <HomeMiddleSection />
-        </PageContainer>
+        <RoutesHandler />
       </AppContainer>
     </QueryClientProvider>
   )
