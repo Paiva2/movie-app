@@ -124,7 +124,7 @@ const Register = () => {
       if (error instanceof AxiosError) {
         Toast.fire({
           icon: "error",
-          title: error?.response?.data,
+          title: error?.response?.data.message,
         })
 
         setSendingRegister(false)

@@ -4,6 +4,7 @@ import bcrypt from "bcrypt"
 import cors from "cors"
 import "dotenv/config"
 import prisma from "./lib/prisma.js"
+import jwt from "jsonwebtoken"
 
 const app = express()
 
@@ -45,19 +46,79 @@ app.get("/trending-movies", async (_, res) => {
   return res.status(200).send(response.data.results)
 })
 
-app.post("/register", async (req, res) => {
+app.post("/login", async (req, res) => {
   if (!req.body.data.username) {
     if (typeof req.body.data.username !== "string") {
-      return res.status(404).send("Username must be a string.")
+      return res.status(404).send({ message: "Username must be a string." })
     }
 
-    return res.status(404).send("Username or Password can't be empty.")
+    return res
+      .status(404)
+      .send({ message: "Username or Password can't be empty." })
   } else if (!req.body.data.password) {
     if (typeof req.body.data.password !== "string") {
       return res.status(404).send("Password must be a string.")
     }
 
-    return res.status(404).send("Password or Password can't be empty.")
+    return res
+      .status(404)
+      .send({ message: "Username or Password can't be empty." })
+  }
+
+  const isUserRegistered = await prisma.user.findUnique({
+    where: {
+      username: req.body.data.username,
+    },
+  })
+
+  if (!isUserRegistered) {
+    return res.status(409).send({ message: "Username not found!" })
+  }
+
+  const checkIfPasswordsMatch = bcrypt.compareSync(
+    req.body.data.password,
+    isUserRegistered.password
+  )
+
+  if (!checkIfPasswordsMatch) {
+    return res.status(409).send({ message: "Wrong credentials!" })
+  }
+
+  const userInformationsToJwt = {
+    id: isUserRegistered.id,
+    username: isUserRegistered.username,
+  }
+
+  jwt.sign(userInformationsToJwt, process.env.JWT_SECRET, (err, token) => {
+    if (err) {
+      return res
+        .status(500)
+        .json({ message: "Error while generating new JWT. Try again later." })
+    }
+
+    return res
+      .status(200)
+      .send({ message: "Authentication success.", token: token })
+  })
+})
+
+app.post("/register", async (req, res) => {
+  if (!req.body.data.username) {
+    if (typeof req.body.data.username !== "string") {
+      return res.status(404).send({ message: "Username must be a string." })
+    }
+
+    return res
+      .status(404)
+      .send({ message: "Username or Password can't be empty." })
+  } else if (!req.body.data.password) {
+    if (typeof req.body.data.password !== "string") {
+      return res.status(404).send({ message: "Password must be a string." })
+    }
+
+    return res
+      .status(404)
+      .send({ message: "Password or Password can't be empty." })
   }
 
   const isUserRegistered = await prisma.user.findUnique({
@@ -67,7 +128,7 @@ app.post("/register", async (req, res) => {
   })
 
   if (isUserRegistered) {
-    return res.status(409).send("Username already exists.")
+    return res.status(409).send({ message: "Username already exists." })
   }
 
   const hashedPassword = encryptPassword(10, req.body.data.password)

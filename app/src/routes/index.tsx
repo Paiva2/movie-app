@@ -4,13 +4,46 @@ import Login from "../pages/Login"
 import { AppContainer } from "../globalStyles"
 import Header from "../components/Header"
 import Register from "../pages/Register"
-import { Fragment } from "react"
+import { Fragment, useContext, useEffect, useState } from "react"
+import Cookies from "js-cookie"
+import { AuthContextProvider } from "../contexts/AuthContext"
+import { RequireAuthRoute } from "../components/RequireAuthRoute"
 
 const RoutesHandler = () => {
-  const hideHeader =
-    window?.location?.href.includes("/login") ||
-    window?.location?.href.includes("/register") ||
-    window?.location?.href.includes("/forgot-password")
+  const { setUserAuthenticated, userAuthenticated } =
+    useContext(AuthContextProvider)
+
+  const [hideHeader, setHideHeader] = useState<null | boolean>(true)
+
+  function checkLocationToHideComponent(pathnames: string[]) {
+    return pathnames.some((route) => {
+      return window.location.href.includes(route)
+    })
+  }
+
+  function willHeaderStayHidden() {
+    const routes = ["/login", "/register", "/forgot-password"]
+
+    const checkIfHeaderShouldAppear = checkLocationToHideComponent(routes)
+
+    if (checkIfHeaderShouldAppear) {
+      setHideHeader(true)
+    } else {
+      setHideHeader(false)
+    }
+  }
+
+  useEffect(() => {
+    const isUserAuth = Cookies.get("movie-app-auth")
+
+    if (!isUserAuth) return
+
+    setUserAuthenticated(true)
+  }, [window.location.pathname])
+
+  useEffect(() => {
+    willHeaderStayHidden()
+  }, [window.location.pathname, userAuthenticated])
 
   return (
     <BrowserRouter>
@@ -19,8 +52,19 @@ const RoutesHandler = () => {
         <Routes>
           <Fragment>
             <Route path="/" element={<Navigate to="/home" />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+
+            <Route
+              path="/home"
+              element={
+                <RequireAuthRoute>
+                  <Home />
+                </RequireAuthRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={!userAuthenticated ? <Login /> : <Navigate to="/home" />}
+            />
             <Route path="/register" element={<Register />} />
           </Fragment>
         </Routes>

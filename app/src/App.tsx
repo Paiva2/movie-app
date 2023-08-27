@@ -1,6 +1,7 @@
 import GlobalStyle from "./globalStyles"
 import { QueryClient, QueryClientProvider } from "react-query"
 import RoutesHandler from "./routes"
+import AuthContext from "./contexts/AuthContext"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -13,8 +14,10 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <GlobalStyle />
-      <RoutesHandler />
+      <AuthContext>
+        <GlobalStyle />
+        <RoutesHandler />
+      </AuthContext>
     </QueryClientProvider>
   )
 }
