@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String            @id @default(uuid())
+  username String            @unique
+  image    String
+  password String
+  posts    BookmarkedFilms[]
+}
+
+model BookmarkedFilms {
+  id             String   @id @default(uuid())
+  title          String   @db.VarChar(255)
+  poster         String
+  overview       String
+  first_air_date String
+  createdAt      DateTime @default(now())
+  userId         String
+
+  User User? @relation(fields: [userId], references: [id])
+}
