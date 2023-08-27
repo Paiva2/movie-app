@@ -1,5 +1,4 @@
-import GlobalStyle, { AppContainer } from "./globalStyles"
-import Header from "./components/Header"
+import GlobalStyle from "./globalStyles"
 import { QueryClient, QueryClientProvider } from "react-query"
 import RoutesHandler from "./routes"
 
@@ -14,11 +13,8 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AppContainer>
-        <GlobalStyle />
-        <Header />
-        <RoutesHandler />
-      </AppContainer>
+      <GlobalStyle />
+      <RoutesHandler />
     </QueryClientProvider>
   )
 }

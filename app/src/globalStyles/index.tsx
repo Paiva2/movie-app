@@ -32,9 +32,9 @@ const GlobalStyle = createGlobalStyle`
 export const AppContainer = styled.main`
   display: flex;
   flex-direction: column;
+  width: 100%;
   align-items: center;
   justify-content: center;
-  width: 100%;
 `
 
 export default GlobalStyle
