@@ -81,7 +81,7 @@ app.post("/register", async (req, res) => {
     },
   })
 
-  return res.status(201).send("User created with success!")
+  return res.status(201).send({ message: "User created with success!" })
 })
 
 app.listen(port, () => {

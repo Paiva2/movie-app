@@ -94,8 +94,17 @@ export const LoginFooter = styled.div`
     font-weight: 600;
     transition: all 0.2s ease-in-out;
 
+    &:disabled {
+      background-color: #121214;
+    }
+
     &:hover {
       background-color: #9277ff;
     }
   }
+`
+export const ErrorMessage = styled.p`
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #c22424cc;
 `
