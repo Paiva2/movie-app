@@ -11,6 +11,7 @@ import { FormEvent, useState } from "react"
 import { useMutation } from "react-query"
 import { api } from "../../lib/api"
 import { Toast } from "../../utils/toast"
+import { AxiosError } from "axios"
 
 type NewUserSchema = {
   username: string
@@ -46,15 +47,6 @@ const Register = () => {
       const response = await api.post("/register", { data: newUser })
 
       return response.data
-    },
-
-    onError: () => {
-      Toast.fire({
-        icon: "error",
-        title: "There was an error. Try again.",
-      })
-
-      setSendingRegister(false)
     },
 
     onSuccess: () => {
@@ -126,7 +118,18 @@ const Register = () => {
       password: userInformations.password.value,
     }
 
-    await registerNewUser.mutateAsync(newUser)
+    try {
+      await registerNewUser.mutateAsync(newUser)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        Toast.fire({
+          icon: "error",
+          title: error?.response?.data,
+        })
+
+        setSendingRegister(false)
+      }
+    }
   }
 
   return (
