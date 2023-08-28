@@ -18,7 +18,7 @@ type NewUserSchema = {
   password: string
 }
 
-const registerDefaultSchema = {
+const userDefaultSchema = {
   username: {
     value: "",
     error: false,
@@ -35,29 +35,27 @@ const registerDefaultSchema = {
 }
 
 const ForgotPassword = () => {
-  const [userInformations, setUserInformations] = useState(
-    registerDefaultSchema
-  )
-  const [sendingRegiter, setSendingRegister] = useState(false)
+  const [userInformations, setUserInformations] = useState(userDefaultSchema)
+  const [sendingChangePassword, setSendingChangePassword] = useState(false)
 
-  const registerNewUser = useMutation({
+  const updateUserPassword = useMutation({
     mutationFn: async (newUser: NewUserSchema) => {
-      setSendingRegister(true)
+      setSendingChangePassword(true)
 
-      const response = await api.post("/register", { data: newUser })
+      const response = await api.patch("/forgot-password", { data: newUser })
 
       return response.data
     },
 
     onSuccess: () => {
-      setUserInformations(registerDefaultSchema)
+      setUserInformations(userDefaultSchema)
 
       Toast.fire({
         icon: "success",
-        title: "User created with success!",
+        title: "Password changed with success!",
       })
 
-      setSendingRegister(false)
+      setSendingChangePassword(false)
     },
   })
 
@@ -75,13 +73,12 @@ const ForgotPassword = () => {
     }))
   }
 
-  const setInputError = (inputWithError: string) => {
+  const setInputError = (inputWithError: string, errorType: string) => {
     setUserInformations((oldValue) => ({
       ...oldValue,
       [inputWithError]: {
         ...oldValue[inputWithError as keyof typeof userInformations],
-        error: true,
-        matchError: true,
+        [errorType]: true,
       },
     }))
   }
@@ -91,43 +88,33 @@ const ForgotPassword = () => {
 
     const { username, password, confirmPassword } = userInformations
 
-    if (!username.value && !password.value && !confirmPassword.value) {
-      setInputError("password")
-      setInputError("username")
-      setInputError("confirmPassword")
-
-      return
-    } else if (!username.value) {
-      return setInputError("username")
+    if (!username.value) {
+      setInputError("username", "error")
     } else if (!password.value) {
-      return setInputError("password")
+      setInputError("password", "error")
+    } else if (password.value.length < 5) {
+      setInputError("password", "lengthError")
     } else if (!confirmPassword.value) {
-      return setInputError("confirmPassword")
+      setInputError("confirmPassword", "error")
     } else if (confirmPassword.value !== password.value) {
-      return setUserInformations((oldValue) => ({
-        ...oldValue,
-        confirmPassword: {
-          ...oldValue.confirmPassword,
-          matchError: true,
-        },
-      }))
-    }
+      setInputError("confirmPassword", "matchError")
+    } else {
+      const updatedUser = {
+        username: userInformations.username.value,
+        password: userInformations.password.value,
+      }
 
-    const newUser = {
-      username: userInformations.username.value,
-      password: userInformations.password.value,
-    }
+      try {
+        await updateUserPassword.mutateAsync(updatedUser)
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          Toast.fire({
+            icon: "error",
+            title: error?.response?.data.message,
+          })
 
-    try {
-      await registerNewUser.mutateAsync(newUser)
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        Toast.fire({
-          icon: "error",
-          title: error?.response?.data.message,
-        })
-
-        setSendingRegister(false)
+          setSendingChangePassword(false)
+        }
       }
     }
   }
@@ -137,7 +124,7 @@ const ForgotPassword = () => {
       <ForgotPasswordWrapper>
         <ForgotPasswordTitles>
           <h1>Forgot Password</h1>
-          <p>Change your password.</p>
+          <p>Change your password!</p>
         </ForgotPasswordTitles>
 
         <ForgotPasswordForm onSubmit={handleSubmitResetPassword}>
@@ -189,9 +176,14 @@ const ForgotPassword = () => {
           </label>
 
           <ForgotPasswordFooter>
-            <a href="#">Forgot password?</a>
-            <button disabled={sendingRegiter} type="submit">
-              Register
+            <p>
+              Not registered yet?{" "}
+              <a href="/register">
+                Register now <ArrowSquareOut size={20} />
+              </a>
+            </p>
+            <button disabled={sendingChangePassword} type="submit">
+              Confirm
             </button>
 
             <span>

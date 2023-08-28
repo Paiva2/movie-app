@@ -6,10 +6,13 @@ export const RegisterContainer = styled.div`
   justify-content: center;
   width: 100%;
   height: 100vh;
+  background-image: url("https://i.imgur.com/kQYjzkA.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 `
 
 export const RegisterWrapper = styled.div`
-  background-color: #0c0c0c;
+  background-color: #1f1e1e;
   color: #fff;
   padding: 3.125rem;
   border-radius: 8px;
@@ -39,7 +42,7 @@ export const RegisterForm = styled.form`
   label {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 0.3125rem;
     font-weight: 600;
     font-size: 1rem;
 
@@ -47,9 +50,14 @@ export const RegisterForm = styled.form`
       border: 0;
       border-radius: 8px;
       padding: 0.9375rem;
-      background: #1b1b1b;
+      background: #0e0d0d;
       color: #fff;
       font-size: 1rem;
+      border: 2px solid transparent;
+
+      &:focus {
+        border: 2px solid #7c5dfa;
+      }
     }
   }
 `

@@ -47,19 +47,19 @@ app.get("/trending-movies", async (_, res) => {
 })
 
 app.post("/login", async (req, res) => {
-  if (!req.body.data.username) {
-    if (typeof req.body.data.username !== "string") {
-      return res.status(404).send({ message: "Username must be a string." })
-    }
+  if (typeof req.body.data.username !== "string") {
+    return res.status(404).send({ message: "Username must be a string." })
+  }
 
+  if (typeof req.body.data.password !== "string") {
+    return res.status(404).send("Password must be a string.")
+  }
+
+  if (!req.body.data.username) {
     return res
       .status(404)
       .send({ message: "Username or Password can't be empty." })
   } else if (!req.body.data.password) {
-    if (typeof req.body.data.password !== "string") {
-      return res.status(404).send("Password must be a string.")
-    }
-
     return res
       .status(404)
       .send({ message: "Username or Password can't be empty." })
@@ -147,6 +147,53 @@ app.post("/register", async (req, res) => {
   })
 
   return res.status(201).send({ message: "User created with success!" })
+})
+
+app.patch("/forgot-password", async (req, res) => {
+  if (typeof req.body.data.username !== "string") {
+    return res.status(404).send({ message: "Username must be a string." })
+  }
+
+  if (typeof req.body.data.password !== "string") {
+    return res.status(404).send({ message: "Password must be a string." })
+  }
+
+  if (!req.body.data.username) {
+    return res
+      .status(404)
+      .send({ message: "Username or Password can't be empty." })
+  } else if (!req.body.data.password) {
+    return res
+      .status(404)
+      .send({ message: "Password or Password can't be empty." })
+  } else if (req.body.data.password.length < 5) {
+    return res
+      .status(404)
+      .send({ message: "Password must have at least 5 characters." })
+  }
+
+  const isUserRegistered = await prisma.user.findUnique({
+    where: {
+      username: req.body.data.username,
+    },
+  })
+
+  if (!isUserRegistered) {
+    return res.status(409).send({ message: "Username not found." })
+  }
+
+  const hashedPassword = encryptPassword(10, req.body.data.password)
+
+  await prisma.user.update({
+    where: {
+      id: isUserRegistered.id,
+    },
+    data: {
+      password: hashedPassword,
+    },
+  })
+
+  return res.status(200).send({ message: "Password updated with success!" })
 })
 
 app.listen(port, () => {
