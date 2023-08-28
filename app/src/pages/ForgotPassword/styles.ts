@@ -1,6 +1,6 @@
 import { styled } from "styled-components"
 
-export const RegisterContainer = styled.div`
+export const ForgotPasswordContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,7 +8,7 @@ export const RegisterContainer = styled.div`
   height: 100vh;
 `
 
-export const RegisterWrapper = styled.div`
+export const ForgotPasswordWrapper = styled.div`
   background-color: #0c0c0c;
   color: #fff;
   padding: 3.125rem;
@@ -19,7 +19,7 @@ export const RegisterWrapper = styled.div`
   width: 30%;
 `
 
-export const RegisterTitles = styled.div`
+export const ForgotPasswordTitles = styled.div`
   h1 {
     font-size: 2.25rem;
   }
@@ -31,7 +31,7 @@ export const RegisterTitles = styled.div`
   }
 `
 
-export const RegisterForm = styled.form`
+export const ForgotPasswordForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 0.9375rem;
@@ -54,7 +54,7 @@ export const RegisterForm = styled.form`
   }
 `
 
-export const RegisterFooter = styled.div`
+export const ForgotPasswordFooter = styled.div`
   display: flex;
   width: 100%;
   align-items: center;

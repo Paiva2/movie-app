@@ -170,7 +170,7 @@ const Login = () => {
             </label>
 
             <LoginFooter>
-              <a href="#">Forgot password?</a>
+              <a href="/forgot-password">Forgot password?</a>
               <button disabled={sendingLogin} type="submit">
                 Login
               </button>

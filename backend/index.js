@@ -103,22 +103,26 @@ app.post("/login", async (req, res) => {
 })
 
 app.post("/register", async (req, res) => {
-  if (!req.body.data.username) {
-    if (typeof req.body.data.username !== "string") {
-      return res.status(404).send({ message: "Username must be a string." })
-    }
+  if (typeof req.body.data.username !== "string") {
+    return res.status(404).send({ message: "Username must be a string." })
+  }
 
+  if (typeof req.body.data.password !== "string") {
+    return res.status(404).send({ message: "Password must be a string." })
+  }
+
+  if (!req.body.data.username) {
     return res
       .status(404)
       .send({ message: "Username or Password can't be empty." })
   } else if (!req.body.data.password) {
-    if (typeof req.body.data.password !== "string") {
-      return res.status(404).send({ message: "Password must be a string." })
-    }
-
     return res
       .status(404)
       .send({ message: "Password or Password can't be empty." })
+  } else if (req.body.data.password.length < 5) {
+    return res
+      .status(404)
+      .send({ message: "Password must have at least 5 characters." })
   }
 
   const isUserRegistered = await prisma.user.findUnique({

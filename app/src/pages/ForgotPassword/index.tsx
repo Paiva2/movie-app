@@ -1,11 +1,11 @@
 import { ArrowSquareOut } from "@phosphor-icons/react"
 import {
   ErrorMessage,
-  RegisterContainer,
-  RegisterFooter,
-  RegisterForm,
-  RegisterTitles,
-  RegisterWrapper,
+  ForgotPasswordContainer,
+  ForgotPasswordFooter,
+  ForgotPasswordForm,
+  ForgotPasswordTitles,
+  ForgotPasswordWrapper,
 } from "./styles"
 import { FormEvent, useState } from "react"
 import { useMutation } from "react-query"
@@ -26,7 +26,6 @@ const registerDefaultSchema = {
   password: {
     value: "",
     error: false,
-    lengthError: false,
   },
   confirmPassword: {
     value: "",
@@ -35,7 +34,7 @@ const registerDefaultSchema = {
   },
 }
 
-const Register = () => {
+const ForgotPassword = () => {
   const [userInformations, setUserInformations] = useState(
     registerDefaultSchema
   )
@@ -72,66 +71,76 @@ const Register = () => {
         value,
         error: false,
         matchError: false,
-        lengthError: false,
       },
     }))
   }
 
-  const setInputError = (inputWithError: string, errorType: string) => {
+  const setInputError = (inputWithError: string) => {
     setUserInformations((oldValue) => ({
       ...oldValue,
       [inputWithError]: {
         ...oldValue[inputWithError as keyof typeof userInformations],
-        [errorType]: true,
+        error: true,
+        matchError: true,
       },
     }))
   }
 
-  const handleSubmitRegister = async (e: FormEvent) => {
+  const handleSubmitResetPassword = async (e: FormEvent) => {
     e.preventDefault()
 
     const { username, password, confirmPassword } = userInformations
 
-    if (!username.value) {
-      setInputError("username", "error")
+    if (!username.value && !password.value && !confirmPassword.value) {
+      setInputError("password")
+      setInputError("username")
+      setInputError("confirmPassword")
+
+      return
+    } else if (!username.value) {
+      return setInputError("username")
     } else if (!password.value) {
-      setInputError("password", "error")
-    } else if (password.value.length < 5) {
-      setInputError("password", "lengthError")
+      return setInputError("password")
     } else if (!confirmPassword.value) {
-      setInputError("confirmPassword", "error")
+      return setInputError("confirmPassword")
     } else if (confirmPassword.value !== password.value) {
-      setInputError("confirmPassword", "matchError")
-    } else {
-      const newUser = {
-        username: userInformations.username.value,
-        password: userInformations.password.value,
-      }
+      return setUserInformations((oldValue) => ({
+        ...oldValue,
+        confirmPassword: {
+          ...oldValue.confirmPassword,
+          matchError: true,
+        },
+      }))
+    }
 
-      try {
-        await registerNewUser.mutateAsync(newUser)
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          Toast.fire({
-            icon: "error",
-            title: error?.response?.data.message,
-          })
+    const newUser = {
+      username: userInformations.username.value,
+      password: userInformations.password.value,
+    }
 
-          setSendingRegister(false)
-        }
+    try {
+      await registerNewUser.mutateAsync(newUser)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        Toast.fire({
+          icon: "error",
+          title: error?.response?.data.message,
+        })
+
+        setSendingRegister(false)
       }
     }
   }
 
   return (
-    <RegisterContainer>
-      <RegisterWrapper>
-        <RegisterTitles>
-          <h1>Register</h1>
-          <p>Welcome! SignIn to bookmark films.</p>
-        </RegisterTitles>
+    <ForgotPasswordContainer>
+      <ForgotPasswordWrapper>
+        <ForgotPasswordTitles>
+          <h1>Forgot Password</h1>
+          <p>Change your password.</p>
+        </ForgotPasswordTitles>
 
-        <RegisterForm onSubmit={handleSubmitRegister}>
+        <ForgotPasswordForm onSubmit={handleSubmitResetPassword}>
           <label>
             Username
             <input
@@ -159,11 +168,6 @@ const Register = () => {
             {userInformations.password.error && (
               <ErrorMessage>Can't be empty.</ErrorMessage>
             )}
-            {userInformations.password.lengthError && (
-              <ErrorMessage>
-                Password must have at least 5 characters.
-              </ErrorMessage>
-            )}
           </label>
 
           <label>
@@ -184,8 +188,8 @@ const Register = () => {
             )}
           </label>
 
-          <RegisterFooter>
-            <a href="/forgot-password">Forgot password?</a>
+          <ForgotPasswordFooter>
+            <a href="#">Forgot password?</a>
             <button disabled={sendingRegiter} type="submit">
               Register
             </button>
@@ -198,11 +202,11 @@ const Register = () => {
                 </a>
               </p>
             </span>
-          </RegisterFooter>
-        </RegisterForm>
-      </RegisterWrapper>
-    </RegisterContainer>
+          </ForgotPasswordFooter>
+        </ForgotPasswordForm>
+      </ForgotPasswordWrapper>
+    </ForgotPasswordContainer>
   )
 }
 
-export default Register
+export default ForgotPassword
