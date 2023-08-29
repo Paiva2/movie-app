@@ -196,6 +196,58 @@ app.patch("/forgot-password", async (req, res) => {
   return res.status(200).send({ message: "Password updated with success!" })
 })
 
+app.patch("/bookmark-movie/?:action", async (req, res) => {
+  const { movie, user: userToken, film } = req.body.data
+
+  if (movie) {
+    return res.status(404).send({ message: "Movie must be a string." })
+  }
+
+  if (!userToken) {
+    return res.status(404).send({ message: "User token must be a string." })
+  }
+
+  if (!film) {
+    return res.status(404).send({ message: "Film must be a string." })
+  }
+
+  const decodedToken = jwt.verify(userToken, process.env.JWT_SECRET)
+
+  const isUserRegistered = await prisma.user.findUnique({
+    where: {
+      id: decodedToken.id,
+      username: decodedToken.username,
+    },
+  })
+
+  if (!isUserRegistered) {
+    return res.status(409).send({ message: "User not found." })
+  }
+
+  const filmToPerformAction = {
+    id: film.id.toString(),
+    title: film.name,
+    poster: film.poster_path,
+    overview: film.overview,
+    first_air_date: film.first_air_date,
+    userId: isUserRegistered.id,
+  }
+
+  switch (req.params.action) {
+    case "action=insert":
+      await prisma.bookmarkedFilms.create({
+        data: filmToPerformAction,
+      })
+
+      return res.status(201).send({ message: "Film bookmarked with success!" })
+    case "action=remove":
+      console.log("remover")
+      break
+    default:
+      return null
+  }
+})
+
 app.listen(port, () => {
   console.log(`server on: port localhost:${port}`)
 })

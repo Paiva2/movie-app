@@ -9,7 +9,7 @@ import {
   RecentlyAddedText,
 } from "./styles"
 import CarouselComponent from "../CarouselComponent"
-import { useMutation, useQuery } from "react-query"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import { api } from "../../lib/api"
 import { BookmarkSimple } from "@phosphor-icons/react"
 import { useState, Fragment, useContext } from "react"
@@ -20,6 +20,7 @@ import { AuthContextProvider } from "../../contexts/AuthContext"
 interface BookmarkSchema {
   film: FilmProps
   user: string
+  action: string
 }
 
 const HomeMiddleSection = () => {
@@ -46,33 +47,52 @@ const HomeMiddleSection = () => {
     },
   })
 
+  const queryClient = useQueryClient()
+
   const bookMarkFilm = useMutation({
     mutationFn: async (bookmarkSchema: BookmarkSchema) => {
       try {
-        const response = await api.post("/bookmark-movie", {
-          data: {
-            film: bookmarkSchema.film,
-            user: bookmarkSchema.user,
-          },
-        })
+        const response = await api.patch(
+          `/bookmark-movie/action=${bookmarkSchema.action}`,
+          {
+            data: {
+              film: bookmarkSchema.film,
+              user: bookmarkSchema.user,
+            },
+          }
+        )
 
         return response
       } catch (e) {
         console.log("There was an error...")
       }
     },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getHomeTrendings"] })
+    },
   })
 
-  const handlePutFilmOnBookmark = async (filmToBookmark: FilmProps) => {
+  const handleSetBookmark = async (
+    filmToBookmark: FilmProps,
+    action: "insert" | "remove"
+  ) => {
     const bookmarkBody = {
       film: filmToBookmark,
       user: userAuthenticated.userToken,
+      action: action,
     }
 
-    await bookMarkFilm.mutateAsync(bookmarkBody)
+    try {
+      const response = await bookMarkFilm.mutateAsync(bookmarkBody)
+
+      console.log(response)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
-  if (isLoading) return
+  if (isLoading) return <></>
 
   return (
     <Fragment>
@@ -110,9 +130,9 @@ const HomeMiddleSection = () => {
                           onMouseOver={() => setChangeBookmark(true)}
                           onMouseLeave={() => setChangeBookmark(false)}
                           onClick={(e) => {
-                            handlePutFilmOnBookmark(film)
-
                             e.stopPropagation()
+
+                            handleSetBookmark(film, "insert")
                           }}
                         >
                           <BookmarkSimple
