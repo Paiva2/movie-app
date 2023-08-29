@@ -11,3 +11,7 @@ interface UserAuthentication {
   isUserAuth: boolean
   userToken: string
 }
+
+interface UserInformations {
+  userToken: string
+}
