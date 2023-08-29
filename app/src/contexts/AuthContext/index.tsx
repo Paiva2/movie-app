@@ -1,12 +1,14 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useState, useEffect } from "react"
+import { UserAuthentication } from "../../types"
+import Cookies from "js-cookie"
 
 interface AuthContextProviderProps {
   children: React.ReactNode
 }
 
 interface AuthContextInterface {
-  userAuthenticated: boolean
-  setUserAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
+  userAuthenticated: UserAuthentication
+  setUserAuthenticated: React.Dispatch<React.SetStateAction<UserAuthentication>>
 }
 
 export const AuthContextProvider = createContext<AuthContextInterface>(
@@ -14,7 +16,21 @@ export const AuthContextProvider = createContext<AuthContextInterface>(
 )
 
 const AuthContext = ({ children }: AuthContextProviderProps) => {
-  const [userAuthenticated, setUserAuthenticated] = useState(false)
+  const [userAuthenticated, setUserAuthenticated] = useState({
+    isUserAuth: false,
+    userToken: "",
+  })
+
+  useEffect(() => {
+    const userHasToken = Cookies.get("movie-app-auth")
+
+    if (!userHasToken) return
+
+    setUserAuthenticated({
+      userToken: userHasToken,
+      isUserAuth: true,
+    })
+  }, [window.location.pathname])
 
   return (
     <AuthContextProvider.Provider

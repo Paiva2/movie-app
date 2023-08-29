@@ -36,13 +36,10 @@ const Login = () => {
   const [userInformations, setUserInformations] = useState(userLoginSchema)
 
   const { userAuthenticated } = useContext(AuthContextProvider)
-  const [hasAuthCheckFinished, setHasAuthCheckFinished] = useState(false)
 
   useEffect(() => {
-    if (userAuthenticated) {
+    if (userAuthenticated.isUserAuth) {
       return window.location.replace("/home")
-    } else {
-      setHasAuthCheckFinished(true)
     }
   }, [userAuthenticated])
 
@@ -131,63 +128,61 @@ const Login = () => {
   }
 
   return (
-    hasAuthCheckFinished && (
-      <LoginContainer>
-        <LoginWrapper>
-          <LoginTitles>
-            <h1>Login</h1>
-            <p>Welcome! SignIn to see your bookmarked films.</p>
-          </LoginTitles>
+    <LoginContainer>
+      <LoginWrapper>
+        <LoginTitles>
+          <h1>Login</h1>
+          <p>Welcome! SignIn to see your bookmarked films.</p>
+        </LoginTitles>
 
-          <LoginForm onSubmit={handleSubmitLogin}>
-            <label>
-              Username
-              <input
-                onChange={({ target }) =>
-                  handleChangeInputInformations("username", target.value)
-                }
-                value={userInformations.username.value}
-                placeholder="Enter your username"
-                type="text"
-              />
-              {userInformations.username.error && (
-                <ErrorMessage>Can't be empty.</ErrorMessage>
-              )}
-            </label>
-            <label>
-              Password
-              <input
-                onChange={({ target }) =>
-                  handleChangeInputInformations("password", target.value)
-                }
-                value={userInformations.password.value}
-                placeholder="Enter your password"
-                type="password"
-              />
-              {userInformations.password.error && (
-                <ErrorMessage>Can't be empty.</ErrorMessage>
-              )}
-            </label>
+        <LoginForm onSubmit={handleSubmitLogin}>
+          <label>
+            Username
+            <input
+              onChange={({ target }) =>
+                handleChangeInputInformations("username", target.value)
+              }
+              value={userInformations.username.value}
+              placeholder="Enter your username"
+              type="text"
+            />
+            {userInformations.username.error && (
+              <ErrorMessage>Can't be empty.</ErrorMessage>
+            )}
+          </label>
+          <label>
+            Password
+            <input
+              onChange={({ target }) =>
+                handleChangeInputInformations("password", target.value)
+              }
+              value={userInformations.password.value}
+              placeholder="Enter your password"
+              type="password"
+            />
+            {userInformations.password.error && (
+              <ErrorMessage>Can't be empty.</ErrorMessage>
+            )}
+          </label>
 
-            <LoginFooter>
-              <a href="/forgot-password">Forgot password?</a>
-              <button disabled={sendingLogin} type="submit">
-                Login
-              </button>
+          <LoginFooter>
+            <a href="/forgot-password">Forgot password?</a>
+            <button disabled={sendingLogin} type="submit">
+              Login
+            </button>
 
-              <span>
-                <p>
-                  Not registered yet?{" "}
-                  <a href="/register">
-                    Register now <ArrowSquareOut size={20} />
-                  </a>
-                </p>
-              </span>
-            </LoginFooter>
-          </LoginForm>
-        </LoginWrapper>
-      </LoginContainer>
-    )
+            <span>
+              <p>
+                Not registered yet?{" "}
+                <a href="/register">
+                  Register now <ArrowSquareOut size={20} />
+                </a>
+              </p>
+            </span>
+          </LoginFooter>
+        </LoginForm>
+      </LoginWrapper>
+    </LoginContainer>
   )
 }
 

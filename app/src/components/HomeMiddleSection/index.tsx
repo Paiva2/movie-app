@@ -9,17 +9,27 @@ import {
   RecentlyAddedText,
 } from "./styles"
 import CarouselComponent from "../CarouselComponent"
-import { useQuery } from "react-query"
+import { useMutation, useQuery } from "react-query"
 import { api } from "../../lib/api"
 import { BookmarkSimple } from "@phosphor-icons/react"
-import { useState, Fragment } from "react"
+import { useState, Fragment, useContext } from "react"
 import MovieModal from "../MovieModal"
 import { FilmProps } from "../../types"
+import { AuthContextProvider } from "../../contexts/AuthContext"
+
+interface BookmarkSchema {
+  film: FilmProps
+  user: string
+}
 
 const HomeMiddleSection = () => {
+  const { userAuthenticated } = useContext(AuthContextProvider)
+
   const [changeBookmark, setChangeBookmark] = useState(false)
+
   const [selectedFilmDescriptions, setSelectedFilmDescriptions] =
     useState<FilmProps>({} as FilmProps)
+
   const [openMovieModal, setOpenMovieModal] = useState(false)
 
   const { data: trendings, isLoading } = useQuery({
@@ -35,6 +45,32 @@ const HomeMiddleSection = () => {
       }
     },
   })
+
+  const bookMarkFilm = useMutation({
+    mutationFn: async (bookmarkSchema: BookmarkSchema) => {
+      try {
+        const response = await api.post("/bookmark-movie", {
+          data: {
+            film: bookmarkSchema.film,
+            user: bookmarkSchema.user,
+          },
+        })
+
+        return response
+      } catch (e) {
+        console.log("There was an error...")
+      }
+    },
+  })
+
+  const handlePutFilmOnBookmark = async (filmToBookmark: FilmProps) => {
+    const bookmarkBody = {
+      film: filmToBookmark,
+      user: userAuthenticated.userToken,
+    }
+
+    await bookMarkFilm.mutateAsync(bookmarkBody)
+  }
 
   if (isLoading) return
 
@@ -73,6 +109,11 @@ const HomeMiddleSection = () => {
                         <BookmarkButton
                           onMouseOver={() => setChangeBookmark(true)}
                           onMouseLeave={() => setChangeBookmark(false)}
+                          onClick={(e) => {
+                            handlePutFilmOnBookmark(film)
+
+                            e.stopPropagation()
+                          }}
                         >
                           <BookmarkSimple
                             weight={changeBookmark ? "fill" : "regular"}

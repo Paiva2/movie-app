@@ -5,14 +5,13 @@ import { AppContainer } from "../globalStyles"
 import Header from "../components/Header"
 import Register from "../pages/Register"
 import { Fragment, useContext, useEffect, useState } from "react"
-import Cookies from "js-cookie"
 import { AuthContextProvider } from "../contexts/AuthContext"
 import { RequireAuthRoute } from "../components/RequireAuthRoute"
 import ForgotPassword from "../pages/ForgotPassword"
+import { NoAuthRoute } from "../components/NotAuthRoute"
 
 const RoutesHandler = () => {
-  const { setUserAuthenticated, userAuthenticated } =
-    useContext(AuthContextProvider)
+  const { userAuthenticated } = useContext(AuthContextProvider)
 
   const [hideHeader, setHideHeader] = useState<null | boolean>(true)
 
@@ -33,14 +32,6 @@ const RoutesHandler = () => {
       setHideHeader(false)
     }
   }
-
-  useEffect(() => {
-    const isUserAuth = Cookies.get("movie-app-auth")
-
-    if (!isUserAuth) return
-
-    setUserAuthenticated(true)
-  }, [window.location.pathname])
 
   useEffect(() => {
     willHeaderStayHidden()
@@ -64,10 +55,28 @@ const RoutesHandler = () => {
             />
             <Route
               path="/login"
-              element={!userAuthenticated ? <Login /> : <Navigate to="/home" />}
+              element={
+                <NoAuthRoute>
+                  <Login />
+                </NoAuthRoute>
+              }
             />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route
+              path="/register"
+              element={
+                <NoAuthRoute>
+                  <Register />
+                </NoAuthRoute>
+              }
+            />
+            <Route
+              path="/forgot-password"
+              element={
+                <NoAuthRoute>
+                  <ForgotPassword />
+                </NoAuthRoute>
+              }
+            />
           </Fragment>
         </Routes>
       </AppContainer>

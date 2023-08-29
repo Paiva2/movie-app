@@ -6,7 +6,7 @@ export function RequireAuthRoute({ children }: { children: JSX.Element }) {
   const location = useLocation()
   const { userAuthenticated } = useContext(AuthContextProvider)
 
-  if (!userAuthenticated) {
+  if (!userAuthenticated.isUserAuth) {
     return <Navigate to="/login" state={{ from: location }} replace />
   } else {
     return children
