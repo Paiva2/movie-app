@@ -25,3 +25,9 @@ interface UserAuthentication {
 interface UserInformations {
   userToken: string
 }
+
+interface UserProfileSchema {
+  id: string
+  image: string
+  username: string
+}

@@ -1,13 +1,20 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import {
   HeaderContainer,
   HeaderWrapper,
   NavMenu,
+  ProfileMenu,
   ProfilePicture,
 } from "./styles"
+import { UserContextProvider } from "../../contexts/UserContext"
+import Cookies from "js-cookie"
+import { AuthContextProvider } from "../../contexts/AuthContext"
 
 const Header = () => {
   const [headerPosition, setHeaderPosition] = useState(true)
+  const [openMenuProfile, setOpenMenuProfile] = useState(false)
+  const { userProfile } = useContext(UserContextProvider)
+  const { userAuthenticated } = useContext(AuthContextProvider)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +31,16 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll)
     }
   }, [])
+
+  function handleLogout() {
+    if (!userAuthenticated.isUserAuth) {
+      throw new Error("User must be authenticated before logout.")
+    }
+
+    Cookies.remove("movie-app-auth")
+
+    window.location.replace("/login")
+  }
 
   return (
     <HeaderContainer $absolutePosition={headerPosition}>
@@ -45,9 +62,20 @@ const Header = () => {
           </ul>
         </NavMenu>
 
-        <ProfilePicture className="profile-pic">
-          <img src="https://i.postimg.cc/rw23gmVY/21430510-680977128777457-2422235984997179527-n.jpg" />
+        <ProfilePicture
+          onClick={() => setOpenMenuProfile(!openMenuProfile)}
+          type="button"
+          className="profile-pic"
+        >
+          <img src={userProfile?.image} />
         </ProfilePicture>
+        <ProfileMenu $menuVisibility={openMenuProfile}>
+          <li>
+            <button onClick={handleLogout} type="button">
+              Logout
+            </button>
+          </li>
+        </ProfileMenu>
       </HeaderWrapper>
     </HeaderContainer>
   )

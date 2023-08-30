@@ -75,17 +75,48 @@ export const NavMenu = styled.nav`
   }
 `
 
-export const ProfilePicture = styled.div`
+export const ProfilePicture = styled.button`
+  all: unset;
   width: 2.1875rem;
   height: 2.1875rem;
   overflow: hidden;
   border: 2px solid #7c5dfa;
   border-radius: 9999px;
+  cursor: pointer;
 
   img {
     width: 100%;
     border-radius: 9999px;
     height: 100%;
     object-fit: contain;
+  }
+`
+
+interface ProfileMenuStylesSchema {
+  $menuVisibility: boolean
+}
+
+export const ProfileMenu = styled.ul<ProfileMenuStylesSchema>`
+  position: absolute;
+  top: 45px;
+  color: #fff;
+  background: #000;
+  padding: 1.25rem;
+  right: 8px;
+  transition: all 0.2s ease-in-out;
+  opacity: ${(props) => (props.$menuVisibility ? "1" : "0")};
+  visibility: ${(props) => (props.$menuVisibility ? "visible" : "hidden")};
+
+  li {
+    cursor: pointer;
+    font-size: 0.875rem;
+
+    button {
+      all: unset;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `

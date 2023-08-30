@@ -28,6 +28,35 @@ const TmdbOptions = {
   },
 }
 
+app.post("/user-profile", async (req, res) => {
+  const { userToken } = req.body.data
+
+  if (typeof userToken !== "string") {
+    return res.status(404).send({ message: "User not found." })
+  }
+
+  const decodedToken = jwt.verify(userToken, process.env.JWT_SECRET)
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: decodedToken.id,
+      username: decodedToken.username,
+    },
+  })
+
+  if (!user) {
+    return res.status(404).send({ message: "User not found." })
+  }
+
+  const userInformations = {
+    id: user.id,
+    username: user.username,
+    image: user.image,
+  }
+
+  return res.status(200).json({ data: userInformations })
+})
+
 app.get("/all-films", async (_, res) => {
   const response = await axios.get(
     "https://api.themoviedb.org/3/tv/popular?language=en-US&page=1",
