@@ -7,6 +7,16 @@ export type FilmProps = {
   overview: string
 }
 
+type BookmarkedMovies = {
+  bookmarkedFilms: Array<{
+    id: string
+    title: string
+    poster: string
+    overview: string
+    first_air_date: string
+    createdAt: string
+  }>
+}
 interface UserAuthentication {
   isUserAuth: boolean
   userToken: string

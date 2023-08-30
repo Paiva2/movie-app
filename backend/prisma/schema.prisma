@@ -19,7 +19,7 @@ model BookmarkedFilms {
   id             String   @id @default(uuid())
   title          String   @db.VarChar(400)
   poster         String
-  overview       String   @db.VarChar(400)
+  overview       String   @db.VarChar(2000)
   first_air_date String
   createdAt      DateTime @default(now())
   userId         String

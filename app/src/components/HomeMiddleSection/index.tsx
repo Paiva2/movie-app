@@ -16,6 +16,7 @@ import { useState, Fragment, useContext } from "react"
 import MovieModal from "../MovieModal"
 import { FilmProps } from "../../types"
 import { AuthContextProvider } from "../../contexts/AuthContext"
+import { UserContextProvider } from "../../contexts/UserContext"
 
 interface BookmarkSchema {
   film: FilmProps
@@ -25,6 +26,8 @@ interface BookmarkSchema {
 
 const HomeMiddleSection = () => {
   const { userAuthenticated } = useContext(AuthContextProvider)
+
+  const { bookmarkedMovies } = useContext(UserContextProvider)
 
   const [changeBookmark, setChangeBookmark] = useState(false)
 
@@ -69,7 +72,8 @@ const HomeMiddleSection = () => {
     },
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["getHomeTrendings"] })
+      queryClient.invalidateQueries("getHomeTrendings")
+      queryClient.invalidateQueries("getUserBookmarkedMovies")
     },
   })
 
@@ -92,13 +96,21 @@ const HomeMiddleSection = () => {
     }
   }
 
-  if (isLoading) return <></>
+  if (isLoading) return null
+
+  const bookmarkedFilmsIds = bookmarkedMovies?.bookmarkedFilms?.map(
+    (films) => films.id
+  )
+
+  const functionCheckIfIsBookmarked = (id: number) => {
+    return bookmarkedFilmsIds?.includes(String(id))
+  }
 
   return (
     <Fragment>
       <HomeMiddleSectionWrapper>
         <RecentlyAddedText>
-          <h1>Recently Added</h1>
+          <h1>Trending</h1>
         </RecentlyAddedText>
         <CarouselWrapper>
           <CarouselComponent>
@@ -132,14 +144,29 @@ const HomeMiddleSection = () => {
                           onClick={(e) => {
                             e.stopPropagation()
 
-                            handleSetBookmark(film, "insert")
+                            handleSetBookmark(
+                              film,
+                              functionCheckIfIsBookmarked(film.id)
+                                ? "remove"
+                                : "insert"
+                            )
                           }}
                         >
-                          <BookmarkSimple
-                            weight={changeBookmark ? "fill" : "regular"}
-                            color="#fff"
-                            size={35}
-                          />
+                          {functionCheckIfIsBookmarked(film.id) ? (
+                            <BookmarkSimple
+                              key="on_list"
+                              color="#fff"
+                              weight={changeBookmark ? "regular" : "fill"}
+                              size={35}
+                            />
+                          ) : (
+                            <BookmarkSimple
+                              key="out_list"
+                              weight={changeBookmark ? "fill" : "regular"}
+                              color="#fff"
+                              size={35}
+                            />
+                          )}
                         </BookmarkButton>
                       </CardOverlay>
                     </RecentlyAddedCard>

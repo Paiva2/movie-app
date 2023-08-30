@@ -1,3 +1,4 @@
+import { UserContextProvider } from "../../contexts/UserContext"
 import { FilmProps } from "../../types"
 import {
   BannerButtons,
@@ -8,6 +9,7 @@ import {
   ModalFilmDescriptions,
   ModalOverlay,
 } from "./styles"
+import { useContext } from "react"
 
 interface ModalProps {
   movieData: FilmProps
@@ -20,6 +22,16 @@ const MovieModal = ({
   openMovieModal,
   setOpenMovieModal,
 }: ModalProps) => {
+  const { bookmarkedMovies } = useContext(UserContextProvider)
+
+  const bookmarkedFilmsIds = bookmarkedMovies?.bookmarkedFilms?.map(
+    (films) => films.id
+  )
+
+  const functionCheckIfIsBookmarked = (id: number) => {
+    return bookmarkedFilmsIds?.includes(String(id))
+  }
+
   return (
     <ModalOverlay
       $visibility={openMovieModal}
@@ -51,9 +63,25 @@ const MovieModal = ({
               >
                 Watch now
               </BannerButtons>
-              <BannerButtons $bgHover="#d1d1d1" $bg="#fff" type="button">
-                Add to list
-              </BannerButtons>
+              {functionCheckIfIsBookmarked(movieData.id) ? (
+                <BannerButtons
+                  key="remove"
+                  $bgHover="#c22e2e"
+                  $bg="#c56363"
+                  type="button"
+                >
+                  Remove from list
+                </BannerButtons>
+              ) : (
+                <BannerButtons
+                  key="add_list"
+                  $bgHover="#d1d1d1"
+                  $bg="#fff"
+                  type="button"
+                >
+                  Add to list
+                </BannerButtons>
+              )}
             </BannerButtonsContainer>
           </FilmTexts>
         </ModalFilmDescriptions>

@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect, useContext } from "react"
-import { FilmProps } from "../../types"
+import React, { createContext, useContext } from "react"
+import { BookmarkedMovies } from "../../types"
 import { useQuery } from "react-query"
 import { api } from "../../lib/api"
 import { AuthContextProvider } from "../AuthContext"
@@ -9,8 +9,7 @@ interface UserContextInterfaceProps {
 }
 
 interface UserContextInterface {
-  userInformations: FilmProps[]
-  setUserInformations: React.Dispatch<React.SetStateAction<FilmProps[]>>
+  bookmarkedMovies: BookmarkedMovies | undefined
 }
 
 export const UserContextProvider = createContext<UserContextInterface>(
@@ -18,13 +17,9 @@ export const UserContextProvider = createContext<UserContextInterface>(
 )
 
 const UserContext = ({ children }: UserContextInterfaceProps) => {
-  const [userInformations, setUserInformations] = useState<
-    FilmProps[] | undefined
-  >(undefined)
-
   const { userAuthenticated } = useContext(AuthContextProvider)
 
-  const { data: bookmarkedMovies } = useQuery({
+  const { data: bookmarkedMovies } = useQuery<BookmarkedMovies>({
     queryKey: ["getUserBookmarkedMovies"],
 
     queryFn: async () => {
@@ -33,25 +28,19 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
           data: { userToken: userAuthenticated.userToken },
         })
 
-        return response
+        return response.data
       } catch (e) {
         console.log("There was an error...")
       }
     },
-    enabled: userAuthenticated.isUserAuth,
+
+    enabled: !!userAuthenticated.userToken,
   })
-
-  useEffect(() => {
-    if (!userAuthenticated.isUserAuth) return
-
-    setUserInformations(bookmarkedMovies)
-  }, [window.location.pathname, userAuthenticated])
 
   return (
     <UserContextProvider.Provider
       value={{
-        userInformations,
-        setUserInformations,
+        bookmarkedMovies,
       }}
     >
       {children}

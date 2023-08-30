@@ -241,11 +241,46 @@ app.patch("/bookmark-movie/?:action", async (req, res) => {
 
       return res.status(201).send({ message: "Film bookmarked with success!" })
     case "action=remove":
-      console.log("remover")
+      await prisma.bookmarkedFilms.delete({
+        where: {
+          id: film.id.toString(),
+        },
+      })
+      return res
+        .status(200)
+        .send({ message: "Film removed from bookmarked list with success!" })
       break
     default:
       return null
   }
+})
+
+app.post("/bookmarked-movies", async (req, res) => {
+  const { userToken } = req.body.data
+
+  if (!userToken) {
+    return res.status(404).send({ message: "User token must be a string." })
+  }
+
+  const decodedToken = jwt.verify(userToken, process.env.JWT_SECRET)
+
+  const isUserRegistered = await prisma.user.findUnique({
+    where: {
+      id: decodedToken.id,
+      username: decodedToken.username,
+    },
+    select: {
+      bookmarkedFilms: true,
+    },
+  })
+
+  if (!isUserRegistered) {
+    return res.status(409).send({ message: "User not found." })
+  }
+
+  return res
+    .status(200)
+    .json({ bookmarkedFilms: isUserRegistered.bookmarkedFilms })
 })
 
 app.listen(port, () => {
