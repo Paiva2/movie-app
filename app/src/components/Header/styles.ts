@@ -25,6 +25,35 @@ export const HeaderContainer = styled.header<HeaderPosition>`
   }
 `
 
+interface SearchBarVisibilityProps {
+  $searchVisibility: boolean
+}
+
+export const SearchHeaderWrapper = styled.div<SearchBarVisibilityProps>`
+  width: 35%;
+
+  label {
+    position: relative;
+    display: flex;
+
+    svg {
+      position: relative;
+      left: 30px;
+      top: 7px;
+    }
+
+    input {
+      padding: 10px 10px 10px 40px;
+      transition: all 0.2s ease-in-out;
+      width: 100%;
+      background-color: ${(props) =>
+        props.$searchVisibility ? "#1f1f24" : "transparent"};
+      border: 0;
+      color: #fff;
+    }
+  }
+`
+
 export const HeaderWrapper = styled.header`
   padding: 0px 1.875rem;
   width: auto;

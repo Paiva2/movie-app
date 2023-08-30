@@ -5,10 +5,12 @@ import {
   NavMenu,
   ProfileMenu,
   ProfilePicture,
+  SearchHeaderWrapper,
 } from "./styles"
 import { UserContextProvider } from "../../contexts/UserContext"
 import Cookies from "js-cookie"
 import { AuthContextProvider } from "../../contexts/AuthContext"
+import { MagnifyingGlass } from "@phosphor-icons/react"
 
 const Header = () => {
   const [headerPosition, setHeaderPosition] = useState(true)
@@ -61,6 +63,13 @@ const Header = () => {
             </li>
           </ul>
         </NavMenu>
+
+        <SearchHeaderWrapper $searchVisibility={headerPosition}>
+          <label>
+            <MagnifyingGlass size={22} color="#FFF" weight="bold" />
+            <input type="text" />
+          </label>
+        </SearchHeaderWrapper>
 
         <ProfilePicture
           onClick={() => setOpenMenuProfile(!openMenuProfile)}
