@@ -39,12 +39,13 @@ export const SearchHeaderWrapper = styled.div<SearchBarVisibilityProps>`
     svg {
       position: relative;
       left: 30px;
-      top: 7px;
+      top: 10px;
     }
 
     input {
-      padding: 10px 10px 10px 40px;
+      padding: 0.75rem 0.625rem 0.75rem 2.5rem;
       transition: all 0.2s ease-in-out;
+      border-radius: 5px;
       width: 100%;
       background-color: ${(props) =>
         props.$searchVisibility ? "#1f1f24" : "transparent"};
@@ -121,20 +122,34 @@ export const ProfilePicture = styled.button`
   }
 `
 
-interface ProfileMenuStylesSchema {
+interface OverlayVisibilitySchema {
   $menuVisibility: boolean
 }
 
-export const ProfileMenu = styled.ul<ProfileMenuStylesSchema>`
-  position: absolute;
-  top: 45px;
+export const ProfileMenuOverlay = styled.div<OverlayVisibilitySchema>`
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: ${(props) => (props.$menuVisibility ? "1" : "0")};
+  visibility: ${(props) => (props.$menuVisibility ? "visible" : "hidden")};
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+`
+
+export const ProfileMenu = styled.ul`
+  display: flex;
+  flex-direction: column;
   color: #fff;
   background: #000;
   padding: 1.25rem;
-  right: 8px;
-  transition: all 0.2s ease-in-out;
-  opacity: ${(props) => (props.$menuVisibility ? "1" : "0")};
-  visibility: ${(props) => (props.$menuVisibility ? "visible" : "hidden")};
+  height: 100%;
+  width: 35%;
+  margin: 0;
 
   li {
     cursor: pointer;

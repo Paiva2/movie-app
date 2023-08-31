@@ -4,6 +4,7 @@ import {
   HeaderWrapper,
   NavMenu,
   ProfileMenu,
+  ProfileMenuOverlay,
   ProfilePicture,
   SearchHeaderWrapper,
 } from "./styles"
@@ -49,8 +50,8 @@ const Header = () => {
 
     element?.scrollIntoView({
       behavior: "smooth",
-      block: "nearest",
-      inline: "start",
+      block: "center",
+      inline: "center",
     })
   }
 
@@ -63,13 +64,13 @@ const Header = () => {
               <a href="/home">Home</a>
             </li>
             <li aria-hidden onClick={() => scrollToComponent(".movies")}>
-              <a href="#">Movies</a>
+              <a>Movies</a>
             </li>
             <li aria-hidden onClick={() => scrollToComponent("")}>
-              <a href="#">Series</a>
+              <a>Series</a>
             </li>
             <li aria-hidden onClick={() => scrollToComponent(".trendings")}>
-              <a href="#">Trending</a>
+              <a>Trending</a>
             </li>
           </ul>
         </NavMenu>
@@ -88,13 +89,19 @@ const Header = () => {
         >
           <img src={userProfile?.image} />
         </ProfilePicture>
-        <ProfileMenu $menuVisibility={openMenuProfile}>
-          <li>
-            <button onClick={handleLogout} type="button">
-              Logout
-            </button>
-          </li>
-        </ProfileMenu>
+        <ProfileMenuOverlay
+          onClick={() => setOpenMenuProfile(!openMenuProfile)}
+          $menuVisibility={openMenuProfile}
+        >
+          <ProfileMenu onClick={(e) => e.stopPropagation()}>
+            <li>Change picture</li>
+            <li>
+              <button onClick={handleLogout} type="button">
+                Logout
+              </button>
+            </li>
+          </ProfileMenu>
+        </ProfileMenuOverlay>
       </HeaderWrapper>
     </HeaderContainer>
   )
