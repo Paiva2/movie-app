@@ -66,6 +66,8 @@ export const HeaderWrapper = styled.header`
 `
 
 export const NavMenu = styled.nav`
+  white-space: nowrap;
+
   ul {
     cursor: pointer;
     gap: 1.875rem;

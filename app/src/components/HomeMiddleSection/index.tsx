@@ -3,6 +3,7 @@ import { Fragment } from "react"
 import MovieModal from "../MovieModal"
 import MoviesCarousel from "../MoviesCarousel"
 import TrendingsCarousel from "../TrendingsCarousel"
+import TvShowsCarousel from "../TvShowsCarousel"
 
 const HomeMiddleSection = () => {
   return (
@@ -14,9 +15,14 @@ const HomeMiddleSection = () => {
         <TrendingsCarousel />
 
         <SectionTitle>
-          <h1>MOVIES</h1>
+          <h1>Movies</h1>
         </SectionTitle>
         <MoviesCarousel />
+
+        <SectionTitle>
+          <h1>Tv shows</h1>
+        </SectionTitle>
+        <TvShowsCarousel />
       </HomeMiddleSectionWrapper>
 
       <MovieModal />

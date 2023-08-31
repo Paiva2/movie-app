@@ -108,6 +108,7 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
       queryClient.invalidateQueries("getHomeTrendings")
       queryClient.invalidateQueries("getUserBookmarkedMovies")
       queryClient.invalidateQueries("getHomeMovies")
+      queryClient.invalidateQueries("getHomeTvShows")
     },
   })
 

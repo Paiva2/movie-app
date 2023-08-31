@@ -84,6 +84,15 @@ app.get("/movies", async (_, res) => {
   return res.status(200).send(response.data.results)
 })
 
+app.get("/tv-shows", async (_, res) => {
+  const response = await axios.get(
+    "https://api.themoviedb.org/3/discover/tv",
+    TmdbOptions
+  )
+
+  return res.status(200).send(response.data.results)
+})
+
 app.post("/login", async (req, res) => {
   if (typeof req.body.data.username !== "string") {
     return res.status(404).send({ message: "Username must be a string." })

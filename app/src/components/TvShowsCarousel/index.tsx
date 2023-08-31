@@ -1,3 +1,4 @@
+import { useState, useContext } from "react"
 import {
   Banner,
   BannerWrapper,
@@ -9,29 +10,28 @@ import {
 import CarouselComponent from "../CarouselComponent"
 import { BookmarkSimple } from "@phosphor-icons/react"
 import { useQuery } from "react-query"
+import { UserContextProvider } from "../../contexts/UserContext"
 import { FilmProps } from "../../types"
 import { api } from "../../lib/api"
-import { useState, useContext } from "react"
-import { UserContextProvider } from "../../contexts/UserContext"
 import formatSchema from "../../utils/formatSchema"
 
-const MoviesCarousel = () => {
+const TvShowsCarousel = () => {
   const {
     bookmarkedMovies,
     openMovieModal,
+    handleSetBookmark,
     setOpenMovieModal,
     setSelectedFilmDescriptions,
-    handleSetBookmark,
   } = useContext(UserContextProvider)
 
   const [changeBookmark, setChangeBookmark] = useState(false)
 
-  const { data: homeMovies, isLoading } = useQuery({
-    queryKey: ["getHomeMovies"],
+  const { data: tvShows, isLoading } = useQuery({
+    queryKey: ["getHomeTvShows"],
 
     queryFn: async () => {
       try {
-        const response = await api.get<FilmProps[]>("/movies")
+        const response = await api.get<FilmProps[]>("/tv-shows")
 
         return response
       } catch (e) {
@@ -40,7 +40,7 @@ const MoviesCarousel = () => {
     },
   })
 
-  if (isLoading || !homeMovies) return null
+  if (isLoading || !tvShows) return null
 
   const bookmarkedFilmsIds = bookmarkedMovies?.bookmarkedFilms?.map(
     (films) => films.id
@@ -50,12 +50,14 @@ const MoviesCarousel = () => {
     return bookmarkedFilmsIds?.includes(String(id))
   }
 
-  const homeMoviesNewSchema = formatSchema(homeMovies?.data)
+  const homeTvShowsSchema = formatSchema(tvShows?.data)
 
   return (
-    <CarouselWrapper className="movies">
+    <CarouselWrapper className="tv-shows">
       <CarouselComponent>
-        {homeMoviesNewSchema?.map((film) => {
+        {homeTvShowsSchema?.map((film) => {
+          if (!film.poster_path) return <></>
+
           return (
             <Banner key={film.id} className="keen-slider__slide">
               <BannerWrapper>
@@ -120,4 +122,4 @@ const MoviesCarousel = () => {
   )
 }
 
-export default MoviesCarousel
+export default TvShowsCarousel
