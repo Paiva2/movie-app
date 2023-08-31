@@ -5,6 +5,14 @@ export type FilmProps = {
   backdrop_path: string
   first_air_date: string
   overview: string
+  release_date?: string
+  title?: string
+}
+
+interface BookmarkSchema {
+  film: FilmProps
+  user: string
+  action: string
 }
 
 type BookmarkedMovies = {

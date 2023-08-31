@@ -1,6 +1,17 @@
-import React, { createContext, useContext } from "react"
-import { BookmarkedMovies, UserProfileSchema } from "../../types"
-import { useQuery } from "react-query"
+import React, {
+  createContext,
+  useContext,
+  Dispatch,
+  SetStateAction,
+  useState,
+} from "react"
+import {
+  BookmarkSchema,
+  BookmarkedMovies,
+  FilmProps,
+  UserProfileSchema,
+} from "../../types"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import { api } from "../../lib/api"
 import { AuthContextProvider } from "../AuthContext"
 
@@ -11,6 +22,17 @@ interface UserContextInterfaceProps {
 interface UserContextInterface {
   bookmarkedMovies: BookmarkedMovies | undefined
   userProfile: UserProfileSchema | undefined
+
+  selectedFilmDescriptions: FilmProps
+  setSelectedFilmDescriptions: Dispatch<SetStateAction<FilmProps>>
+
+  openMovieModal: boolean
+  setOpenMovieModal: Dispatch<SetStateAction<boolean>>
+
+  handleSetBookmark: (
+    filmToBookmark: FilmProps,
+    action: "insert" | "remove"
+  ) => void
 }
 
 export const UserContextProvider = createContext<UserContextInterface>(
@@ -19,6 +41,11 @@ export const UserContextProvider = createContext<UserContextInterface>(
 
 const UserContext = ({ children }: UserContextInterfaceProps) => {
   const { userAuthenticated } = useContext(AuthContextProvider)
+
+  const [selectedFilmDescriptions, setSelectedFilmDescriptions] =
+    useState<FilmProps>({} as FilmProps)
+
+  const [openMovieModal, setOpenMovieModal] = useState(false)
 
   const { data: bookmarkedMovies } = useQuery<BookmarkedMovies>({
     queryKey: ["getUserBookmarkedMovies"],
@@ -56,11 +83,61 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
     enabled: !!userAuthenticated.userToken,
   })
 
+  const queryClient = useQueryClient()
+
+  const bookMarkFilm = useMutation({
+    mutationFn: async (bookmarkSchema: BookmarkSchema) => {
+      try {
+        const response = await api.patch(
+          `/bookmark-movie/action=${bookmarkSchema.action}`,
+          {
+            data: {
+              film: bookmarkSchema.film,
+              user: bookmarkSchema.user,
+            },
+          }
+        )
+
+        return response
+      } catch (e) {
+        console.log("There was an error...")
+      }
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries("getHomeTrendings")
+      queryClient.invalidateQueries("getUserBookmarkedMovies")
+      queryClient.invalidateQueries("getHomeMovies")
+    },
+  })
+
+  const handleSetBookmark = async (
+    filmToBookmark: FilmProps,
+    action: "insert" | "remove"
+  ) => {
+    const bookmarkBody = {
+      film: filmToBookmark,
+      user: userAuthenticated.userToken,
+      action: action,
+    }
+
+    try {
+      await bookMarkFilm.mutateAsync(bookmarkBody)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <UserContextProvider.Provider
       value={{
         bookmarkedMovies,
+        selectedFilmDescriptions,
         userProfile,
+        openMovieModal,
+        handleSetBookmark,
+        setSelectedFilmDescriptions,
+        setOpenMovieModal,
       }}
     >
       {children}

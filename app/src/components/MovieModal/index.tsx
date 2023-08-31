@@ -1,5 +1,4 @@
 import { UserContextProvider } from "../../contexts/UserContext"
-import { FilmProps } from "../../types"
 import {
   BannerButtons,
   BannerButtonsContainer,
@@ -11,18 +10,14 @@ import {
 } from "./styles"
 import { useContext } from "react"
 
-interface ModalProps {
-  movieData: FilmProps
-  openMovieModal: boolean
-  setOpenMovieModal: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-const MovieModal = ({
-  movieData,
-  openMovieModal,
-  setOpenMovieModal,
-}: ModalProps) => {
-  const { bookmarkedMovies } = useContext(UserContextProvider)
+const MovieModal = () => {
+  const {
+    bookmarkedMovies,
+    selectedFilmDescriptions,
+    openMovieModal,
+    setOpenMovieModal,
+    handleSetBookmark,
+  } = useContext(UserContextProvider)
 
   const bookmarkedFilmsIds = bookmarkedMovies?.bookmarkedFilms?.map(
     (films) => films.id
@@ -44,14 +39,14 @@ const MovieModal = ({
         <ModalFilmDescriptions>
           <span>
             <img
-              src={`https://image.tmdb.org/t/p/w500${movieData?.poster_path}`}
+              src={`https://image.tmdb.org/t/p/w500${selectedFilmDescriptions?.poster_path}`}
             />
           </span>
 
           <FilmTexts>
             <span>
-              <h1>{movieData.name}</h1>
-              <p>{movieData.overview}</p>
+              <h1>{selectedFilmDescriptions.name}</h1>
+              <p>{selectedFilmDescriptions.overview}</p>
             </span>
 
             <BannerButtonsContainer>
@@ -63,12 +58,15 @@ const MovieModal = ({
               >
                 Watch now
               </BannerButtons>
-              {functionCheckIfIsBookmarked(movieData.id) ? (
+              {functionCheckIfIsBookmarked(selectedFilmDescriptions.id) ? (
                 <BannerButtons
                   key="remove"
                   $bgHover="#c22e2e"
                   $bg="#c56363"
                   type="button"
+                  onClick={() => {
+                    handleSetBookmark(selectedFilmDescriptions, "remove")
+                  }}
                 >
                   Remove from list
                 </BannerButtons>
@@ -78,6 +76,9 @@ const MovieModal = ({
                   $bgHover="#d1d1d1"
                   $bg="#fff"
                   type="button"
+                  onClick={() => {
+                    handleSetBookmark(selectedFilmDescriptions, "insert")
+                  }}
                 >
                   Add to list
                 </BannerButtons>
@@ -87,7 +88,7 @@ const MovieModal = ({
         </ModalFilmDescriptions>
 
         <ModalFilmBackground
-          $bgImage={`https://image.tmdb.org/t/p/w500${movieData?.backdrop_path}`}
+          $bgImage={`https://image.tmdb.org/t/p/w500${selectedFilmDescriptions?.backdrop_path}`}
         />
       </ModalContainer>
     </ModalOverlay>

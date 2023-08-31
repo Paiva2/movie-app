@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState, ReactNode, Fragment } from "react"
 import { useKeenSlider } from "keen-slider/react"
 import "keen-slider/keen-slider.min.css"
 import {
@@ -9,45 +9,49 @@ import {
 } from "./styles"
 import { CaretLeft, CaretRight } from "@phosphor-icons/react"
 
-const CarouselComponent = ({ children }: { children: React.ReactNode }) => {
-  const [_, setCurrentSlide] = useState(0)
-  const [loaded, setLoaded] = useState(false)
-  const [sliderRef, instanceRef] = useKeenSlider({
+const CarouselComponent = ({ children }: { children: ReactNode }) => {
+  const [loadedCarousel, setLoadedCarousel] = useState(false)
+
+  const [sliderRef, carouselRef] = useKeenSlider({
     loop: true,
     rtl: true,
+    slides: { perView: 9, spacing: 10 },
     breakpoints: {
-      "(min-width: 1000px)": {
-        slides: { perView: 9, spacing: 10 },
+      "(max-width: 768px)": {
+        slides: { perView: 1, spacing: 10 },
       },
     },
-    slideChanged(slider) {
-      setCurrentSlide(slider.track.details.rel)
-    },
+
     created() {
-      setLoaded(true)
+      setLoadedCarousel(true)
     },
   })
 
   return (
-    <>
+    <Fragment>
       <CarouselContainer ref={sliderRef} className="keen-slider">
         {children}
       </CarouselContainer>
-      {loaded && instanceRef.current && (
+      {loadedCarousel && carouselRef.current && (
         <ArrowsContainer>
-          <LeftButton onClick={() => instanceRef.current?.next()} type="button">
+          <LeftButton
+            className="arrowLeft"
+            onClick={() => carouselRef.current?.next()}
+            type="button"
+          >
             <CaretLeft weight="bold" size="45" />
           </LeftButton>
 
           <RightButton
-            onClick={() => instanceRef.current?.prev()}
+            className="arrowRight"
+            onClick={() => carouselRef.current?.prev()}
             type="button"
           >
             <CaretRight weight="bold" size="45" />
           </RightButton>
         </ArrowsContainer>
       )}
-    </>
+    </Fragment>
   )
 }
 

@@ -37,18 +37,10 @@ export const ModalContainer = styled.div<ModalVisibility>`
     props.$visibility ? "translateY(0%)" : "translateY(100%)"};
 `
 
-export const CloseButton = styled.button`
-  position: absolute;
-  right: 0;
-  background-color: #141414;
-  border: 0;
-  cursor: pointer;
-`
-
 export const ModalFilmDescriptions = styled.div`
   padding: 1.25rem;
   display: flex;
-  gap: 50px;
+  gap: 3.125rem;
   color: #fff;
   width: 100%;
 
@@ -85,9 +77,9 @@ interface ModalBackgroundProps {
 export const ModalFilmBackground = styled.div<ModalBackgroundProps>`
   background-image: ${(props) =>
     props.$bgImage ? `url(${props.$bgImage})` : ""};
-  width: 55%;
+  width: 35%;
   height: 100%;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: right;
 `

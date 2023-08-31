@@ -44,21 +44,31 @@ const Header = () => {
     window.location.replace("/login")
   }
 
+  function scrollToComponent(elementIdentification: string) {
+    const element = document.querySelector(elementIdentification)
+
+    element?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    })
+  }
+
   return (
     <HeaderContainer $absolutePosition={headerPosition}>
       <HeaderWrapper>
         <NavMenu>
           <ul>
-            <li>
+            <li aria-hidden onClick={() => scrollToComponent("")}>
               <a href="/home">Home</a>
             </li>
-            <li>
+            <li aria-hidden onClick={() => scrollToComponent(".movies")}>
               <a href="#">Movies</a>
             </li>
-            <li>
+            <li aria-hidden onClick={() => scrollToComponent("")}>
               <a href="#">Series</a>
             </li>
-            <li>
+            <li aria-hidden onClick={() => scrollToComponent(".trendings")}>
               <a href="#">Trending</a>
             </li>
           </ul>

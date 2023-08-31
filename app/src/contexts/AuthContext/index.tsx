@@ -1,4 +1,10 @@
-import React, { createContext, useState, useEffect } from "react"
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react"
 import { UserAuthentication } from "../../types"
 import Cookies from "js-cookie"
 
@@ -8,7 +14,7 @@ interface AuthContextProviderProps {
 
 interface AuthContextInterface {
   userAuthenticated: UserAuthentication
-  setUserAuthenticated: React.Dispatch<React.SetStateAction<UserAuthentication>>
+  setUserAuthenticated: Dispatch<SetStateAction<UserAuthentication>>
 }
 
 export const AuthContextProvider = createContext<AuthContextInterface>(
