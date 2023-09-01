@@ -9,11 +9,6 @@ const HomeMiddleSection = () => {
   return (
     <Fragment>
       <HomeMiddleSectionWrapper>
-        {/*         <SectionTitle>
-          <h1>Bookmarked</h1>
-        </SectionTitle>
-        <BookmarksCarousel />
- */}
         <SectionTitle>
           <h1>Trending</h1>
         </SectionTitle>

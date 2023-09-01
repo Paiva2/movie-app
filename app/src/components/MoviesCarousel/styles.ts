@@ -22,7 +22,7 @@ export const BannerWrapper = styled.div`
   gap: 0.625rem;
 `
 
-export const RecentlyAddedCard = styled.div`
+export const MovieCard = styled.div`
   width: 100%;
   border-radius: 8px;
   overflow: hidden;

@@ -5,7 +5,7 @@ import {
   BookmarkButton,
   CardOverlay,
   CarouselWrapper,
-  RecentlyAddedCard,
+  TrendingCard,
 } from "./styles"
 import CarouselComponent from "../CarouselComponent"
 import { BookmarkSimple } from "@phosphor-icons/react"
@@ -56,7 +56,7 @@ const TrendingsCarousel = () => {
           return (
             <Banner key={film.id} className="keen-slider__slide">
               <BannerWrapper>
-                <RecentlyAddedCard
+                <TrendingCard
                   onClick={() => {
                     setSelectedFilmDescriptions(film)
                     setOpenMovieModal(!openMovieModal)
@@ -107,7 +107,7 @@ const TrendingsCarousel = () => {
                       )}
                     </BookmarkButton>
                   </CardOverlay>
-                </RecentlyAddedCard>
+                </TrendingCard>
               </BannerWrapper>
             </Banner>
           )
