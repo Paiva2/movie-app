@@ -272,11 +272,12 @@ app.patch("/bookmark-movie/?:action", async (req, res) => {
   }
 
   const filmToPerformAction = {
-    id: film.id.toString(),
+    filmId: film.id.toString(),
     title: film.name,
     poster: film.poster_path,
     overview: film.overview,
     first_air_date: film.first_air_date,
+    backdrop_path: film.backdrop_path,
     userId: isUserRegistered.id,
   }
 
@@ -290,7 +291,7 @@ app.patch("/bookmark-movie/?:action", async (req, res) => {
     case "action=remove":
       await prisma.bookmarkedFilms.delete({
         where: {
-          id: film.id.toString(),
+          filmId: film.id.toString(),
         },
       })
       return res

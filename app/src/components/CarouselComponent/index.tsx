@@ -9,13 +9,19 @@ import {
 } from "./styles"
 import { CaretLeft, CaretRight } from "@phosphor-icons/react"
 
-const CarouselComponent = ({ children }: { children: ReactNode }) => {
+const CarouselComponent = ({
+  children,
+  perView = 8,
+}: {
+  children: ReactNode
+  perView?: number
+}) => {
   const [loadedCarousel, setLoadedCarousel] = useState(false)
 
   const [sliderRef, carouselRef] = useKeenSlider({
     loop: true,
     rtl: true,
-    slides: { perView: 9, spacing: 10 },
+    slides: { perView: perView, spacing: 8 },
     breakpoints: {
       "(max-width: 768px)": {
         slides: { perView: 1, spacing: 10 },

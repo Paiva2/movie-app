@@ -16,12 +16,14 @@ model User {
 }
 
 model BookmarkedFilms {
-  id             String   @id @default(uuid())
+  id             String   @id @unique @default(uuid())
+  filmId         String?
   title          String   @db.VarChar(400)
-  poster         String
+  poster         String?
   overview       String   @db.VarChar(2000)
   first_air_date String
   createdAt      DateTime @default(now())
+  backdrop_path  String?
   userId         String
 
   User User? @relation(fields: [userId], references: [id])

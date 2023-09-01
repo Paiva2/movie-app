@@ -15,15 +15,19 @@ interface BookmarkSchema {
   action: string
 }
 
+export type BookmarkedFilmsSchema = {
+  id: number
+  name: string
+  poster_path: string
+  backdrop_path: string
+  first_air_date: string
+  overview: string
+  release_date?: string
+  title?: string
+}
+
 type BookmarkedMovies = {
-  bookmarkedFilms: Array<{
-    id: string
-    title: string
-    poster: string
-    overview: string
-    first_air_date: string
-    createdAt: string
-  }>
+  bookmarkedFilms: BookmarkedFilmsSchema[]
 }
 interface UserAuthentication {
   isUserAuth: boolean

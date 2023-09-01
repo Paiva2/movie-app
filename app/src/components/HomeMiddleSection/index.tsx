@@ -4,11 +4,17 @@ import MovieModal from "../MovieModal"
 import MoviesCarousel from "../MoviesCarousel"
 import TrendingsCarousel from "../TrendingsCarousel"
 import TvShowsCarousel from "../TvShowsCarousel"
+import BookmarksCarousel from "../BookmarksCarousel"
 
 const HomeMiddleSection = () => {
   return (
     <Fragment>
       <HomeMiddleSectionWrapper>
+        <SectionTitle>
+          <h1>Bookmarked</h1>
+        </SectionTitle>
+        <BookmarksCarousel />
+
         <SectionTitle>
           <h1>Trending</h1>
         </SectionTitle>
