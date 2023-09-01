@@ -43,7 +43,7 @@ const MoviesCarousel = () => {
   if (isLoading || !homeMovies) return null
 
   const bookmarkedFilmsIds = bookmarkedMovies?.bookmarkedFilms?.map(
-    (films) => films.id
+    (films) => films.filmId
   )
 
   const functionCheckIfIsBookmarked = (id: number) => {
@@ -98,14 +98,14 @@ const MoviesCarousel = () => {
                           key="on_list"
                           color="#fff"
                           weight={changeBookmark ? "regular" : "fill"}
-                          size={35}
+                          size={25}
                         />
                       ) : (
                         <BookmarkSimple
                           key="out_list"
                           weight={changeBookmark ? "fill" : "regular"}
                           color="#fff"
-                          size={35}
+                          size={25}
                         />
                       )}
                     </BookmarkButton>

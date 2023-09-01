@@ -26,7 +26,7 @@ export const BannerOverlay = styled.div`
 
 export const BannerTitle = styled.div`
   color: #fff;
-  padding-left: 3.75rem;
+  padding-left: 3.125rem;
   display: flex;
   flex-direction: column;
   gap: 0.625rem;

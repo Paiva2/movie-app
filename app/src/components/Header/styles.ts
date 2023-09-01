@@ -11,7 +11,7 @@ export const HeaderContainer = styled.header<HeaderPosition>`
   padding-bottom: 0.625rem;
   transition: all 0.3s ease-in-out;
   background-color: ${(props) =>
-    props.$absolutePosition ? "#000" : "transparent"};
+    props.$absolutePosition ? "#000" : "rgba(0, 0, 0, 0.7)"};
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -56,7 +56,7 @@ export const SearchHeaderWrapper = styled.div<SearchBarVisibilityProps>`
 `
 
 export const HeaderWrapper = styled.header`
-  padding: 0px 1.875rem;
+  padding: 0px 3.125rem;
   width: auto;
   display: flex;
   align-items: center;

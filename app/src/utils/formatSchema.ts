@@ -1,8 +1,6 @@
-import { BookmarkedFilmsSchema, FilmProps } from "../types"
+import { FilmProps } from "../types"
 
-export default function formatSchema(
-  arrayToFormat: FilmProps[] | BookmarkedFilmsSchema[]
-) {
+export default function formatSchema(arrayToFormat: FilmProps[]) {
   const formattedSchema = arrayToFormat.reduce((acc: FilmProps[], movies) => {
     const newFilms = [
       ...acc,

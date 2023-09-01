@@ -289,15 +289,24 @@ app.patch("/bookmark-movie/?:action", async (req, res) => {
 
       return res.status(201).send({ message: "Film bookmarked with success!" })
     case "action=remove":
-      await prisma.bookmarkedFilms.delete({
+      const bookmarkToDelete = await prisma.bookmarkedFilms.findFirst({
         where: {
           filmId: film.id.toString(),
+          userId: isUserRegistered.id,
+        },
+      })
+
+      await prisma.bookmarkedFilms.delete({
+        where: {
+          id: bookmarkToDelete.id,
+          AND: {
+            userId: isUserRegistered.id,
+          },
         },
       })
       return res
         .status(200)
         .send({ message: "Film removed from bookmarked list with success!" })
-      break
     default:
       return null
   }

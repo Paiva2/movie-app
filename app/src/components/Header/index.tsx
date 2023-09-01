@@ -63,6 +63,9 @@ const Header = () => {
             <li aria-hidden onClick={() => scrollToComponent("")}>
               <a href="/home">Home</a>
             </li>
+            <li aria-hidden onClick={() => scrollToComponent(".trendings")}>
+              <a href="/bookmarked">Bookmarked</a>
+            </li>
             <li aria-hidden onClick={() => scrollToComponent(".movies")}>
               <a>Movies</a>
             </li>

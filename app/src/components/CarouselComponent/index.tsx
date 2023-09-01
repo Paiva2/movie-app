@@ -11,7 +11,7 @@ import { CaretLeft, CaretRight } from "@phosphor-icons/react"
 
 const CarouselComponent = ({
   children,
-  perView = 8,
+  perView = 9,
 }: {
   children: ReactNode
   perView?: number

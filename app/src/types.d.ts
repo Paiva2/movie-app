@@ -1,12 +1,14 @@
 export type FilmProps = {
   id: number
   name: string
-  poster_path: string
+  poster_path: string | undefined
   backdrop_path: string
   first_air_date: string
   overview: string
   release_date?: string
   title?: string
+  poster?: string
+  filmId?: string
 }
 
 interface BookmarkSchema {
@@ -15,19 +17,8 @@ interface BookmarkSchema {
   action: string
 }
 
-export type BookmarkedFilmsSchema = {
-  id: number
-  name: string
-  poster_path: string
-  backdrop_path: string
-  first_air_date: string
-  overview: string
-  release_date?: string
-  title?: string
-}
-
 type BookmarkedMovies = {
-  bookmarkedFilms: BookmarkedFilmsSchema[]
+  bookmarkedFilms: FilmProps[]
 }
 interface UserAuthentication {
   isUserAuth: boolean

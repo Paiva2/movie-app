@@ -88,4 +88,9 @@ export const BookmarkButton = styled.button`
   position: absolute;
   top: 0.625rem;
   right: 0.625rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 9999px;
+  padding: 0.5rem;
+  display: grid;
+  place-items: center;
 `

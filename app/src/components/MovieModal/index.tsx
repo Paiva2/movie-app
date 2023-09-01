@@ -20,7 +20,7 @@ const MovieModal = () => {
   } = useContext(UserContextProvider)
 
   const bookmarkedFilmsIds = bookmarkedMovies?.bookmarkedFilms?.map(
-    (films) => films.id
+    (films) => films.filmId
   )
 
   const functionCheckIfIsBookmarked = (id: number) => {

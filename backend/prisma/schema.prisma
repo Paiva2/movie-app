@@ -16,7 +16,7 @@ model User {
 }
 
 model BookmarkedFilms {
-  id             String   @id @unique @default(uuid())
+  id             String   @id @default(uuid())
   filmId         String?
   title          String   @db.VarChar(400)
   poster         String?
