@@ -13,10 +13,12 @@ export type FilmProps = {
   media_type?: string
 }
 
+export type BookmarkedFormatSchema = Omit<FilmProps, "id">
 interface BookmarkSchema {
   film: FilmProps
   user: string
   action: string
+  category: string
 }
 
 type BookmarkedMovies = {

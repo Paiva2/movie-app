@@ -5,6 +5,7 @@ import {
   BookmarkButton,
   CardOverlay,
   CarouselWrapper,
+  MovieTypePin,
   TrendingCard,
 } from "./styles"
 import CarouselComponent from "../CarouselComponent"
@@ -79,6 +80,9 @@ const TrendingsCarousel = () => {
                         )}
                       </p>
                     </div>
+                    <MovieTypePin>
+                      <p>{film.media_type}</p>
+                    </MovieTypePin>
                     <BookmarkButton
                       onMouseOver={() => setChangeBookmark(true)}
                       onMouseLeave={() => setChangeBookmark(false)}

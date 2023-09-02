@@ -50,7 +50,7 @@ const TvShowsCarousel = () => {
     return bookmarkedFilmsIds?.includes(String(id))
   }
 
-  const homeTvShowsSchema = formatSchema(tvShows?.data)
+  const homeTvShowsSchema = formatSchema(tvShows?.data, "tv")
 
   return (
     <CarouselWrapper className="tv-shows">

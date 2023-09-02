@@ -66,6 +66,8 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
     enabled: !!userAuthenticated.userToken,
   })
 
+  console.log(bookmarkedMovies)
+
   const { data: userProfile } = useQuery<UserProfileSchema>({
     queryKey: ["getUserProfile"],
 
@@ -95,6 +97,7 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
             data: {
               film: bookmarkSchema.film,
               user: bookmarkSchema.user,
+              category: bookmarkSchema.category,
             },
           }
         )
@@ -120,7 +123,7 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
   ) => {
     const bookmarkBody = {
       film: filmToBookmark,
-      category,
+      category: category,
       user: userAuthenticated.userToken,
       action: action,
     }

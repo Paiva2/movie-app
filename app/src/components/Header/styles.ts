@@ -29,6 +29,15 @@ interface SearchBarVisibilityProps {
   $searchVisibility: boolean
 }
 
+export const HeaderAndSearchWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  align-items: center;
+  gap: 40px;
+  max-width: 70rem;
+`
+
 export const SearchHeaderWrapper = styled.div<SearchBarVisibilityProps>`
   width: 35%;
 
@@ -37,8 +46,8 @@ export const SearchHeaderWrapper = styled.div<SearchBarVisibilityProps>`
     display: flex;
 
     svg {
-      position: relative;
-      left: 30px;
+      position: absolute;
+      left: 10px;
       top: 10px;
     }
 
@@ -46,11 +55,11 @@ export const SearchHeaderWrapper = styled.div<SearchBarVisibilityProps>`
       padding: 0.75rem 0.625rem 0.75rem 2.5rem;
       transition: all 0.2s ease-in-out;
       border-radius: 5px;
-      width: 100%;
       background-color: ${(props) =>
         props.$searchVisibility ? "#1f1f24" : "transparent"};
       border: 0;
       color: #fff;
+      width: 100%;
     }
   }
 `

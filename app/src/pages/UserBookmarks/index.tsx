@@ -1,7 +1,7 @@
 import { useState, useContext, Fragment } from "react"
 import { BookmarkSimple } from "@phosphor-icons/react"
 import { UserContextProvider } from "../../contexts/UserContext"
-import formatSchema from "../../utils/formatSchema"
+import { formatBookmarkedMoviesSchema } from "../../utils/formatSchema"
 import {
   BookmarkButton,
   BookmarkedCard,
@@ -26,14 +26,14 @@ const UserBookmarks = () => {
   if (!bookmarkedMovies?.bookmarkedFilms) return null
 
   const bookmarkedFilmsIds = bookmarkedMovies?.bookmarkedFilms?.map(
-    (films) => films.id
+    (films) => films.filmId
   )
 
-  const functionCheckIfIsBookmarked = (id: number) => {
+  const functionCheckIfIsBookmarked = (id: string) => {
     return bookmarkedFilmsIds?.includes(id)
   }
 
-  const formatBookmarkedMoviesSchema = formatSchema(
+  const formattedBookmarkedMoviesSchema = formatBookmarkedMoviesSchema(
     bookmarkedMovies.bookmarkedFilms
   )
 
@@ -49,7 +49,7 @@ const UserBookmarks = () => {
   ]
 
   const formatBookmarkColumns: ColumnSchema[] =
-    formatBookmarkedMoviesSchema.reduce((acc, item) => {
+    formattedBookmarkedMoviesSchema.reduce((acc, item) => {
       if (item.media_type === "movie") {
         acc[0]?.bookmarkeds?.push(item)
       } else if (item.media_type === "tv") {
@@ -64,12 +64,12 @@ const UserBookmarks = () => {
       <ColumnsContainer>
         {formatBookmarkColumns.map((columnType) => {
           return (
-            <Fragment>
-              <h1>{columnType.title}</h1>
+            <Fragment key={columnType.title}>
+              <h1>{!!columnType.bookmarkeds.length && columnType.title}</h1>
               <BookmarkedColumn>
                 {columnType.bookmarkeds.map((itens) => {
                   return (
-                    <BookmarkedCard>
+                    <BookmarkedCard key={itens.id}>
                       <img
                         alt={itens.name}
                         src={`https://image.tmdb.org/t/p/w500${itens.poster_path}`}
@@ -93,13 +93,13 @@ const UserBookmarks = () => {
                             handleSetBookmark(
                               itens,
                               itens.mediaType!,
-                              functionCheckIfIsBookmarked(itens.id)
+                              functionCheckIfIsBookmarked(String(itens.id))
                                 ? "remove"
                                 : "insert"
                             )
                           }}
                         >
-                          {functionCheckIfIsBookmarked(itens.id) ? (
+                          {functionCheckIfIsBookmarked(String(itens.id)) ? (
                             <BookmarkSimple
                               key="on_list"
                               color="#fff"

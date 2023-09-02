@@ -50,7 +50,7 @@ const MoviesCarousel = () => {
     return bookmarkedFilmsIds?.includes(String(id))
   }
 
-  const homeMoviesNewSchema = formatSchema(homeMovies?.data)
+  const homeMoviesNewSchema = formatSchema(homeMovies?.data, "movie")
 
   return (
     <CarouselWrapper className="movies">

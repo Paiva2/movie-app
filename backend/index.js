@@ -244,7 +244,7 @@ app.patch("/forgot-password", async (req, res) => {
 })
 
 app.patch("/bookmark-movie/?:action", async (req, res) => {
-  const { movie, user: userToken, film } = req.body.data
+  const { movie, user: userToken, film, category } = req.body.data
 
   if (movie) {
     return res.status(404).send({ message: "Movie must be a string." })
@@ -279,7 +279,7 @@ app.patch("/bookmark-movie/?:action", async (req, res) => {
     first_air_date: film.first_air_date,
     backdrop_path: film.backdrop_path,
     userId: isUserRegistered.id,
-    mediaType: film.media_type,
+    mediaType: category,
   }
 
   switch (req.params.action) {

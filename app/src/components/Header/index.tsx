@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react"
 import {
+  HeaderAndSearchWrapper,
   HeaderContainer,
   HeaderWrapper,
   NavMenu,
@@ -58,32 +59,33 @@ const Header = () => {
   return (
     <HeaderContainer $absolutePosition={headerPosition}>
       <HeaderWrapper>
-        <NavMenu>
-          <ul>
-            <li aria-hidden onClick={() => scrollToComponent("")}>
-              <a href="/home">Home</a>
-            </li>
-            <li aria-hidden onClick={() => scrollToComponent(".trendings")}>
-              <a href="/bookmarked">Bookmarked</a>
-            </li>
-            <li aria-hidden onClick={() => scrollToComponent(".movies")}>
-              <a>Movies</a>
-            </li>
-            <li aria-hidden onClick={() => scrollToComponent(".tv-shows")}>
-              <a>Tv Shows</a>
-            </li>
-            <li aria-hidden onClick={() => scrollToComponent(".trendings")}>
-              <a>Trending</a>
-            </li>
-          </ul>
-        </NavMenu>
-
-        <SearchHeaderWrapper $searchVisibility={headerPosition}>
-          <label>
-            <MagnifyingGlass size={22} color="#FFF" weight="bold" />
-            <input type="text" />
-          </label>
-        </SearchHeaderWrapper>
+        <HeaderAndSearchWrapper>
+          <NavMenu>
+            <ul>
+              <li aria-hidden onClick={() => scrollToComponent("")}>
+                <a href="/home">Home</a>
+              </li>
+              <li aria-hidden onClick={() => scrollToComponent(".trendings")}>
+                <a href="/bookmarked">Bookmarked</a>
+              </li>
+              <li aria-hidden onClick={() => scrollToComponent(".movies")}>
+                <a>Movies</a>
+              </li>
+              <li aria-hidden onClick={() => scrollToComponent(".tv-shows")}>
+                <a>Tv Shows</a>
+              </li>
+              <li aria-hidden onClick={() => scrollToComponent(".trendings")}>
+                <a>Trending</a>
+              </li>
+            </ul>
+          </NavMenu>
+          <SearchHeaderWrapper $searchVisibility={headerPosition}>
+            <label>
+              <MagnifyingGlass size={22} color="#FFF" weight="bold" />
+              <input type="text" />
+            </label>
+          </SearchHeaderWrapper>
+        </HeaderAndSearchWrapper>
 
         <ProfilePicture
           onClick={() => setOpenMenuProfile(!openMenuProfile)}
