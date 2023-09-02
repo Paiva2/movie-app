@@ -9,7 +9,7 @@ import { AuthContextProvider } from "../contexts/AuthContext"
 import { RequireAuthRoute } from "../components/RequireAuthRoute"
 import ForgotPassword from "../pages/ForgotPassword"
 import { NoAuthRoute } from "../components/NotAuthRoute"
-import UserBookmarks from "../components/UserBookmarks"
+import UserBookmarks from "../pages/UserBookmarks"
 
 const RoutesHandler = () => {
   const { userAuthenticated } = useContext(AuthContextProvider)

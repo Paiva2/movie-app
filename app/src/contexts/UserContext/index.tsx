@@ -31,6 +31,7 @@ interface UserContextInterface {
 
   handleSetBookmark: (
     filmToBookmark: FilmProps,
+    category: string,
     action: "insert" | "remove"
   ) => void
 }
@@ -114,10 +115,12 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
 
   const handleSetBookmark = async (
     filmToBookmark: FilmProps,
+    category: string,
     action: "insert" | "remove"
   ) => {
     const bookmarkBody = {
       film: filmToBookmark,
+      category,
       user: userAuthenticated.userToken,
       action: action,
     }

@@ -6,11 +6,12 @@ export default function formatSchema(arrayToFormat: FilmProps[]) {
       ...acc,
       {
         id: movies.id,
-        name: movies.title ?? "",
+        name: movies.title ?? movies.name,
         poster_path: movies.poster_path || movies.poster,
         backdrop_path: movies.backdrop_path,
         first_air_date: movies.release_date ?? movies.first_air_date,
         overview: movies.overview,
+        media_type: movies.mediaType,
       },
     ]
 

@@ -1,5 +1,19 @@
 import { styled } from "styled-components"
 
+export const ColumnsContainer = styled.div`
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  color: #fff;
+`
+
+export const BookmarkedColumn = styled.div`
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+`
+
 export const BookmarkedCard = styled.div`
   border-radius: 8px;
   max-width: 200px;

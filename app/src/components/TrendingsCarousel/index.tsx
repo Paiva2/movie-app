@@ -13,6 +13,7 @@ import { useQuery } from "react-query"
 import { UserContextProvider } from "../../contexts/UserContext"
 import { FilmProps } from "../../types"
 import { api } from "../../lib/api"
+import formatSchema from "../../utils/formatSchema"
 
 const TrendingsCarousel = () => {
   const {
@@ -39,7 +40,7 @@ const TrendingsCarousel = () => {
     },
   })
 
-  if (isLoading) return null
+  if (isLoading || !trendings) return null
 
   const bookmarkedFilmsIds = bookmarkedMovies?.bookmarkedFilms?.map(
     (films) => films.filmId
@@ -49,10 +50,12 @@ const TrendingsCarousel = () => {
     return bookmarkedFilmsIds?.includes(String(id))
   }
 
+  const trendingsSchema = formatSchema(trendings?.data)
+
   return (
     <CarouselWrapper className="trendings">
       <CarouselComponent>
-        {trendings?.data.map((film) => {
+        {trendingsSchema.map((film) => {
           return (
             <Banner key={film.id} className="keen-slider__slide">
               <BannerWrapper>
@@ -84,6 +87,7 @@ const TrendingsCarousel = () => {
 
                         handleSetBookmark(
                           film,
+                          film.media_type ?? "movie",
                           functionCheckIfIsBookmarked(film.id)
                             ? "remove"
                             : "insert"

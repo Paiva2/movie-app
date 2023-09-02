@@ -25,6 +25,7 @@ model BookmarkedFilms {
   createdAt      DateTime @default(now())
   backdrop_path  String?
   userId         String
+  mediaType      String   @default("movie")
 
   User User? @relation(fields: [userId], references: [id])
 }

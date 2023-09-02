@@ -9,6 +9,8 @@ export type FilmProps = {
   title?: string
   poster?: string
   filmId?: string
+  mediaType?: string
+  media_type?: string
 }
 
 interface BookmarkSchema {

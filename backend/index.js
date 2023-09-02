@@ -68,7 +68,7 @@ app.get("/all-films", async (_, res) => {
 
 app.get("/trending-movies", async (_, res) => {
   const response = await axios.get(
-    "https://api.themoviedb.org/3/trending/tv/day?language=en-US",
+    "https://api.themoviedb.org/3/trending/all/day?language=en-US",
     TmdbOptions
   )
 
@@ -279,6 +279,7 @@ app.patch("/bookmark-movie/?:action", async (req, res) => {
     first_air_date: film.first_air_date,
     backdrop_path: film.backdrop_path,
     userId: isUserRegistered.id,
+    mediaType: film.media_type,
   }
 
   switch (req.params.action) {

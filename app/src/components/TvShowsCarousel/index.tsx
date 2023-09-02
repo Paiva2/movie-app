@@ -89,6 +89,7 @@ const TvShowsCarousel = () => {
 
                         handleSetBookmark(
                           film,
+                          "tv",
                           functionCheckIfIsBookmarked(film.id)
                             ? "remove"
                             : "insert"
