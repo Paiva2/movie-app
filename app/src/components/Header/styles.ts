@@ -32,10 +32,10 @@ interface SearchBarVisibilityProps {
 export const HeaderAndSearchWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 80%;
   align-items: center;
   gap: 40px;
-  max-width: 70rem;
+  max-width: 75rem;
 `
 
 export const SearchHeaderWrapper = styled.div<SearchBarVisibilityProps>`
@@ -146,13 +146,22 @@ export const ProfileMenuOverlay = styled.div<OverlayVisibilitySchema>`
   height: 100%;
   opacity: ${(props) => (props.$menuVisibility ? "1" : "0")};
   visibility: ${(props) => (props.$menuVisibility ? "visible" : "hidden")};
-  transition: all 0.2s ease-in-out;
   display: flex;
   align-items: center;
+  transition: all 0.4s ease-in-out;
   justify-content: end;
+
+  div {
+    transition: all 0.3s ease-in-out;
+  }
 `
 
-export const ProfileMenu = styled.ul`
+interface ProfileMenuAttachment {
+  $menuScrolled: boolean
+  $menuVisibility: boolean
+}
+
+export const ProfileMenu = styled.form<ProfileMenuAttachment>`
   display: flex;
   flex-direction: column;
   color: #fff;
@@ -161,17 +170,21 @@ export const ProfileMenu = styled.ul`
   height: 100%;
   width: 35%;
   margin: 0;
+  align-items: center;
+  position: absolute;
+  transition: all 0.2s ease-in-out;
+  top: ${(props) => (props.$menuScrolled ? "70px" : "65px")};
+  transform: ${(props) =>
+    props.$menuVisibility ? "translateX(0%)" : "translateX(100%)"};
 
-  li {
-    cursor: pointer;
-    font-size: 0.875rem;
+  cursor: pointer;
+  font-size: 0.875rem;
 
-    button {
-      all: unset;
-    }
+  button {
+    all: unset;
+  }
 
-    &:hover {
-      text-decoration: underline;
-    }
+  &:hover {
+    text-decoration: underline;
   }
 `

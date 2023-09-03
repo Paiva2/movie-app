@@ -11,6 +11,7 @@ import {
 } from "./styles"
 import PageContainer from "../../components/PageContainer"
 import { FilmProps } from "../../types"
+import MovieModal from "../../components/MovieModal"
 
 interface ColumnSchema {
   title: string
@@ -18,8 +19,13 @@ interface ColumnSchema {
 }
 
 const UserBookmarks = () => {
-  const { bookmarkedMovies, handleSetBookmark } =
-    useContext(UserContextProvider)
+  const {
+    bookmarkedMovies,
+    handleSetBookmark,
+    setOpenMovieModal,
+    openMovieModal,
+    setSelectedFilmDescriptions,
+  } = useContext(UserContextProvider)
 
   const [changeBookmark, setChangeBookmark] = useState(false)
 
@@ -69,7 +75,14 @@ const UserBookmarks = () => {
               <BookmarkedColumn>
                 {columnType.bookmarkeds.map((itens) => {
                   return (
-                    <BookmarkedCard key={itens.id}>
+                    <BookmarkedCard
+                      onClick={() => {
+                        setOpenMovieModal(!openMovieModal)
+
+                        setSelectedFilmDescriptions(itens)
+                      }}
+                      key={itens.id}
+                    >
                       <img
                         alt={itens.name}
                         src={`https://image.tmdb.org/t/p/w500${itens.poster_path}`}
@@ -124,6 +137,7 @@ const UserBookmarks = () => {
           )
         })}
       </ColumnsContainer>
+      <MovieModal />
     </PageContainer>
   )
 }

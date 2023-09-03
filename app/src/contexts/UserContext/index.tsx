@@ -66,8 +66,6 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
     enabled: !!userAuthenticated.userToken,
   })
 
-  console.log(bookmarkedMovies)
-
   const { data: userProfile } = useQuery<UserProfileSchema>({
     queryKey: ["getUserProfile"],
 

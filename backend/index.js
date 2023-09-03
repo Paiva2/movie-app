@@ -5,6 +5,8 @@ import cors from "cors"
 import "dotenv/config"
 import prisma from "./lib/prisma.js"
 import jwt from "jsonwebtoken"
+import cloudinary from "cloudinary"
+import multer from "multer"
 
 const app = express()
 
@@ -12,6 +14,7 @@ const port = 3000
 
 app.use(cors())
 app.use(express.json())
+const upload = multer({ dest: "uploads/" })
 
 function encryptPassword(saltRounds = 10, data) {
   const passwordToHash = data
@@ -55,6 +58,34 @@ app.post("/user-profile", async (req, res) => {
   }
 
   return res.status(200).json({ data: userInformations })
+})
+
+app.patch("/user-profile", upload.array("files"), async (req, res) => {
+  const userJwt = req.query.userKey
+
+  const decodeUser = jwt.verify(userJwt, process.env.JWT_SECRET)
+
+  try {
+    const uploadResult = await cloudinary.uploader.upload(req.files[0].path, {
+      resource_type: "image",
+    })
+    await prisma.user.update({
+      where: {
+        id: decodeUser.id,
+        username: decodeUser.username,
+      },
+      data: {
+        image: uploadResult.url,
+      },
+    })
+
+    return res.status(200).json({ message: "Photo updated with success!" })
+  } catch (e) {
+    console.log(e)
+    return res
+      .status(400)
+      .json({ message: "There was an error uploading the image..." })
+  }
 })
 
 app.get("/all-films", async (_, res) => {
