@@ -7,7 +7,8 @@ import prisma from "./lib/prisma.js"
 import jwt from "jsonwebtoken"
 import cloudinary from "cloudinary"
 import multer from "multer"
-import getDataRoutes from "./api/routes/getDataRoutes.js"
+import getImdbDataRoutes from "./api/routes/getImdbDataRoutes.js"
+import getUserProfileRoutes from "./api/routes/getUserProfileRoutes.js"
 
 const app = express()
 
@@ -17,7 +18,9 @@ app.use(cors())
 app.use(express.json())
 const upload = multer({ dest: "uploads/" })
 
-getDataRoutes(app)
+getImdbDataRoutes(app)
+
+getUserProfileRoutes(app)
 
 function encryptPassword(saltRounds = 10, data) {
   const passwordToHash = data
@@ -33,35 +36,6 @@ const TmdbOptions = {
     Authorization: `Bearer ${process.env.BEARER_TMBD}`,
   },
 }
-
-app.post("/user-profile", async (req, res) => {
-  const { userToken } = req.body.data
-
-  if (typeof userToken !== "string") {
-    return res.status(404).send({ message: "User not found." })
-  }
-
-  const decodedToken = jwt.verify(userToken, process.env.JWT_SECRET)
-
-  const user = await prisma.user.findUnique({
-    where: {
-      id: decodedToken.id,
-      username: decodedToken.username,
-    },
-  })
-
-  if (!user) {
-    return res.status(404).send({ message: "User not found." })
-  }
-
-  const userInformations = {
-    id: user.id,
-    username: user.username,
-    image: user.image,
-  }
-
-  return res.status(200).json({ data: userInformations })
-})
 
 app.patch("/user-profile", upload.array("files"), async (req, res) => {
   const userJwt = req.query.userKey

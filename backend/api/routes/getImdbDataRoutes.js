@@ -2,7 +2,7 @@ import { GetDataController } from "../controllers/getDataController.js"
 
 const getData = new GetDataController()
 
-export default function getDataRoutes(app) {
+export default function getImdbDataRoutes(app) {
   app.route("/trending-movies").get((req, res) => {
     getData.getAllTypes(req, res)
   })
