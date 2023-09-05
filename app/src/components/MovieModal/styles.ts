@@ -70,20 +70,6 @@ export const FilmTexts = styled.span`
   }
 `
 
-interface ModalBackgroundProps {
-  $bgImage: string | null
-}
-
-export const ModalFilmBackground = styled.div<ModalBackgroundProps>`
-  background-image: ${(props) =>
-    props.$bgImage ? `url(${props.$bgImage})` : ""};
-  width: 35%;
-  height: 100%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: right;
-`
-
 export const BannerButtonsContainer = styled.div`
   display: flex;
   gap: 0.625rem;
@@ -95,12 +81,26 @@ interface BannerButtons {
   $bgHover: string
 }
 
-export const BannerButtons = styled.button<BannerButtons>`
-  border: 0;
+interface ModalBackgroundProps {
+  $bgImage: string | null
+}
+
+export const ModalFilmBackground = styled.div<ModalBackgroundProps>`
+  background-image: ${(props) =>
+    props.$bgImage ? `url(${props.$bgImage})` : ""};
+  width: 55%;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+`
+
+export const BannerButtons = styled.a<BannerButtons>`
+  all: unset;
   border-radius: 3.125rem;
   padding: 0.5rem 1.25rem;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   background-color: ${(props) => (props.$bg ? props.$bg : "transparent")};

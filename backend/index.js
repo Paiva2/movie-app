@@ -372,6 +372,33 @@ app.post("/bookmarked-movies", async (req, res) => {
     .json({ bookmarkedFilms: isUserRegistered.bookmarkedFilms })
 })
 
+app.post("/bookmarked-preview", async (req, res) => {
+  const { bookmarkedInfo } = req.body.data
+
+  const preview = await axios.get(
+    `https://api.themoviedb.org/3/${bookmarkedInfo.type}/${bookmarkedInfo.id}/videos`,
+    TmdbOptions
+  )
+
+  if (preview.data.results.length < 1) {
+    return res.status(204).json({ bookmarkedPreview: null })
+  }
+
+  const getTrailer = preview.data.results.find(
+    (previews) => previews.type === "Trailer"
+  )
+
+  if (getTrailer) {
+    return res.status(200).json({ bookmarkedPreview: getTrailer.key })
+  }
+
+  if (preview.data.results[0].key) {
+    return res
+      .status(200)
+      .json({ bookmarkedPreview: preview.data.results[0].key })
+  }
+})
+
 app.listen(port, () => {
   console.log(`server on: port localhost:${port}`)
 })
