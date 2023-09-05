@@ -1,14 +1,10 @@
 import express from "express"
 import axios from "axios"
-import bcrypt from "bcrypt"
 import cors from "cors"
 import "dotenv/config"
 import prisma from "./lib/prisma.js"
 import jwt from "jsonwebtoken"
-import cloudinary from "cloudinary"
-import multer from "multer"
-import getImdbDataRoutes from "./api/routes/getImdbDataRoutes.js"
-import getUserProfileRoutes from "./api/routes/getUserProfileRoutes.js"
+import { routesDistribuition } from "./api/routes/index.js"
 
 const app = express()
 
@@ -16,18 +12,10 @@ const port = 3000
 
 app.use(cors())
 app.use(express.json())
-const upload = multer({ dest: "uploads/" })
 
-getImdbDataRoutes(app)
-
-getUserProfileRoutes(app)
-
-function encryptPassword(saltRounds = 10, data) {
-  const passwordToHash = data
-  const hashedPassword = bcrypt.hashSync(passwordToHash, saltRounds)
-
-  return hashedPassword
-}
+routesDistribuition.forEach((route) => {
+  route(app)
+})
 
 const TmdbOptions = {
   method: "GET",
@@ -36,184 +24,6 @@ const TmdbOptions = {
     Authorization: `Bearer ${process.env.BEARER_TMBD}`,
   },
 }
-
-app.patch("/user-profile", upload.array("files"), async (req, res) => {
-  const userJwt = req.query.userKey
-
-  const decodeUser = jwt.verify(userJwt, process.env.JWT_SECRET)
-
-  try {
-    const uploadResult = await cloudinary.uploader.upload(req.files[0].path, {
-      resource_type: "image",
-    })
-    await prisma.user.update({
-      where: {
-        id: decodeUser.id,
-        username: decodeUser.username,
-      },
-      data: {
-        image: uploadResult.url,
-      },
-    })
-
-    return res.status(200).json({ message: "Photo updated with success!" })
-  } catch (e) {
-    console.log(e)
-    return res
-      .status(400)
-      .json({ message: "There was an error uploading the image..." })
-  }
-})
-
-app.post("/login", async (req, res) => {
-  if (typeof req.body.data.username !== "string") {
-    return res.status(404).send({ message: "Username must be a string." })
-  }
-
-  if (typeof req.body.data.password !== "string") {
-    return res.status(404).send("Password must be a string.")
-  }
-
-  if (!req.body.data.username) {
-    return res
-      .status(404)
-      .send({ message: "Username or Password can't be empty." })
-  } else if (!req.body.data.password) {
-    return res
-      .status(404)
-      .send({ message: "Username or Password can't be empty." })
-  }
-
-  const isUserRegistered = await prisma.user.findUnique({
-    where: {
-      username: req.body.data.username,
-    },
-  })
-
-  if (!isUserRegistered) {
-    return res.status(409).send({ message: "Username not found!" })
-  }
-
-  const checkIfPasswordsMatch = bcrypt.compareSync(
-    req.body.data.password,
-    isUserRegistered.password
-  )
-
-  if (!checkIfPasswordsMatch) {
-    return res.status(409).send({ message: "Wrong credentials!" })
-  }
-
-  const userInformationsToJwt = {
-    id: isUserRegistered.id,
-    username: isUserRegistered.username,
-  }
-
-  jwt.sign(userInformationsToJwt, process.env.JWT_SECRET, (err, token) => {
-    if (err) {
-      return res
-        .status(500)
-        .json({ message: "Error while generating new JWT. Try again later." })
-    }
-
-    return res
-      .status(200)
-      .send({ message: "Authentication success.", token: token })
-  })
-})
-
-app.post("/register", async (req, res) => {
-  if (typeof req.body.data.username !== "string") {
-    return res.status(404).send({ message: "Username must be a string." })
-  }
-
-  if (typeof req.body.data.password !== "string") {
-    return res.status(404).send({ message: "Password must be a string." })
-  }
-
-  if (!req.body.data.username) {
-    return res
-      .status(404)
-      .send({ message: "Username or Password can't be empty." })
-  } else if (!req.body.data.password) {
-    return res
-      .status(404)
-      .send({ message: "Password or Password can't be empty." })
-  } else if (req.body.data.password.length < 5) {
-    return res
-      .status(404)
-      .send({ message: "Password must have at least 5 characters." })
-  }
-
-  const isUserRegistered = await prisma.user.findUnique({
-    where: {
-      username: req.body.data.username,
-    },
-  })
-
-  if (isUserRegistered) {
-    return res.status(409).send({ message: "Username already exists." })
-  }
-
-  const hashedPassword = encryptPassword(10, req.body.data.password)
-
-  await prisma.user.create({
-    data: {
-      username: req.body.data.username,
-      password: hashedPassword,
-      image:
-        req.body.data.image ?? "https://i.postimg.cc/XvrwMSKy/transferir.jpg",
-    },
-  })
-
-  return res.status(201).send({ message: "User created with success!" })
-})
-
-app.patch("/forgot-password", async (req, res) => {
-  if (typeof req.body.data.username !== "string") {
-    return res.status(404).send({ message: "Username must be a string." })
-  }
-
-  if (typeof req.body.data.password !== "string") {
-    return res.status(404).send({ message: "Password must be a string." })
-  }
-
-  if (!req.body.data.username) {
-    return res
-      .status(404)
-      .send({ message: "Username or Password can't be empty." })
-  } else if (!req.body.data.password) {
-    return res
-      .status(404)
-      .send({ message: "Password or Password can't be empty." })
-  } else if (req.body.data.password.length < 5) {
-    return res
-      .status(404)
-      .send({ message: "Password must have at least 5 characters." })
-  }
-
-  const isUserRegistered = await prisma.user.findUnique({
-    where: {
-      username: req.body.data.username,
-    },
-  })
-
-  if (!isUserRegistered) {
-    return res.status(409).send({ message: "Username not found." })
-  }
-
-  const hashedPassword = encryptPassword(10, req.body.data.password)
-
-  await prisma.user.update({
-    where: {
-      id: isUserRegistered.id,
-    },
-    data: {
-      password: hashedPassword,
-    },
-  })
-
-  return res.status(200).send({ message: "Password updated with success!" })
-})
 
 app.patch("/bookmark-movie/?:action", async (req, res) => {
   const { movie, user: userToken, film, category } = req.body.data
