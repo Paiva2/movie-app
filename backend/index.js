@@ -7,6 +7,7 @@ import prisma from "./lib/prisma.js"
 import jwt from "jsonwebtoken"
 import cloudinary from "cloudinary"
 import multer from "multer"
+import getDataRoutes from "./api/routes/getDataRoutes.js"
 
 const app = express()
 
@@ -15,6 +16,8 @@ const port = 3000
 app.use(cors())
 app.use(express.json())
 const upload = multer({ dest: "uploads/" })
+
+getDataRoutes(app)
 
 function encryptPassword(saltRounds = 10, data) {
   const passwordToHash = data
@@ -86,42 +89,6 @@ app.patch("/user-profile", upload.array("files"), async (req, res) => {
       .status(400)
       .json({ message: "There was an error uploading the image..." })
   }
-})
-
-app.get("/all-films", async (_, res) => {
-  const response = await axios.get(
-    "https://api.themoviedb.org/3/tv/popular?language=en-US&page=1",
-    TmdbOptions
-  )
-
-  return res.status(200).send(response.data)
-})
-
-app.get("/trending-movies", async (_, res) => {
-  const response = await axios.get(
-    "https://api.themoviedb.org/3/trending/all/day?language=en-US",
-    TmdbOptions
-  )
-
-  return res.status(200).send(response.data.results)
-})
-
-app.get("/movies", async (_, res) => {
-  const response = await axios.get(
-    "https://api.themoviedb.org/3/discover/movie",
-    TmdbOptions
-  )
-
-  return res.status(200).send(response.data.results)
-})
-
-app.get("/tv-shows", async (_, res) => {
-  const response = await axios.get(
-    "https://api.themoviedb.org/3/discover/tv",
-    TmdbOptions
-  )
-
-  return res.status(200).send(response.data.results)
 })
 
 app.post("/login", async (req, res) => {
