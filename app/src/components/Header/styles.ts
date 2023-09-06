@@ -129,62 +129,6 @@ export const ProfilePicture = styled.button`
     width: 100%;
     border-radius: 9999px;
     height: 100%;
-    object-fit: contain;
-  }
-`
-
-interface OverlayVisibilitySchema {
-  $menuVisibility: boolean
-}
-
-export const ProfileMenuOverlay = styled.div<OverlayVisibilitySchema>`
-  position: fixed;
-  background: rgba(0, 0, 0, 0.5);
-  right: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  opacity: ${(props) => (props.$menuVisibility ? "1" : "0")};
-  visibility: ${(props) => (props.$menuVisibility ? "visible" : "hidden")};
-  display: flex;
-  align-items: center;
-  transition: all 0.4s ease-in-out;
-  justify-content: end;
-
-  div {
-    transition: all 0.3s ease-in-out;
-  }
-`
-
-interface ProfileMenuAttachment {
-  $menuScrolled: boolean
-  $menuVisibility: boolean
-}
-
-export const ProfileMenu = styled.form<ProfileMenuAttachment>`
-  display: flex;
-  flex-direction: column;
-  color: #fff;
-  background: #000;
-  padding: 1.25rem;
-  height: 100%;
-  width: 35%;
-  margin: 0;
-  align-items: center;
-  position: absolute;
-  transition: all 0.2s ease-in-out;
-  top: ${(props) => (props.$menuScrolled ? "70px" : "65px")};
-  transform: ${(props) =>
-    props.$menuVisibility ? "translateX(0%)" : "translateX(100%)"};
-
-  cursor: pointer;
-  font-size: 0.875rem;
-
-  button {
-    all: unset;
-  }
-
-  &:hover {
-    text-decoration: underline;
+    object-fit: cover;
   }
 `

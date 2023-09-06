@@ -6,6 +6,8 @@ interface ModalVisibility {
 
 export const ModalOverlay = styled.div<ModalVisibility>`
   background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
   position: fixed;
   width: 100%;
   top: 0;

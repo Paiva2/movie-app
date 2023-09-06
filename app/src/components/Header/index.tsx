@@ -1,65 +1,26 @@
-import { useEffect, useState, useContext, FormEvent, ChangeEvent } from "react"
+import { useEffect, useContext } from "react"
 import {
   HeaderAndSearchWrapper,
   HeaderContainer,
   HeaderWrapper,
   NavMenu,
-  ProfileMenu,
-  ProfileMenuOverlay,
   ProfilePicture,
   SearchHeaderWrapper,
 } from "./styles"
 import { UserContextProvider } from "../../contexts/UserContext"
-import Cookies from "js-cookie"
-import { AuthContextProvider } from "../../contexts/AuthContext"
 import { MagnifyingGlass } from "@phosphor-icons/react"
-import { api } from "../../lib/api"
-import { Toast } from "../../utils/toast"
+import Menu from "../Menu"
+import { AppContextProvider } from "../../contexts/AppContext"
 
 const Header = () => {
-  const [headerPosition, setHeaderPosition] = useState(true)
-  const [openMenuProfile, setOpenMenuProfile] = useState(false)
   const { userProfile } = useContext(UserContextProvider)
-  const { userAuthenticated } = useContext(AuthContextProvider)
-
-  const [imageProfile, setImage] = useState<Blob>()
-  const [showImageProfile, setShowImageProfile] = useState<Blob>()
-
-  function handleChangeImageProfile(e: ChangeEvent<HTMLInputElement>) {
-    const target = e.target as HTMLInputElement
-    const files = target.files
-
-    if (files) {
-      setImage(files[0])
-      setShowImageProfile(files[0])
-    }
-  }
-
-  async function handleSubmitChanges(e: FormEvent) {
-    e.preventDefault()
-
-    const formData = new FormData()
-
-    if (imageProfile) {
-      formData.append("files", imageProfile)
-    }
-
-    try {
-      const uploadResponse = await api.patch("/user-profile", formData, {
-        params: {
-          userKey: userAuthenticated.userToken,
-        },
-      })
-
-      Toast.fire({
-        icon: "success",
-        title: uploadResponse.data.message,
-      })
-    } catch (e) {
-      console.log("There was an error...")
-      console.error(e)
-    }
-  }
+  const {
+    showImageProfile,
+    headerPosition,
+    openMenuProfile,
+    setHeaderPosition,
+    setOpenMenuProfile,
+  } = useContext(AppContextProvider)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -76,16 +37,6 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll)
     }
   }, [])
-
-  function handleLogout() {
-    if (!userAuthenticated.isUserAuth) {
-      throw new Error("User must be authenticated before logout.")
-    }
-
-    Cookies.remove("movie-app-auth")
-
-    window.location.replace("/login")
-  }
 
   function scrollToComponent(elementIdentification: string) {
     const element = document.querySelector(elementIdentification)
@@ -141,66 +92,8 @@ const Header = () => {
             }
           />
         </ProfilePicture>
-        <ProfileMenuOverlay
-          onClick={() => setOpenMenuProfile(!openMenuProfile)}
-          $menuVisibility={openMenuProfile}
-        >
-          <ProfileMenu
-            $menuScrolled={headerPosition}
-            onClick={(e) => e.stopPropagation()}
-            onSubmit={handleSubmitChanges}
-            encType="multipart/form-data"
-            $menuVisibility={openMenuProfile}
-          >
-            <div
-              style={{
-                borderRadius: "100%",
-                overflow: "hidden",
-                width: "150px",
-                height: "150px",
-              }}
-            >
-              <label>
-                <img
-                  style={{
-                    objectFit: "cover",
-                    width: "100%",
-                    height: "100%",
-                  }}
-                  src={
-                    showImageProfile
-                      ? URL.createObjectURL(showImageProfile)
-                      : userProfile?.image
-                  }
-                />
 
-                <input
-                  style={{
-                    display: "none",
-                  }}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleChangeImageProfile}
-                />
-              </label>
-            </div>
-            <div>
-              <button onClick={handleLogout} type="button">
-                Logout
-              </button>
-            </div>
-
-            <button
-              style={{
-                marginTop: "50px",
-                background: "red",
-              }}
-              type="submit"
-            >
-              Save changes
-            </button>
-          </ProfileMenu>
-        </ProfileMenuOverlay>
+        <Menu />
       </HeaderWrapper>
     </HeaderContainer>
   )

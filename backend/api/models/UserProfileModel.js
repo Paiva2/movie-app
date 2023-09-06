@@ -2,7 +2,7 @@ import prisma from "../../lib/prisma.js"
 import cloudinary from "cloudinary"
 
 export default class UserProfileModel {
-  async getProfile(req, res, decodedToken) {
+  async getProfile(_, res, decodedToken) {
     const user = await prisma.user.findUnique({
       where: {
         id: decodedToken.id,
