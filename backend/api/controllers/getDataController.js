@@ -1,26 +1,42 @@
 import "dotenv/config"
 import GetDataModel from "../models/getDataModel.js"
 
-const TmdbOptions = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.BEARER_TMBD}`,
-  },
-}
-
 const getDataModel = new GetDataModel()
 
 export class GetDataController {
-  getAllTypes(req, res) {
-    getDataModel.fetchAllFilms(TmdbOptions, req, res)
+  async getAllTypes(_, res) {
+    try {
+      const response = await getDataModel.fetchAllFilms()
+
+      if (response.status === 200) {
+        return res.status(200).send(response.data.results)
+      }
+    } catch {
+      return res.status(500)
+    }
   }
 
-  getMovies(req, res) {
-    getDataModel.fetchMoviesOrTvShows(TmdbOptions, req, res, "movie")
+  async getMovies(_, res) {
+    try {
+      const response = await getDataModel.fetchMoviesOrTvShows("movie")
+
+      if (response.status === 200) {
+        return res.status(200).send(response.data.results)
+      }
+    } catch {
+      return res.status(500)
+    }
   }
 
-  getTvShows(req, res) {
-    getDataModel.fetchMoviesOrTvShows(TmdbOptions, req, res, "tv")
+  async getTvShows(_, res) {
+    try {
+      const response = await getDataModel.fetchMoviesOrTvShows("tv")
+
+      if (response.status === 200) {
+        return res.status(200).send(response.data.results)
+      }
+    } catch {
+      return res.status(500)
+    }
   }
 }

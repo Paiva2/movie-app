@@ -1,33 +1,28 @@
 import axios from "axios"
 
 export default class GetDataModel {
-  async fetchAllFilms(options, req, res) {
-    try {
-      const response = await axios.get(
-        "https://api.themoviedb.org/3/trending/all/day?language=en-US",
-        options
-      )
-
-      if (response.status === 200) {
-        return res.status(200).send(response.data.results)
-      }
-    } catch {
-      throw new Error("There was an error getting TMDB API Data...")
-    }
+  #tmdbOptions = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${process.env.BEARER_TMBD}`,
+    },
   }
 
-  async fetchMoviesOrTvShows(options, req, res, typeToFetch) {
-    try {
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/discover/${typeToFetch}`,
-        options
-      )
+  async fetchAllFilms() {
+    const response = await axios.get(
+      "https://api.themoviedb.org/3/trending/all/day?language=en-US",
+      this.#tmdbOptions
+    )
 
-      if (response.status === 200) {
-        return res.status(200).send(response.data.results)
-      }
-    } catch {
-      throw new Error("There was an error getting TMDB API Data...")
-    }
+    return response
+  }
+
+  async fetchMoviesOrTvShows(typeToFetch) {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/discover/${typeToFetch}`,
+      this.#tmdbOptions
+    )
+    return response
   }
 }
