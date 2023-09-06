@@ -1,6 +1,15 @@
+import axios from "axios"
 import prisma from "../../lib/prisma.js"
 
 export default class BookmarkedsModel {
+  #TmdbOptions = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${process.env.BEARER_TMBD}`,
+    },
+  }
+
   async checkIfUserExists(decodedToken) {
     const isUserRegistered = await prisma.user.findUnique({
       where: {
@@ -48,5 +57,14 @@ export default class BookmarkedsModel {
     })
 
     return userData
+  }
+
+  async bookmarkVideoPreview(bookmarkedInfo) {
+    const preview = await axios.get(
+      `https://api.themoviedb.org/3/${bookmarkedInfo.type}/${bookmarkedInfo.id}/videos`,
+      this.#TmdbOptions
+    )
+
+    return preview
   }
 }

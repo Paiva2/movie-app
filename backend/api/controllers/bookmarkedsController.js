@@ -89,4 +89,34 @@ export default class BookmarkedsController {
       .status(200)
       .json({ bookmarkedFilms: userInformations.bookmarkedFilms })
   }
+
+  async getBookmarkedPreview(req, res) {
+    const { bookmarkedInfo } = req.body.data
+
+    try {
+      const preview = await bookmarkedsModel.bookmarkVideoPreview(
+        bookmarkedInfo
+      )
+
+      if (preview.data.results.length < 1) {
+        return res.status(204).json({ bookmarkedPreview: null })
+      }
+
+      const getTrailer = preview.data.results.find(
+        (previews) => previews.type === "Trailer"
+      )
+
+      if (getTrailer) {
+        return res.status(200).json({ bookmarkedPreview: getTrailer.key })
+      }
+
+      if (preview.data.results[0].key) {
+        return res
+          .status(200)
+          .json({ bookmarkedPreview: preview.data.results[0].key })
+      }
+    } catch {
+      return res.status(500)
+    }
+  }
 }

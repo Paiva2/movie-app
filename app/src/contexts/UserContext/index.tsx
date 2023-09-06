@@ -60,8 +60,6 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
           data: { userToken: userAuthenticated.userToken },
         })
 
-        console.log("bookmarked:", response.data.length)
-
         return response.data
       } catch (e) {
         console.log("There was an error...")

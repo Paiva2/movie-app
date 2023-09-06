@@ -11,7 +11,7 @@ export default function bookmarksRoutes(app) {
     bookmarkedsController.getUserBookmarkeds(req, res)
   })
 
-  /*   app.route("/bookmarked-preview").post((req, res) => {
-    bookmarkedsController.getUserBookmarkeds(req, res)
-  }) */
+  app.route("/bookmarked-preview").post((req, res) => {
+    bookmarkedsController.getBookmarkedPreview(req, res)
+  })
 }

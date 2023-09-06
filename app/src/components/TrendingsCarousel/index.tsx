@@ -32,7 +32,6 @@ const TrendingsCarousel = () => {
     queryKey: ["getHomeTrendings"],
 
     queryFn: async () => {
-      console.log("rodou")
       try {
         const response = await api.get<FilmProps[]>("/trending-movies")
 
