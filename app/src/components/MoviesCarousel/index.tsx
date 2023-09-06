@@ -19,6 +19,7 @@ const MoviesCarousel = () => {
   const {
     bookmarkedMovies,
     openMovieModal,
+    bookmarkingData,
     setOpenMovieModal,
     setSelectedFilmDescriptions,
     handleSetBookmark,
@@ -46,7 +47,7 @@ const MoviesCarousel = () => {
     (films) => films.filmId
   )
 
-  const functionCheckIfIsBookmarked = (id: number) => {
+  const checkIfIsBookmarked = (id: number) => {
     return bookmarkedFilmsIds?.includes(String(id))
   }
 
@@ -82,19 +83,18 @@ const MoviesCarousel = () => {
                     <BookmarkButton
                       onMouseOver={() => setChangeBookmark(true)}
                       onMouseLeave={() => setChangeBookmark(false)}
+                      disabled={bookmarkingData}
                       onClick={(e) => {
                         e.stopPropagation()
 
                         handleSetBookmark(
                           film,
                           "movie",
-                          functionCheckIfIsBookmarked(film.id)
-                            ? "remove"
-                            : "insert"
+                          checkIfIsBookmarked(film.id) ? "remove" : "insert"
                         )
                       }}
                     >
-                      {functionCheckIfIsBookmarked(film.id) ? (
+                      {checkIfIsBookmarked(film.id) ? (
                         <BookmarkSimple
                           key="on_list"
                           color="#fff"

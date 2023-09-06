@@ -28,7 +28,7 @@ const MovieModal = () => {
     (films) => films.filmId
   )
 
-  const functionCheckIfIsBookmarked = (id: number) => {
+  const checkIfIsBookmarked = (id: number) => {
     return bookmarkedFilmsIds?.includes(String(id))
   }
   const queryClient = useQueryClient()
@@ -106,7 +106,7 @@ const MovieModal = () => {
               >
                 Watch now
               </BannerButtons>
-              {functionCheckIfIsBookmarked(selectedFilmDescriptions.id) ? (
+              {checkIfIsBookmarked(selectedFilmDescriptions.id) ? (
                 <BannerButtons
                   key="remove"
                   $bgHover="#c22e2e"

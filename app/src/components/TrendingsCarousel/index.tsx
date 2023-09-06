@@ -20,6 +20,7 @@ const TrendingsCarousel = () => {
   const {
     bookmarkedMovies,
     openMovieModal,
+    bookmarkingData,
     handleSetBookmark,
     setOpenMovieModal,
     setSelectedFilmDescriptions,
@@ -31,6 +32,7 @@ const TrendingsCarousel = () => {
     queryKey: ["getHomeTrendings"],
 
     queryFn: async () => {
+      console.log("rodou")
       try {
         const response = await api.get<FilmProps[]>("/trending-movies")
 
@@ -47,7 +49,7 @@ const TrendingsCarousel = () => {
     (films) => films.filmId
   )
 
-  const functionCheckIfIsBookmarked = (id: number) => {
+  const checkIfIsBookmarked = (id: number) => {
     return bookmarkedFilmsIds?.includes(String(id))
   }
 
@@ -86,19 +88,18 @@ const TrendingsCarousel = () => {
                     <BookmarkButton
                       onMouseOver={() => setChangeBookmark(true)}
                       onMouseLeave={() => setChangeBookmark(false)}
+                      disabled={bookmarkingData}
                       onClick={(e) => {
                         e.stopPropagation()
 
                         handleSetBookmark(
                           film,
                           film.media_type ?? "movie",
-                          functionCheckIfIsBookmarked(film.id)
-                            ? "remove"
-                            : "insert"
+                          checkIfIsBookmarked(film.id) ? "remove" : "insert"
                         )
                       }}
                     >
-                      {functionCheckIfIsBookmarked(film.id) ? (
+                      {checkIfIsBookmarked(film.id) ? (
                         <BookmarkSimple
                           key="on_list"
                           color="#fff"

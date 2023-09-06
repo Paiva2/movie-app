@@ -34,6 +34,8 @@ interface UserContextInterface {
     category: string,
     action: "insert" | "remove"
   ) => void
+
+  bookmarkingData: boolean
 }
 
 export const UserContextProvider = createContext<UserContextInterface>(
@@ -47,6 +49,7 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
     useState<FilmProps>({} as FilmProps)
 
   const [openMovieModal, setOpenMovieModal] = useState(false)
+  const [bookmarkingData, setBookmarkingData] = useState(false)
 
   const { data: bookmarkedMovies } = useQuery<BookmarkedMovies>({
     queryKey: ["getUserBookmarkedMovies"],
@@ -56,6 +59,8 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
         const response = await api.post("/bookmarked-movies", {
           data: { userToken: userAuthenticated.userToken },
         })
+
+        console.log("bookmarked:", response.data.length)
 
         return response.data
       } catch (e) {
@@ -88,29 +93,26 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
 
   const bookMarkFilm = useMutation({
     mutationFn: async (bookmarkSchema: BookmarkSchema) => {
+      setBookmarkingData(true)
+
       try {
         const response = await api.patch(
           `/bookmark-movie/action=${bookmarkSchema.action}`,
           {
             data: {
-              film: bookmarkSchema.film,
+              dataInfos: bookmarkSchema.film,
               user: bookmarkSchema.user,
               category: bookmarkSchema.category,
             },
           }
         )
 
+        setBookmarkingData(false)
+
         return response
       } catch (e) {
         console.log("There was an error...")
       }
-    },
-
-    onSuccess: () => {
-      queryClient.invalidateQueries("getHomeTrendings")
-      queryClient.invalidateQueries("getUserBookmarkedMovies")
-      queryClient.invalidateQueries("getHomeMovies")
-      queryClient.invalidateQueries("getHomeTvShows")
     },
   })
 
@@ -130,6 +132,11 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
       await bookMarkFilm.mutateAsync(bookmarkBody)
     } catch (e) {
       console.log(e)
+    } finally {
+      queryClient.invalidateQueries("getUserBookmarkedMovies")
+      queryClient.invalidateQueries("getHomeTrendings")
+      queryClient.invalidateQueries("getHomeMovies")
+      queryClient.invalidateQueries("getHomeTvShows")
     }
   }
 
@@ -140,6 +147,7 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
         selectedFilmDescriptions,
         userProfile,
         openMovieModal,
+        bookmarkingData,
         handleSetBookmark,
         setSelectedFilmDescriptions,
         setOpenMovieModal,

@@ -19,6 +19,7 @@ const TvShowsCarousel = () => {
   const {
     bookmarkedMovies,
     openMovieModal,
+    bookmarkingData,
     handleSetBookmark,
     setOpenMovieModal,
     setSelectedFilmDescriptions,
@@ -46,7 +47,7 @@ const TvShowsCarousel = () => {
     (films) => films.filmId
   )
 
-  const functionCheckIfIsBookmarked = (id: number) => {
+  const checkIfIsBookmarked = (id: number) => {
     return bookmarkedFilmsIds?.includes(String(id))
   }
 
@@ -84,28 +85,25 @@ const TvShowsCarousel = () => {
                     <BookmarkButton
                       onMouseOver={() => setChangeBookmark(true)}
                       onMouseLeave={() => setChangeBookmark(false)}
+                      disabled={bookmarkingData}
                       onClick={(e) => {
                         e.stopPropagation()
 
                         handleSetBookmark(
                           film,
                           "tv",
-                          functionCheckIfIsBookmarked(film.id)
-                            ? "remove"
-                            : "insert"
+                          checkIfIsBookmarked(film.id) ? "remove" : "insert"
                         )
                       }}
                     >
-                      {functionCheckIfIsBookmarked(film.id) ? (
+                      {checkIfIsBookmarked(film.id) ? (
                         <BookmarkSimple
-                          key="on_list"
                           color="#fff"
                           weight={changeBookmark ? "regular" : "fill"}
                           size={25}
                         />
                       ) : (
                         <BookmarkSimple
-                          key="out_list"
                           weight={changeBookmark ? "fill" : "regular"}
                           color="#fff"
                           size={25}

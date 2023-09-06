@@ -25,77 +25,7 @@ const TmdbOptions = {
   },
 }
 
-app.patch("/bookmark-movie/?:action", async (req, res) => {
-  const { movie, user: userToken, film, category } = req.body.data
-
-  if (movie) {
-    return res.status(404).send({ message: "Movie must be a string." })
-  }
-
-  if (!userToken) {
-    return res.status(404).send({ message: "User token must be a string." })
-  }
-
-  if (!film) {
-    return res.status(404).send({ message: "Film must be a string." })
-  }
-
-  const decodedToken = jwt.verify(userToken, process.env.JWT_SECRET)
-
-  const isUserRegistered = await prisma.user.findUnique({
-    where: {
-      id: decodedToken.id,
-      username: decodedToken.username,
-    },
-  })
-
-  if (!isUserRegistered) {
-    return res.status(409).send({ message: "User not found." })
-  }
-
-  const filmToPerformAction = {
-    filmId: film.id.toString(),
-    title: film.name,
-    poster: film.poster_path,
-    overview: film.overview,
-    first_air_date: film.first_air_date,
-    backdrop_path: film.backdrop_path,
-    userId: isUserRegistered.id,
-    mediaType: category,
-  }
-
-  switch (req.params.action) {
-    case "action=insert":
-      await prisma.bookmarkedFilms.create({
-        data: filmToPerformAction,
-      })
-
-      return res.status(201).send({ message: "Film bookmarked with success!" })
-    case "action=remove":
-      const bookmarkToDelete = await prisma.bookmarkedFilms.findFirst({
-        where: {
-          filmId: film.id.toString(),
-          userId: isUserRegistered.id,
-        },
-      })
-
-      await prisma.bookmarkedFilms.delete({
-        where: {
-          id: bookmarkToDelete.id,
-          AND: {
-            userId: isUserRegistered.id,
-          },
-        },
-      })
-      return res
-        .status(200)
-        .send({ message: "Film removed from bookmarked list with success!" })
-    default:
-      return null
-  }
-})
-
-app.post("/bookmarked-movies", async (req, res) => {
+/* app.post("/bookmarked-movies", async (req, res) => {
   const { userToken } = req.body.data
 
   if (!userToken) {
@@ -121,7 +51,7 @@ app.post("/bookmarked-movies", async (req, res) => {
   return res
     .status(200)
     .json({ bookmarkedFilms: isUserRegistered.bookmarkedFilms })
-})
+}) */
 
 app.post("/bookmarked-preview", async (req, res) => {
   const { bookmarkedInfo } = req.body.data

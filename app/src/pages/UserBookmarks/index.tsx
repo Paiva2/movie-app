@@ -35,7 +35,7 @@ const UserBookmarks = () => {
     (films) => films.filmId
   )
 
-  const functionCheckIfIsBookmarked = (id: string) => {
+  const checkIfIsBookmarked = (id: string) => {
     return bookmarkedFilmsIds?.includes(id)
   }
 
@@ -106,13 +106,13 @@ const UserBookmarks = () => {
                             handleSetBookmark(
                               itens,
                               itens.mediaType!,
-                              functionCheckIfIsBookmarked(String(itens.id))
+                              checkIfIsBookmarked(String(itens.id))
                                 ? "remove"
                                 : "insert"
                             )
                           }}
                         >
-                          {functionCheckIfIsBookmarked(String(itens.id)) ? (
+                          {checkIfIsBookmarked(String(itens.id)) ? (
                             <BookmarkSimple
                               key="on_list"
                               color="#fff"
