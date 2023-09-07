@@ -18,6 +18,8 @@ const Header = () => {
     showImageProfile,
     headerPosition,
     openMenuProfile,
+    searchValues,
+    setSearchValues,
     setHeaderPosition,
     setOpenMenuProfile,
   } = useContext(AppContextProvider)
@@ -48,6 +50,12 @@ const Header = () => {
     })
   }
 
+  async function getSearchedItems() {
+    setSearchValues("")
+
+    window.location.replace(`/search?keyword=${searchValues}`)
+  }
+
   return (
     <HeaderContainer $absolutePosition={headerPosition}>
       <HeaderWrapper>
@@ -73,10 +81,14 @@ const Header = () => {
           </NavMenu>
           <SearchHeaderWrapper $searchVisibility={headerPosition}>
             <label>
-              <button type="button">
+              <button onClick={getSearchedItems} type="button">
                 <MagnifyingGlass size={22} color="#FFF" weight="bold" />
               </button>
-              <input type="text" />
+              <input
+                value={searchValues}
+                onChange={({ target }) => setSearchValues(target.value)}
+                type="text"
+              />
             </label>
           </SearchHeaderWrapper>
         </HeaderAndSearchWrapper>

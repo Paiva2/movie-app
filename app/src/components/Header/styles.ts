@@ -62,13 +62,14 @@ export const SearchHeaderWrapper = styled.div<SearchBarVisibilityProps>`
     }
 
     input {
-      padding: 0.75rem 0.625rem 0.75rem 2.5rem;
+      padding: 0.75rem 0.625rem 0.75rem 2.8125rem;
       transition: all 0.2s ease-in-out;
       border-radius: 5px;
       background-color: #1f1f24;
       border: 0;
       color: #fff;
       width: 100%;
+      font-size: 1rem;
     }
   }
 `

@@ -14,4 +14,8 @@ export default function getImdbDataRoutes(app) {
   app.route("/tv-shows").get((req, res) => {
     getData.getTvShows(req, res)
   })
+
+  app.route("/search_data").get((req, res) => {
+    getData.getSearchedData(req, res)
+  })
 }

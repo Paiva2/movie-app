@@ -11,6 +11,7 @@ import ForgotPassword from "../pages/ForgotPassword"
 import { NoAuthRoute } from "../components/NotAuthRoute"
 import UserBookmarks from "../pages/UserBookmarks"
 import MoviesPage from "../pages/Movies"
+import SearchResults from "../pages/SearchResults"
 
 const RoutesHandler = () => {
   const { userAuthenticated } = useContext(AuthContextProvider)
@@ -52,6 +53,15 @@ const RoutesHandler = () => {
               element={
                 <RequireAuthRoute>
                   <Home />
+                </RequireAuthRoute>
+              }
+            />
+
+            <Route
+              path="/search"
+              element={
+                <RequireAuthRoute>
+                  <SearchResults />
                 </RequireAuthRoute>
               }
             />

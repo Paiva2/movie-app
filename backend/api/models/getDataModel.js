@@ -25,4 +25,16 @@ export default class GetDataModel {
     )
     return response
   }
+
+  async fetchForSearchParameter(parameterToSearch, currentPage = "1") {
+    const url = `https://api.themoviedb.org/3/search/multi?query=${parameterToSearch}&include_adult=false&language=en-US&page=${currentPage}`
+
+    try {
+      const { data } = await axios.get(url, this.#tmdbOptions)
+
+      return data
+    } catch {
+      throw new Error("Error while searching for requested data...")
+    }
+  }
 }

@@ -92,7 +92,7 @@ export const ModalFilmBackground = styled.div<ModalBackgroundProps>`
     props.$bgImage ? `url(${props.$bgImage})` : ""};
   width: 55%;
   height: 100%;
-  background-size: contain;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: right;
 `

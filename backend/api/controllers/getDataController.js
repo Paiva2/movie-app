@@ -39,4 +39,20 @@ export class GetDataController {
       return res.status(500)
     }
   }
+
+  async getSearchedData(req, res) {
+    const searchParameter = req.query.search
+    const currentPageParameter = req.query.current_page
+
+    try {
+      const requestedData = await getDataModel.fetchForSearchParameter(
+        searchParameter,
+        currentPageParameter
+      )
+
+      return res.status(200).json({ data: requestedData })
+    } catch {
+      return res.status(404).end()
+    }
+  }
 }
