@@ -9,13 +9,14 @@ import {
   TrendingCard,
 } from "./styles"
 import CarouselComponent from "../CarouselComponent"
-import { BookmarkSimple } from "@phosphor-icons/react"
 import { useQuery } from "react-query"
 import { UserContextProvider } from "../../contexts/UserContext"
 import { FilmProps } from "../../types"
 import { api } from "../../lib/api"
 import formatSchema from "../../utils/formatSchema"
 import { AppContextProvider } from "../../contexts/AppContext"
+import checkIfIsBookmarked from "../../utils/checkIfIsBookmarked"
+import BookmarkPinType from "../BookmarkPinType"
 
 const TrendingsCarousel = () => {
   const {
@@ -43,15 +44,7 @@ const TrendingsCarousel = () => {
     },
   })
 
-  if (isLoading || !trendings) return null
-
-  const bookmarkedFilmsIds = bookmarkedMovies?.bookmarkedFilms?.map(
-    (films) => films.filmId
-  )
-
-  const checkIfIsBookmarked = (id: number) => {
-    return bookmarkedFilmsIds?.includes(String(id))
-  }
+  if (isLoading || !trendings || !bookmarkedMovies) return <></>
 
   const trendingsSchema = formatSchema(trendings?.data)
 
@@ -59,6 +52,12 @@ const TrendingsCarousel = () => {
     <CarouselWrapper className="trendings">
       <CarouselComponent>
         {trendingsSchema.map((film) => {
+          const isBookmarked = checkIfIsBookmarked(
+            String(film.id),
+            bookmarkedMovies?.bookmarkedFilms,
+            "filmId"
+          )
+
           return (
             <Banner key={film.id} className="keen-slider__slide">
               <BannerWrapper>
@@ -95,25 +94,14 @@ const TrendingsCarousel = () => {
                         handleSetBookmark(
                           film,
                           film.media_type ?? "movie",
-                          checkIfIsBookmarked(film.id) ? "remove" : "insert"
+                          isBookmarked ? "remove" : "insert"
                         )
                       }}
                     >
-                      {checkIfIsBookmarked(film.id) ? (
-                        <BookmarkSimple
-                          key="on_list"
-                          color="#fff"
-                          weight={changeBookmark ? "regular" : "fill"}
-                          size={25}
-                        />
-                      ) : (
-                        <BookmarkSimple
-                          key="out_list"
-                          weight={changeBookmark ? "fill" : "regular"}
-                          color="#fff"
-                          size={25}
-                        />
-                      )}
+                      <BookmarkPinType
+                        isBookmarked={isBookmarked}
+                        changeOnHover={changeBookmark}
+                      />
                     </BookmarkButton>
                   </CardOverlay>
                 </TrendingCard>

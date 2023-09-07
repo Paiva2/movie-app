@@ -7,11 +7,12 @@ import {
   MovieCard,
 } from "./styles"
 import CarouselComponent from "../CarouselComponent"
-import { BookmarkSimple } from "@phosphor-icons/react"
 import { useState, useContext } from "react"
 import { UserContextProvider } from "../../contexts/UserContext"
 import formatSchema from "../../utils/formatSchema"
 import { AppContextProvider } from "../../contexts/AppContext"
+import checkIfIsBookmarked from "../../utils/checkIfIsBookmarked"
+import BookmarkPinType from "../BookmarkPinType"
 
 const MoviesCarousel = () => {
   const {
@@ -27,15 +28,7 @@ const MoviesCarousel = () => {
 
   const [changeBookmark, setChangeBookmark] = useState(false)
 
-  if (homeMoviesIsLoading || !homeMovies) return null
-
-  const bookmarkedFilmsIds = bookmarkedMovies?.bookmarkedFilms?.map(
-    (films) => films.filmId
-  )
-
-  const checkIfIsBookmarked = (id: number) => {
-    return bookmarkedFilmsIds?.includes(String(id))
-  }
+  if (homeMoviesIsLoading || !homeMovies || !bookmarkedMovies) return <></>
 
   const homeMoviesNewSchema = formatSchema(homeMovies?.data, "movie")
 
@@ -43,6 +36,12 @@ const MoviesCarousel = () => {
     <CarouselWrapper className="movies">
       <CarouselComponent>
         {homeMoviesNewSchema?.map((film) => {
+          const isBookmarked = checkIfIsBookmarked(
+            String(film.id),
+            bookmarkedMovies?.bookmarkedFilms,
+            "filmId"
+          )
+
           return (
             <Banner key={film.id} className="keen-slider__slide">
               <BannerWrapper>
@@ -76,25 +75,14 @@ const MoviesCarousel = () => {
                         handleSetBookmark(
                           film,
                           "movie",
-                          checkIfIsBookmarked(film.id) ? "remove" : "insert"
+                          isBookmarked ? "remove" : "insert"
                         )
                       }}
                     >
-                      {checkIfIsBookmarked(film.id) ? (
-                        <BookmarkSimple
-                          key="on_list"
-                          color="#fff"
-                          weight={changeBookmark ? "regular" : "fill"}
-                          size={25}
-                        />
-                      ) : (
-                        <BookmarkSimple
-                          key="out_list"
-                          weight={changeBookmark ? "fill" : "regular"}
-                          color="#fff"
-                          size={25}
-                        />
-                      )}
+                      <BookmarkPinType
+                        isBookmarked={isBookmarked}
+                        changeOnHover={changeBookmark}
+                      />
                     </BookmarkButton>
                   </CardOverlay>
                 </MovieCard>

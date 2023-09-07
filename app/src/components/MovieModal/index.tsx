@@ -97,16 +97,18 @@ const MovieModal = () => {
             </span>
 
             <BannerButtonsContainer>
-              <BannerButtons
-                $bgHover="#8976d6"
-                $fontColor="#fff"
-                $bg="#7c5dfa"
-                type="button"
-                target="__blank"
-                href={`https://www.youtube.com/watch?v=${bookmarkedUrl}`}
-              >
-                Watch now
-              </BannerButtons>
+              {bookmarkedUrl && (
+                <BannerButtons
+                  $bgHover="#8976d6"
+                  $fontColor="#fff"
+                  $bg="#7c5dfa"
+                  type="button"
+                  target="__blank"
+                  href={`https://www.youtube.com/watch?v=${bookmarkedUrl}`}
+                >
+                  Watch now
+                </BannerButtons>
+              )}
               {checkIfIsBookmarked(selectedFilmDescriptions.id) ? (
                 <BannerButtons
                   key="remove"

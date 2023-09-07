@@ -26,6 +26,9 @@ interface AppContextInterface {
 
   searchValues: string
   setSearchValues: Dispatch<SetStateAction<string>>
+
+  currentPage: number
+  setCurrentPage: Dispatch<SetStateAction<number>>
 }
 
 export const AppContextProvider = createContext<AppContextInterface>(
@@ -38,6 +41,7 @@ const AppContext = ({ children }: AppContextProviderProps) => {
   const [openMenuProfile, setOpenMenuProfile] = useState(false)
   const [openMovieModal, setOpenMovieModal] = useState(false)
   const [searchValues, setSearchValues] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
 
   const { data: homeMovies, isLoading: homeMoviesIsLoading } = useQuery({
     queryKey: ["getHomeMovies"],
@@ -63,6 +67,8 @@ const AppContext = ({ children }: AppContextProviderProps) => {
         homeMoviesIsLoading,
         openMovieModal,
         searchValues,
+        currentPage,
+        setCurrentPage,
         setSearchValues,
         setOpenMovieModal,
         setOpenMenuProfile,

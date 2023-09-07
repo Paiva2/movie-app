@@ -76,3 +76,19 @@ export const BookmarkButton = styled.button`
   display: grid;
   place-items: center;
 `
+
+export const MovieTypePin = styled.span`
+  position: absolute;
+  top: 0.625rem;
+  left: 0.625rem;
+  padding: 0.5rem;
+  text-transform: capitalize;
+  background-color: red;
+  width: fit-content;
+  border-radius: 5px;
+
+  p {
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+`

@@ -8,13 +8,14 @@ import {
   TvShowCard,
 } from "./styles"
 import CarouselComponent from "../CarouselComponent"
-import { BookmarkSimple } from "@phosphor-icons/react"
 import { useQuery } from "react-query"
 import { UserContextProvider } from "../../contexts/UserContext"
 import { FilmProps } from "../../types"
 import { api } from "../../lib/api"
 import formatSchema from "../../utils/formatSchema"
 import { AppContextProvider } from "../../contexts/AppContext"
+import checkIfIsBookmarked from "../../utils/checkIfIsBookmarked"
+import BookmarkPinType from "../BookmarkPinType"
 
 const TvShowsCarousel = () => {
   const {
@@ -42,15 +43,7 @@ const TvShowsCarousel = () => {
     },
   })
 
-  if (isLoading || !tvShows) return null
-
-  const bookmarkedFilmsIds = bookmarkedMovies?.bookmarkedFilms?.map(
-    (films) => films.filmId
-  )
-
-  const checkIfIsBookmarked = (id: number) => {
-    return bookmarkedFilmsIds?.includes(String(id))
-  }
+  if (isLoading || !tvShows || !bookmarkedMovies) return <></>
 
   const homeTvShowsSchema = formatSchema(tvShows?.data, "tv")
 
@@ -58,7 +51,13 @@ const TvShowsCarousel = () => {
     <CarouselWrapper className="tv-shows">
       <CarouselComponent>
         {homeTvShowsSchema?.map((film) => {
-          if (!film.poster_path) return <></>
+          if (!film.poster_path) return
+
+          const isBookmarked = checkIfIsBookmarked(
+            String(film.id),
+            bookmarkedMovies?.bookmarkedFilms,
+            "filmId"
+          )
 
           return (
             <Banner key={film.id} className="keen-slider__slide">
@@ -93,23 +92,14 @@ const TvShowsCarousel = () => {
                         handleSetBookmark(
                           film,
                           "tv",
-                          checkIfIsBookmarked(film.id) ? "remove" : "insert"
+                          isBookmarked ? "remove" : "insert"
                         )
                       }}
                     >
-                      {checkIfIsBookmarked(film.id) ? (
-                        <BookmarkSimple
-                          color="#fff"
-                          weight={changeBookmark ? "regular" : "fill"}
-                          size={25}
-                        />
-                      ) : (
-                        <BookmarkSimple
-                          weight={changeBookmark ? "fill" : "regular"}
-                          color="#fff"
-                          size={25}
-                        />
-                      )}
+                      <BookmarkPinType
+                        isBookmarked={isBookmarked}
+                        changeOnHover={changeBookmark}
+                      />
                     </BookmarkButton>
                   </CardOverlay>
                 </TvShowCard>
