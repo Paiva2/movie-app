@@ -136,4 +136,5 @@ export const CloseButton = styled.button`
   top: 10px;
   right: 20px;
   padding: 0.9375rem;
+  cursor: pointer;
 `

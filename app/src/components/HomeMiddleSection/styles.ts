@@ -2,7 +2,6 @@ import { styled } from "styled-components"
 
 export const HomeMiddleSectionWrapper = styled.section`
   width: 100%;
-  height: 100%;
   background: #0f0e0e;
   box-shadow: 17px -104px 270px -62px #000000;
   position: relative;

@@ -12,6 +12,7 @@ import {
 import PageContainer from "../../components/PageContainer"
 import { FilmProps } from "../../types"
 import MovieModal from "../../components/MovieModal"
+import BookmarksPlaceholder from "../../components/BookmaksPlaceholder"
 
 interface ColumnSchema {
   title: string
@@ -64,6 +65,10 @@ const UserBookmarks = () => {
 
       return acc
     }, bookmarkColumnsInitiatorSchema)
+
+  if (!bookmarkedMovies?.bookmarkedFilms.length) {
+    return <BookmarksPlaceholder />
+  }
 
   return (
     <PageContainer>
