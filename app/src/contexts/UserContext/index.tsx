@@ -26,9 +26,6 @@ interface UserContextInterface {
   selectedFilmDescriptions: FilmProps
   setSelectedFilmDescriptions: Dispatch<SetStateAction<FilmProps>>
 
-  openMovieModal: boolean
-  setOpenMovieModal: Dispatch<SetStateAction<boolean>>
-
   handleSetBookmark: (
     filmToBookmark: FilmProps,
     category: string,
@@ -48,7 +45,6 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
   const [selectedFilmDescriptions, setSelectedFilmDescriptions] =
     useState<FilmProps>({} as FilmProps)
 
-  const [openMovieModal, setOpenMovieModal] = useState(false)
   const [bookmarkingData, setBookmarkingData] = useState(false)
 
   const { data: bookmarkedMovies } = useQuery<BookmarkedMovies>({
@@ -144,11 +140,9 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
         bookmarkedMovies,
         selectedFilmDescriptions,
         userProfile,
-        openMovieModal,
         bookmarkingData,
         handleSetBookmark,
         setSelectedFilmDescriptions,
-        setOpenMovieModal,
       }}
     >
       {children}

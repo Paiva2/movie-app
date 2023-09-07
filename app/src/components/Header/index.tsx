@@ -54,14 +54,14 @@ const Header = () => {
         <HeaderAndSearchWrapper>
           <NavMenu>
             <ul>
-              <li aria-hidden onClick={() => scrollToComponent("")}>
+              <li aria-hidden>
                 <a href="/home">Home</a>
               </li>
-              <li aria-hidden onClick={() => scrollToComponent(".trendings")}>
+              <li aria-hidden>
                 <a href="/bookmarked">Bookmarked</a>
               </li>
-              <li aria-hidden onClick={() => scrollToComponent(".movies")}>
-                <a>Movies</a>
+              <li aria-hidden>
+                <a href="/movies">Movies</a>
               </li>
               <li aria-hidden onClick={() => scrollToComponent(".tv-shows")}>
                 <a>Tv Shows</a>
@@ -73,7 +73,9 @@ const Header = () => {
           </NavMenu>
           <SearchHeaderWrapper $searchVisibility={headerPosition}>
             <label>
-              <MagnifyingGlass size={22} color="#FFF" weight="bold" />
+              <button type="button">
+                <MagnifyingGlass size={22} color="#FFF" weight="bold" />
+              </button>
               <input type="text" />
             </label>
           </SearchHeaderWrapper>

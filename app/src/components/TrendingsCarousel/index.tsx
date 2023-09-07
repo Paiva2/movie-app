@@ -15,16 +15,17 @@ import { UserContextProvider } from "../../contexts/UserContext"
 import { FilmProps } from "../../types"
 import { api } from "../../lib/api"
 import formatSchema from "../../utils/formatSchema"
+import { AppContextProvider } from "../../contexts/AppContext"
 
 const TrendingsCarousel = () => {
   const {
     bookmarkedMovies,
-    openMovieModal,
     bookmarkingData,
     handleSetBookmark,
-    setOpenMovieModal,
     setSelectedFilmDescriptions,
   } = useContext(UserContextProvider)
+
+  const { openMovieModal, setOpenMovieModal } = useContext(AppContextProvider)
 
   const [changeBookmark, setChangeBookmark] = useState(false)
 

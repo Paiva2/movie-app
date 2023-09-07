@@ -13,6 +13,7 @@ import PageContainer from "../../components/PageContainer"
 import { FilmProps } from "../../types"
 import MovieModal from "../../components/MovieModal"
 import BookmarksPlaceholder from "../../components/BookmaksPlaceholder"
+import { AppContextProvider } from "../../contexts/AppContext"
 
 interface ColumnSchema {
   title: string
@@ -20,13 +21,10 @@ interface ColumnSchema {
 }
 
 const UserBookmarks = () => {
-  const {
-    bookmarkedMovies,
-    handleSetBookmark,
-    setOpenMovieModal,
-    openMovieModal,
-    setSelectedFilmDescriptions,
-  } = useContext(UserContextProvider)
+  const { bookmarkedMovies, handleSetBookmark, setSelectedFilmDescriptions } =
+    useContext(UserContextProvider)
+
+  const { openMovieModal, setOpenMovieModal } = useContext(AppContextProvider)
 
   const [changeBookmark, setChangeBookmark] = useState(false)
 

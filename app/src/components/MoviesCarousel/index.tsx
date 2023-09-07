@@ -8,40 +8,26 @@ import {
 } from "./styles"
 import CarouselComponent from "../CarouselComponent"
 import { BookmarkSimple } from "@phosphor-icons/react"
-import { useQuery } from "react-query"
-import { FilmProps } from "../../types"
-import { api } from "../../lib/api"
 import { useState, useContext } from "react"
 import { UserContextProvider } from "../../contexts/UserContext"
 import formatSchema from "../../utils/formatSchema"
+import { AppContextProvider } from "../../contexts/AppContext"
 
 const MoviesCarousel = () => {
   const {
     bookmarkedMovies,
-    openMovieModal,
     bookmarkingData,
-    setOpenMovieModal,
     setSelectedFilmDescriptions,
     handleSetBookmark,
   } = useContext(UserContextProvider)
 
+  const { openMovieModal, setOpenMovieModal } = useContext(AppContextProvider)
+
+  const { homeMovies, homeMoviesIsLoading } = useContext(AppContextProvider)
+
   const [changeBookmark, setChangeBookmark] = useState(false)
 
-  const { data: homeMovies, isLoading } = useQuery({
-    queryKey: ["getHomeMovies"],
-
-    queryFn: async () => {
-      try {
-        const response = await api.get<FilmProps[]>("/movies")
-
-        return response
-      } catch (e) {
-        console.log("There was an error...")
-      }
-    },
-  })
-
-  if (isLoading || !homeMovies) return null
+  if (homeMoviesIsLoading || !homeMovies) return null
 
   const bookmarkedFilmsIds = bookmarkedMovies?.bookmarkedFilms?.map(
     (films) => films.filmId

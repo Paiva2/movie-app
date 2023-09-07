@@ -13,16 +13,17 @@ import {
 } from "./styles"
 import { useContext, useState } from "react"
 import { api } from "../../lib/api"
+import { AppContextProvider } from "../../contexts/AppContext"
 
 const MovieModal = () => {
   const {
     bookmarkedMovies,
     selectedFilmDescriptions,
     setSelectedFilmDescriptions,
-    openMovieModal,
-    setOpenMovieModal,
     handleSetBookmark,
   } = useContext(UserContextProvider)
+
+  const { openMovieModal, setOpenMovieModal } = useContext(AppContextProvider)
 
   const bookmarkedFilmsIds = bookmarkedMovies?.bookmarkedFilms?.map(
     (films) => films.filmId

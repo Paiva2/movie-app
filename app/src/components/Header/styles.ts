@@ -40,23 +40,32 @@ export const HeaderAndSearchWrapper = styled.div`
 
 export const SearchHeaderWrapper = styled.div<SearchBarVisibilityProps>`
   width: 35%;
+  display: ${(props) => (props.$searchVisibility ? "initial" : "none")};
 
   label {
     position: relative;
     display: flex;
 
-    svg {
+    button {
+      border: 0;
+      background-color: #535252;
+      height: 100%;
       position: absolute;
-      left: 10px;
-      top: 10px;
+      left: 0px;
+      display: grid;
+      place-items: center;
+      top: 0;
+      cursor: pointer;
+      border-radius: 5px;
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
     }
 
     input {
       padding: 0.75rem 0.625rem 0.75rem 2.5rem;
       transition: all 0.2s ease-in-out;
       border-radius: 5px;
-      background-color: ${(props) =>
-        props.$searchVisibility ? "#1f1f24" : "transparent"};
+      background-color: #1f1f24;
       border: 0;
       color: #fff;
       width: 100%;
