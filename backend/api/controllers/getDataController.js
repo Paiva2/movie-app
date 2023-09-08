@@ -18,7 +18,7 @@ export class GetDataController {
 
   async getMovies(_, res) {
     try {
-      const response = await getDataModel.fetchMoviesOrTvShows("movie")
+      const response = await getDataModel.fetchMoviesOrTvShowsForHome("movie")
 
       if (response.status === 200) {
         return res.status(200).send(response.data.results)
@@ -28,9 +28,24 @@ export class GetDataController {
     }
   }
 
+  async getSinglePageMovies(req, res) {
+    const page = req.body.data
+
+    try {
+      const response = await getDataModel.fetchMoviesOrTvShowsForSinglePage(
+        "movie",
+        page
+      )
+
+      return res.status(200).send(response)
+    } catch {
+      return res.status(500)
+    }
+  }
+
   async getTvShows(_, res) {
     try {
-      const response = await getDataModel.fetchMoviesOrTvShows("tv")
+      const response = await getDataModel.fetchMoviesOrTvShowsForHome("tv")
 
       if (response.status === 200) {
         return res.status(200).send(response.data.results)

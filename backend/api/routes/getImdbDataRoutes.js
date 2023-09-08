@@ -11,6 +11,10 @@ export default function getImdbDataRoutes(app) {
     getData.getMovies(req, res)
   })
 
+  app.route("/single_page_movies").patch((req, res) => {
+    getData.getSinglePageMovies(req, res)
+  })
+
   app.route("/tv-shows").get((req, res) => {
     getData.getTvShows(req, res)
   })

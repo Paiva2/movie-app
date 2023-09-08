@@ -18,12 +18,22 @@ export default class GetDataModel {
     return response
   }
 
-  async fetchMoviesOrTvShows(typeToFetch) {
+  async fetchMoviesOrTvShowsForHome(typeToFetch) {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/discover/${typeToFetch}`,
+      `https://api.themoviedb.org/3/trending/${typeToFetch}/week?&language=en-US`,
       this.#tmdbOptions
     )
+
     return response
+  }
+
+  async fetchMoviesOrTvShowsForSinglePage(typeToFetch, currentPage = "1") {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/trending/${typeToFetch}/week?&page=${currentPage}&language=en-US`,
+      this.#tmdbOptions
+    )
+
+    return response.data
   }
 
   async fetchForSearchParameter(parameterToSearch, currentPage = "1") {
