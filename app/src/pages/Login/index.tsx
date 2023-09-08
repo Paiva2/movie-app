@@ -116,7 +116,6 @@ const Login = () => {
       return window.location.replace("/home")
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error)
         Toast.fire({
           icon: "error",
           title: error?.response?.data.message,

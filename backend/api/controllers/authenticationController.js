@@ -1,6 +1,7 @@
 import AuthenticationModel from "../models/authenticationModel.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import "dotenv/config"
 
 function encryptPassword(saltRounds = 10, data) {
   const passwordToHash = data
@@ -12,8 +13,6 @@ function encryptPassword(saltRounds = 10, data) {
 const authenticationModel = new AuthenticationModel()
 
 export default class AuthenticationController {
-  #jwtSecret = process.env.JWT_SECRET
-
   async loginUser(req, res) {
     const { username, password } = req.body.data
 
@@ -48,7 +47,7 @@ export default class AuthenticationController {
       password: userInformations.password,
     }
 
-    jwt.sign(userInformationsToJwt, this.#jwtSecret, (err, token) => {
+    jwt.sign(userInformationsToJwt, process.env.JWT_SECRET, (err, token) => {
       if (err) {
         return res
           .status(500)

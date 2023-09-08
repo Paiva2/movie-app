@@ -43,6 +43,21 @@ export class GetDataController {
     }
   }
 
+  async getSinglePageTvShow(req, res) {
+    const page = req.body.data
+
+    try {
+      const response = await getDataModel.fetchMoviesOrTvShowsForSinglePage(
+        "tv",
+        page
+      )
+
+      return res.status(200).send(response)
+    } catch {
+      return res.status(500)
+    }
+  }
+
   async getTvShows(_, res) {
     try {
       const response = await getDataModel.fetchMoviesOrTvShowsForHome("tv")
@@ -68,6 +83,36 @@ export class GetDataController {
       return res.status(200).json({ data: requestedData })
     } catch {
       return res.status(404).end()
+    }
+  }
+
+  async getDataVideoPreview(req, res) {
+    const { requestedDataPreviewInfo } = req.body.data
+
+    try {
+      const preview = await getDataModel.fetchDataVideoPreview(
+        requestedDataPreviewInfo
+      )
+
+      if (preview.data.results.length < 1) {
+        return res.status(204).json({ dataVideoPreview: null })
+      }
+
+      const getTrailer = preview.data.results.find(
+        (previews) => previews.type === "Trailer"
+      )
+
+      if (getTrailer) {
+        return res.status(200).json({ dataVideoPreview: getTrailer.key })
+      }
+
+      if (preview.data.results[0].key) {
+        return res
+          .status(200)
+          .json({ dataVideoPreview: preview.data.results[0].key })
+      }
+    } catch {
+      return res.status(500)
     }
   }
 }

@@ -47,4 +47,13 @@ export default class GetDataModel {
       throw new Error("Error while searching for requested data...")
     }
   }
+
+  async fetchDataVideoPreview(bookmarkedInfo) {
+    const preview = await axios.get(
+      `https://api.themoviedb.org/3/${bookmarkedInfo.type}/${bookmarkedInfo.id}/videos`,
+      this.#tmdbOptions
+    )
+
+    return preview
+  }
 }

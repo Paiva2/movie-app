@@ -66,6 +66,7 @@ const Menu = () => {
       console.error(e)
     }
   }
+
   function handleLogout() {
     if (!userAuthenticated.isUserAuth) {
       throw new Error("User must be authenticated before logout.")

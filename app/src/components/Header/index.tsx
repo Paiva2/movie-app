@@ -40,16 +40,6 @@ const Header = () => {
     }
   }, [])
 
-  function scrollToComponent(elementIdentification: string) {
-    const element = document.querySelector(elementIdentification)
-
-    element?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-      inline: "center",
-    })
-  }
-
   async function getSearchedItems() {
     setSearchValues("")
 
@@ -71,10 +61,10 @@ const Header = () => {
               <li aria-hidden>
                 <a href="/movies">Movies</a>
               </li>
-              <li aria-hidden onClick={() => scrollToComponent(".tv-shows")}>
-                <a>Tv Shows</a>
+              <li aria-hidden>
+                <a href="/tv-show">Tv Shows</a>
               </li>
-              <li aria-hidden onClick={() => scrollToComponent(".trendings")}>
+              <li aria-hidden>
                 <a>Trending</a>
               </li>
             </ul>

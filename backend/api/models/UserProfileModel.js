@@ -34,8 +34,7 @@ export default class UserProfileModel {
       })
 
       return res.status(200).json({ message: "Photo updated with success!" })
-    } catch (e) {
-      console.log(e)
+    } catch {
       return res
         .status(400)
         .json({ message: "There was an error uploading the image..." })

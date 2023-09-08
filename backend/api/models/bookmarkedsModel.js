@@ -58,13 +58,4 @@ export default class BookmarkedsModel {
 
     return userData
   }
-
-  async bookmarkVideoPreview(bookmarkedInfo) {
-    const preview = await axios.get(
-      `https://api.themoviedb.org/3/${bookmarkedInfo.type}/${bookmarkedInfo.id}/videos`,
-      this.#TmdbOptions
-    )
-
-    return preview
-  }
 }

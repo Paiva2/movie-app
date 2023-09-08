@@ -37,22 +37,22 @@ const MovieModal = () => {
   const [isPreviewLoading, setIsPreviewLoading] = useState(true)
 
   let { data: bookmarkedUrl } = useQuery({
-    queryKey: ["getBookmarkPreview"],
+    queryKey: ["getDataVideoPreview"],
 
     queryFn: async () => {
       setIsPreviewLoading(true)
 
       try {
-        const response = await api.post("/bookmarked-preview", {
+        const response = await api.post("/data-video-preview", {
           data: {
-            bookmarkedInfo: {
+            requestedDataPreviewInfo: {
               id: selectedFilmDescriptions.id,
               type: selectedFilmDescriptions.media_type,
             },
           },
         })
 
-        return response.data.bookmarkedPreview
+        return response.data.dataVideoPreview
       } catch (e) {
         console.log("There was an error...")
       } finally {
@@ -76,7 +76,7 @@ const MovieModal = () => {
 
         setSelectedFilmDescriptions({} as FilmProps)
 
-        queryClient.invalidateQueries("getBookmarkPreview")
+        queryClient.invalidateQueries("getDataVideoPreview")
       }}
     >
       <ModalContainer

@@ -4,14 +4,17 @@ import BookmarkPinType from "../BookmarkPinType"
 import { UserContextProvider } from "../../contexts/UserContext"
 import { useContext, useState } from "react"
 import { AppContextProvider } from "../../contexts/AppContext"
+import { FilmProps } from "../../types"
 
-const GridDataComponent = ({ dataToList }) => {
+const GridDataComponent = ({ dataToList }: { dataToList: FilmProps[] }) => {
   const { openMovieModal, setOpenMovieModal } = useContext(AppContextProvider)
 
   const { handleSetBookmark, setSelectedFilmDescriptions, bookmarkedMovies } =
     useContext(UserContextProvider)
 
   const [changeBookmark, setChangeBookmark] = useState(false)
+
+  if (!bookmarkedMovies) return <></>
 
   return (
     <Column>
@@ -23,6 +26,8 @@ const GridDataComponent = ({ dataToList }) => {
           bookmarkedMovies?.bookmarkedFilms,
           "filmId"
         )
+
+        console.log(movie)
 
         return (
           <Card
@@ -53,7 +58,7 @@ const GridDataComponent = ({ dataToList }) => {
 
                   handleSetBookmark(
                     movie,
-                    movie.mediaType!,
+                    movie.media_type!,
                     isBookmarked ? "remove" : "insert"
                   )
                 }}

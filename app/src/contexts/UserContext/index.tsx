@@ -124,8 +124,8 @@ const UserContext = ({ children }: UserContextInterfaceProps) => {
 
     try {
       await bookMarkFilm.mutateAsync(bookmarkBody)
-    } catch (e) {
-      console.log(e)
+    } catch {
+      throw new Error()
     } finally {
       queryClient.invalidateQueries("getUserBookmarkedMovies")
       queryClient.invalidateQueries("getHomeTrendings")

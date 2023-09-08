@@ -10,8 +10,9 @@ import { RequireAuthRoute } from "../components/RequireAuthRoute"
 import ForgotPassword from "../pages/ForgotPassword"
 import { NoAuthRoute } from "../components/NotAuthRoute"
 import UserBookmarks from "../pages/UserBookmarks"
-import MoviesPage from "../pages/Movies"
+import MoviesPage from "../pages/MoviesPage"
 import SearchResults from "../pages/SearchResults"
+import TvShowPage from "../pages/TvShowPage"
 
 const RoutesHandler = () => {
   const { userAuthenticated } = useContext(AuthContextProvider)
@@ -76,6 +77,15 @@ const RoutesHandler = () => {
             />
 
             <Route
+              path="/tv-show"
+              element={
+                <RequireAuthRoute>
+                  <TvShowPage />
+                </RequireAuthRoute>
+              }
+            />
+
+            <Route
               path="/bookmarked"
               element={
                 <RequireAuthRoute>
@@ -83,6 +93,7 @@ const RoutesHandler = () => {
                 </RequireAuthRoute>
               }
             />
+
             <Route
               path="/login"
               element={
