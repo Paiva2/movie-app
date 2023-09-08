@@ -1,5 +1,6 @@
-const axios = require("axios")
-const MockAdapter = require("axios-mock-adapter")
+import axios from "axios"
+import MockAdapter from "axios-mock-adapter"
+import jest from "jest-mock"
 const mock = new MockAdapter(axios)
 
 describe("Register a new user", () => {
