@@ -18,7 +18,7 @@ const routes = [
   },
 
   {
-    route_for: "Register a new user",
+    route_for: "Change already registered password",
     path: "/forgot-password",
     method: "patch",
     handler: authenticationController.updateUserPassword,
