@@ -8,13 +8,13 @@ export const ColumnsContainer = styled.div`
   color: #fff;
 `
 
-export const BookmarkedColumn = styled.div`
+export const MovieColumn = styled.div`
   display: flex;
   gap: 25px;
   flex-wrap: wrap;
 `
 
-export const BookmarkedCard = styled.div`
+export const MovieCard = styled.div`
   border-radius: 8px;
   max-width: 200px;
   overflow: hidden;
