@@ -16,11 +16,7 @@ export default class AuthenticationController {
   async loginUser(req, res) {
     const { username, password } = req.body.data
 
-    if (!username) {
-      return res
-        .status(404)
-        .send({ message: "Username or Password can't be empty." })
-    } else if (!password) {
+    if (!username || !password) {
       return res
         .status(404)
         .send({ message: "Username or Password can't be empty." })
