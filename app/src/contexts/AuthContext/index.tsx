@@ -36,7 +36,7 @@ const AuthContext = ({ children }: AuthContextProviderProps) => {
       userToken: userHasToken,
       isUserAuth: true,
     })
-  }, [window.location.pathname])
+  }, [userAuthenticated.isUserAuth])
 
   return (
     <AuthContextProvider.Provider

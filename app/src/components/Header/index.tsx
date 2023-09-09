@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react"
+import { useEffect, useContext, useState, useLayoutEffect } from "react"
 import {
   HeaderAndSearchWrapper,
   HeaderContainer,
@@ -11,6 +11,7 @@ import { UserContextProvider } from "../../contexts/UserContext"
 import { MagnifyingGlass } from "@phosphor-icons/react"
 import Menu from "../Menu"
 import { AppContextProvider } from "../../contexts/AppContext"
+import { AuthContextProvider } from "../../contexts/AuthContext"
 
 const Header = () => {
   const { userProfile } = useContext(UserContextProvider)
@@ -23,6 +24,32 @@ const Header = () => {
     setHeaderPosition,
     setOpenMenuProfile,
   } = useContext(AppContextProvider)
+  const { userAuthenticated } = useContext(AuthContextProvider)
+
+  const [hideHeader, setHideHeader] = useState<boolean>(true)
+
+  function checkLocationToHideComponent(pathnames: string[]) {
+    return pathnames.some((route) => {
+      return window.location.href.includes(route)
+    })
+  }
+
+  function willHeaderStayHidden() {
+    const routes = ["/login", "/register", "/forgot-password"]
+
+    const checkIfPageIsValidToHeaderAppear =
+      checkLocationToHideComponent(routes)
+
+    if (checkIfPageIsValidToHeaderAppear) {
+      setHideHeader(true)
+    } else {
+      setHideHeader(false)
+    }
+  }
+
+  useLayoutEffect(() => {
+    willHeaderStayHidden()
+  }, [window.location.pathname, userAuthenticated])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,8 +73,13 @@ const Header = () => {
     window.location.replace(`/search?keyword=${searchValues}`)
   }
 
+  if (!userAuthenticated.isUserAuth) return <></>
+
   return (
-    <HeaderContainer $absolutePosition={headerPosition}>
+    <HeaderContainer
+      $hideHeader={hideHeader}
+      $absolutePosition={headerPosition}
+    >
       <HeaderWrapper>
         <HeaderAndSearchWrapper>
           <NavMenu>

@@ -1,10 +1,12 @@
 import { styled } from "styled-components"
 
-interface HeaderPosition {
+interface HeaderProps {
   $absolutePosition: boolean
+  $hideHeader: boolean
 }
 
-export const HeaderContainer = styled.header<HeaderPosition>`
+export const HeaderContainer = styled.header<HeaderProps>`
+  display: ${(props) => (props.$hideHeader ? "none" : "initial")};
   width: 100%;
   max-width: 120rem;
   padding-top: 0.625rem;

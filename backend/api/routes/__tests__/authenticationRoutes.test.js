@@ -197,8 +197,8 @@ describe("Update registered user password.", () => {
     }
 
     const userOnDatabase = {
-      ...data,
       id: 1,
+      ...data,
       image: "https://i.postimg.cc/XvrwMSKy/transferir.jpg",
     }
 
