@@ -8,7 +8,7 @@ export const ColumnsContainer = styled.div`
   color: #fff;
 `
 
-export const MovieColumn = styled.div`
+export const TrendingsColumn = styled.div`
   display: flex;
   gap: 1.5625rem;
   flex-wrap: wrap;

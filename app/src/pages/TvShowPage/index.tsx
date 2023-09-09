@@ -1,6 +1,6 @@
 import PageContainer from "../../components/PageContainer"
 import { useContext, useEffect, useState } from "react"
-import { ColumnsContainer, MovieColumn } from "./styles"
+import { ColumnsContainer, TvShowColumn } from "./styles"
 import { AppContextProvider } from "../../contexts/AppContext"
 import { UserContextProvider } from "../../contexts/UserContext"
 import formatSchema from "../../utils/formatSchema"
@@ -49,8 +49,6 @@ const TvShowPage = () => {
     fetchTvShowsView()
   }, [currentPage])
 
-  console.log(tvShowsMainData)
-
   if (!homeMovies || !bookmarkedMovies || !tvShowsMainData) return <></>
 
   const formatMoviesSchema = formatSchema(tvShowsView, "tv")
@@ -59,9 +57,9 @@ const TvShowPage = () => {
     <PageContainer>
       <ColumnsContainer>
         <h1>Tv Show's</h1>
-        <MovieColumn>
+        <TvShowColumn>
           <GridDataComponent dataToList={formatMoviesSchema} />
-        </MovieColumn>
+        </TvShowColumn>
         {!!formatMoviesSchema.length && currentPage < 10 && (
           <SeeMore setCurrentPage={setCurrentPage} />
         )}

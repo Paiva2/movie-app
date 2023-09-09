@@ -33,8 +33,6 @@ const GridDataComponent = ({ dataToList }: { dataToList: FilmProps[] }) => {
           "filmId"
         )
 
-        console.log(movie)
-
         return (
           <Card
             onClick={() => {

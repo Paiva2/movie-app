@@ -1,5 +1,4 @@
 import { useState, useContext, Fragment } from "react"
-import { BookmarkSimple } from "@phosphor-icons/react"
 import { UserContextProvider } from "../../contexts/UserContext"
 import { formatBookmarkedMoviesSchema } from "../../utils/formatSchema"
 import {
@@ -14,6 +13,7 @@ import { FilmProps } from "../../types"
 import MovieModal from "../../components/MovieModal"
 import BookmarksPlaceholder from "../../components/BookmaksPlaceholder"
 import { AppContextProvider } from "../../contexts/AppContext"
+import BookmarkPinType from "../../components/BookmarkPinType"
 
 interface ColumnSchema {
   title: string
@@ -77,6 +77,8 @@ const UserBookmarks = () => {
               <h1>{!!columnType.bookmarkeds.length && columnType.title}</h1>
               <BookmarkedColumn>
                 {columnType.bookmarkeds.map((itens) => {
+                  const isBookmarked = checkIfIsBookmarked(String(itens.id))
+
                   return (
                     <BookmarkedCard
                       onClick={() => {
@@ -109,27 +111,14 @@ const UserBookmarks = () => {
                             handleSetBookmark(
                               itens,
                               itens.mediaType!,
-                              checkIfIsBookmarked(String(itens.id))
-                                ? "remove"
-                                : "insert"
+                              isBookmarked ? "remove" : "insert"
                             )
                           }}
                         >
-                          {checkIfIsBookmarked(String(itens.id)) ? (
-                            <BookmarkSimple
-                              key="on_list"
-                              color="#fff"
-                              weight={changeBookmark ? "regular" : "fill"}
-                              size={25}
-                            />
-                          ) : (
-                            <BookmarkSimple
-                              key="out_list"
-                              weight={changeBookmark ? "fill" : "regular"}
-                              color="#fff"
-                              size={25}
-                            />
-                          )}
+                          <BookmarkPinType
+                            isBookmarked={isBookmarked}
+                            changeOnHover={changeBookmark}
+                          />
                         </BookmarkButton>
                       </CardOverlay>
                     </BookmarkedCard>

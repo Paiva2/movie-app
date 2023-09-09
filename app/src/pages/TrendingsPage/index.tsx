@@ -1,6 +1,6 @@
 import PageContainer from "../../components/PageContainer"
 import { useContext, useEffect, useState } from "react"
-import { ColumnsContainer, MovieColumn } from "./styles"
+import { ColumnsContainer, TrendingsColumn } from "./styles"
 import { AppContextProvider } from "../../contexts/AppContext"
 import { UserContextProvider } from "../../contexts/UserContext"
 import formatSchema from "../../utils/formatSchema"
@@ -37,7 +37,6 @@ const TrendingPage = () => {
 
         return response
       } catch (e) {
-        console.log(e)
         throw new Error("There was an error getting trendings...")
       }
     },
@@ -59,9 +58,9 @@ const TrendingPage = () => {
     <PageContainer>
       <ColumnsContainer>
         <h1>Trendings</h1>
-        <MovieColumn>
+        <TrendingsColumn>
           <GridDataComponent dataToList={formatMoviesSchema} />
-        </MovieColumn>
+        </TrendingsColumn>
         {!!formatMoviesSchema.length && currentPage < 10 && (
           <SeeMore setCurrentPage={setCurrentPage} />
         )}
