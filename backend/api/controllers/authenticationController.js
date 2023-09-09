@@ -122,7 +122,7 @@ export default class AuthenticationController {
     } catch {
       return res
         .status(500)
-        .end({ message: "There was an error. Try again later." })
+        .send({ message: "There was an error. Try again later." })
     }
   }
 }
