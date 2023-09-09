@@ -20,9 +20,11 @@ const MoviesPage = () => {
   const [moviesView, setMoviesView] = useState<FilmProps[]>([] as FilmProps[])
 
   const moviesViewMainData = useMutation({
-    mutationFn: async (page: string) => {
+    mutationFn: async (currentPage: string) => {
       try {
-        const response = await api.patch("/single_page_movies", { data: page })
+        const response = await api.patch("/single_page_movies", {
+          data: currentPage,
+        })
 
         if (!moviesView.length) {
           setMoviesView(response.data.results)

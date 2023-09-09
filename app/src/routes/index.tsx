@@ -12,6 +12,7 @@ import UserBookmarks from "../pages/UserBookmarks"
 import MoviesPage from "../pages/MoviesPage"
 import SearchResults from "../pages/SearchResults"
 import TvShowPage from "../pages/TvShowPage"
+import TrendingPage from "../pages/TrendingsPage"
 
 const RoutesHandler = () => {
   return (
@@ -36,6 +37,15 @@ const RoutesHandler = () => {
               element={
                 <RequireAuthRoute>
                   <SearchResults />
+                </RequireAuthRoute>
+              }
+            />
+
+            <Route
+              path="/trending"
+              element={
+                <RequireAuthRoute>
+                  <TrendingPage />
                 </RequireAuthRoute>
               }
             />

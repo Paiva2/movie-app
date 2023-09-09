@@ -11,54 +11,54 @@ import { FilmProps } from "../../types"
 import SeeMore from "../../components/SeeMore"
 import GridDataComponent from "../../components/GridDataComponent"
 
-const TvShowPage = () => {
-  const { homeMovies, setCurrentPage, currentPage } =
-    useContext(AppContextProvider)
+const TrendingPage = () => {
+  const { setCurrentPage, currentPage } = useContext(AppContextProvider)
 
   const { bookmarkedMovies } = useContext(UserContextProvider)
 
-  const [tvShowsView, setTvShowsView] = useState<FilmProps[]>([] as FilmProps[])
+  const [trendingsView, setTrendingsView] = useState<FilmProps[]>(
+    [] as FilmProps[]
+  )
 
-  const tvShowsMainData = useMutation({
+  const trendingsViewMainData = useMutation({
     mutationFn: async (currentPage: string) => {
       try {
-        const response = await api.patch("/single_page_tv-show", {
+        const response = await api.post("/trending-movies", {
           data: currentPage,
         })
 
-        if (!tvShowsView.length) {
-          setTvShowsView(response.data.results)
+        if (!trendingsView.length) {
+          setTrendingsView(response.data.results)
         } else {
-          const concatItems = tvShowsView.concat(response.data.results)
+          const concatItems = trendingsView.concat(response.data.results)
 
-          setTvShowsView(concatItems)
+          setTrendingsView(concatItems)
         }
 
         return response
       } catch (e) {
-        throw new Error("There was an error getting tv shows...")
+        console.log(e)
+        throw new Error("There was an error getting trendings...")
       }
     },
   })
 
-  const fetchTvShowsView = async () => {
-    await tvShowsMainData.mutateAsync(String(currentPage))
+  const fetchTrendings = async () => {
+    await trendingsViewMainData.mutateAsync(String(currentPage))
   }
 
   useEffect(() => {
-    fetchTvShowsView()
+    fetchTrendings()
   }, [currentPage])
 
-  console.log(tvShowsMainData)
+  if (!bookmarkedMovies || !trendingsViewMainData) return <></>
 
-  if (!homeMovies || !bookmarkedMovies || !tvShowsMainData) return <></>
-
-  const formatMoviesSchema = formatSchema(tvShowsView, "tv")
+  const formatMoviesSchema = formatSchema(trendingsView)
 
   return (
     <PageContainer>
       <ColumnsContainer>
-        <h1>Tv Show's</h1>
+        <h1>Trendings</h1>
         <MovieColumn>
           <GridDataComponent dataToList={formatMoviesSchema} />
         </MovieColumn>
@@ -71,4 +71,4 @@ const TvShowPage = () => {
   )
 }
 
-export default TvShowPage
+export default TrendingPage

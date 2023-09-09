@@ -6,7 +6,7 @@ const routes = [
   {
     route_for: "Trending Movies",
     path: "/trending-movies",
-    method: "get",
+    method: "post",
     handler: getData.getAllTypes,
   },
 

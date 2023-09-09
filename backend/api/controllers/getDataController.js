@@ -4,15 +4,19 @@ import GetDataModel from "../models/getDataModel.js"
 const getDataModel = new GetDataModel()
 
 export class GetDataController {
-  async getAllTypes(_, res) {
-    try {
-      const response = await getDataModel.fetchAllFilms()
+  async getAllTypes(req, res) {
+    let currentPage
 
-      if (response.status === 200) {
-        return res.status(200).send(response.data.results)
-      }
+    if (req?.body.data) {
+      currentPage = req?.body.data
+    }
+
+    try {
+      const response = await getDataModel.fetchAllFilms(currentPage)
+
+      return res.status(200).send(response)
     } catch {
-      return res.status(500)
+      return res.status(500).end()
     }
   }
 

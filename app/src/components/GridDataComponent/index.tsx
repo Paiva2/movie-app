@@ -1,4 +1,10 @@
-import { BookmarkButton, Card, CardOverlay, Column } from "./styles"
+import {
+  BookmarkButton,
+  Card,
+  CardOverlay,
+  Column,
+  MovieTypePin,
+} from "./styles"
 import checkIfIsBookmarked from "../../utils/checkIfIsBookmarked"
 import BookmarkPinType from "../BookmarkPinType"
 import { UserContextProvider } from "../../contexts/UserContext"
@@ -50,6 +56,9 @@ const GridDataComponent = ({ dataToList }: { dataToList: FilmProps[] }) => {
                   {new Date(movie.first_air_date).toLocaleDateString("en-US")}
                 </p>
               </div>
+              <MovieTypePin>
+                <p>{movie.media_type}</p>
+              </MovieTypePin>
               <BookmarkButton
                 onMouseOver={() => setChangeBookmark(true)}
                 onMouseLeave={() => setChangeBookmark(false)}

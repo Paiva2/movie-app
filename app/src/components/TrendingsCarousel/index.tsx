@@ -35,9 +35,11 @@ const TrendingsCarousel = () => {
 
     queryFn: async () => {
       try {
-        const response = await api.get<FilmProps[]>("/trending-movies")
+        const response = await api.post<{ results: FilmProps[] }>(
+          "/trending-movies"
+        )
 
-        return response
+        return response.data.results
       } catch (e) {
         console.log("There was an error...")
       }
@@ -46,7 +48,7 @@ const TrendingsCarousel = () => {
 
   if (isLoading || !trendings || !bookmarkedMovies) return <></>
 
-  const trendingsSchema = formatSchema(trendings?.data)
+  const trendingsSchema = formatSchema(trendings)
 
   return (
     <CarouselWrapper className="trendings">

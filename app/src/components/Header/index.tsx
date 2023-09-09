@@ -97,7 +97,7 @@ const Header = () => {
                 <a href="/tv-show">Tv Shows</a>
               </li>
               <li aria-hidden>
-                <a>Trending</a>
+                <a href="/trending">Trending</a>
               </li>
             </ul>
           </NavMenu>
