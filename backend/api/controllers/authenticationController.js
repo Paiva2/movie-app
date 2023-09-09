@@ -98,8 +98,8 @@ export default class AuthenticationController {
 
     if (!username || !password) {
       return res
-        .status(409)
-        .send({ message: "Username or password can't be empty." })
+        .status(404)
+        .send({ message: "Username or Password can't be empty." })
     }
 
     const isUserRegistered = await authenticationModel.checkIfUserExists(

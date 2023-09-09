@@ -1,7 +1,7 @@
-import axios from "axios"
+/* import axios from "axios"
 import MockAdapter from "axios-mock-adapter"
 const mock = new MockAdapter(axios)
-import jest from "jest"
+import jest from "jest" */
 
 describe("Register a new user", () => {
   it("should throw 404 error if username is empty.", async () => {
