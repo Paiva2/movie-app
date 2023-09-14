@@ -1,6 +1,6 @@
 import PageContainer from "../../components/PageContainer"
 import { useContext, useEffect, useState } from "react"
-import { ColumnsContainer, MovieColumn } from "./styles"
+import { ColumnsContainer } from "./styles"
 import { AppContextProvider } from "../../contexts/AppContext"
 import { UserContextProvider } from "../../contexts/UserContext"
 import formatSchema from "../../utils/formatSchema"
@@ -12,8 +12,7 @@ import SeeMore from "../../components/SeeMore"
 import GridDataComponent from "../../components/GridDataComponent"
 
 const MoviesPage = () => {
-  const { homeMovies, setCurrentPage, currentPage } =
-    useContext(AppContextProvider)
+  const { homeMovies, setCurrentPage, currentPage } = useContext(AppContextProvider)
 
   const { bookmarkedMovies } = useContext(UserContextProvider)
 
@@ -57,9 +56,7 @@ const MoviesPage = () => {
     <PageContainer>
       <ColumnsContainer>
         <h1>Movies</h1>
-        <MovieColumn>
-          <GridDataComponent dataToList={formatMoviesSchema} />
-        </MovieColumn>
+        <GridDataComponent dataToList={formatMoviesSchema} />
         {!!formatMoviesSchema.length && currentPage < 10 && (
           <SeeMore setCurrentPage={setCurrentPage} />
         )}

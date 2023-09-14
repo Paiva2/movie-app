@@ -2,13 +2,13 @@ import { styled } from "styled-components"
 
 export const BannerContainer = styled.div`
   width: 100%;
-  max-height: 37.5rem;
+  max-height: 28.125rem;
   position: relative;
 `
 export const Banner = styled.img`
   width: 100%;
   height: 100%;
-  max-height: 37.5rem;
+  max-height: 28.125rem;
   object-fit: cover;
 `
 
@@ -32,7 +32,7 @@ export const BannerTitle = styled.div`
   gap: 0.625rem;
 
   span {
-    font-size: 3.75rem;
+    font-size: 3.125rem;
     line-height: 3.125rem;
     font-weight: 900;
   }

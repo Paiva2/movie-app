@@ -1,15 +1,9 @@
 import { styled } from "styled-components"
 
 export const ColumnsContainer = styled.div`
-  padding: 50px;
+  padding: 3.125rem;
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 1.5625rem;
   color: #fff;
-`
-
-export const TvShowColumn = styled.div`
-  display: flex;
-  gap: 25px;
-  flex-wrap: wrap;
 `

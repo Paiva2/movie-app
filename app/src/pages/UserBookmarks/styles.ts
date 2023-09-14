@@ -1,7 +1,7 @@
 import { styled } from "styled-components"
 
 export const ColumnsContainer = styled.div`
-  padding: 50px;
+  padding: 3.125rem;
   display: flex;
   flex-direction: column;
   gap: 25px;
@@ -9,9 +9,9 @@ export const ColumnsContainer = styled.div`
 `
 
 export const BookmarkedColumn = styled.div`
-  display: flex;
-  gap: 25px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+  gap: 1.875rem;
 `
 
 export const BookmarkedCard = styled.div`

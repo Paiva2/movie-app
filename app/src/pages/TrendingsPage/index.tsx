@@ -1,6 +1,6 @@
 import PageContainer from "../../components/PageContainer"
 import { useContext, useEffect, useState } from "react"
-import { ColumnsContainer, TrendingsColumn } from "./styles"
+import { ColumnsContainer } from "./styles"
 import { AppContextProvider } from "../../contexts/AppContext"
 import { UserContextProvider } from "../../contexts/UserContext"
 import formatSchema from "../../utils/formatSchema"
@@ -16,9 +16,7 @@ const TrendingPage = () => {
 
   const { bookmarkedMovies } = useContext(UserContextProvider)
 
-  const [trendingsView, setTrendingsView] = useState<FilmProps[]>(
-    [] as FilmProps[]
-  )
+  const [trendingsView, setTrendingsView] = useState<FilmProps[]>([] as FilmProps[])
 
   const trendingsViewMainData = useMutation({
     mutationFn: async (currentPage: string) => {
@@ -58,9 +56,7 @@ const TrendingPage = () => {
     <PageContainer>
       <ColumnsContainer>
         <h1>Trendings</h1>
-        <TrendingsColumn>
-          <GridDataComponent dataToList={formatMoviesSchema} />
-        </TrendingsColumn>
+        <GridDataComponent dataToList={formatMoviesSchema} />
         {!!formatMoviesSchema.length && currentPage < 10 && (
           <SeeMore setCurrentPage={setCurrentPage} />
         )}

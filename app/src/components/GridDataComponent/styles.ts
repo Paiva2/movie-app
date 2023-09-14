@@ -1,14 +1,14 @@
 import styled from "styled-components"
 
 export const Column = styled.div`
-  display: flex;
-  gap: 25px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+  gap: 1.875rem;
 `
 
 export const Card = styled.div`
   border-radius: 8px;
-  max-width: 200px;
+  max-width: 12.5rem;
   overflow: hidden;
   border: 1px solid #292929;
   position: relative;

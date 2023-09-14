@@ -7,9 +7,3 @@ export const ColumnsContainer = styled.div`
   gap: 1.5625rem;
   color: #fff;
 `
-
-export const MovieColumn = styled.div`
-  display: flex;
-  gap: 1.5625rem;
-  flex-wrap: wrap;
-`
