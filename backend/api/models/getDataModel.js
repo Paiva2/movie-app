@@ -12,7 +12,7 @@ export default class GetDataModel {
 
   async fetchAllFilms(currentPage = 1) {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/trending/all/day?&page=${currentPage}&language=en-US`,
+      `https://api.themoviedb.org/3/trending/all/day?&page=${+currentPage}&language=en-US`,
       this.#tmdbOptions
     )
 

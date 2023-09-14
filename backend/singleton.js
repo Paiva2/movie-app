@@ -1,5 +1,5 @@
 /* global jest, beforeEach */
-import { mockDeep, mockReset } from "jest-mock-extended"
+import { mockDeep } from "jest-mock-extended"
 import { jest } from "@jest/globals"
 import prisma from "./lib/prisma"
 

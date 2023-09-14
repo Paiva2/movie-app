@@ -8,7 +8,7 @@ export class GetDataController {
     let currentPage
 
     if (req?.body.data) {
-      currentPage = req?.body.data
+      currentPage = req?.body.data.currentPage
     }
 
     try {
