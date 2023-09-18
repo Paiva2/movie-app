@@ -22,7 +22,9 @@ const MoviesPage = () => {
     mutationFn: async (currentPage: string) => {
       try {
         const response = await api.patch("/single_page_movies", {
-          data: currentPage,
+          data: {
+            currentPage,
+          },
         })
 
         if (!moviesView.length) {
