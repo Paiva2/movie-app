@@ -33,12 +33,12 @@ export class GetDataController {
   }
 
   async getSinglePageMovies(req, res) {
-    const page = req.body.data
+    const { currentPage } = req.body.data
 
     try {
       const response = await getDataModel.fetchMoviesOrTvShowsForSinglePage(
         "movie",
-        page
+        currentPage
       )
 
       return res.status(200).send(response)
@@ -48,12 +48,12 @@ export class GetDataController {
   }
 
   async getSinglePageTvShow(req, res) {
-    const page = req.body.data
+    const { currentPage } = req.body.data
 
     try {
       const response = await getDataModel.fetchMoviesOrTvShowsForSinglePage(
         "tv",
-        page
+        currentPage
       )
 
       return res.status(200).send(response)

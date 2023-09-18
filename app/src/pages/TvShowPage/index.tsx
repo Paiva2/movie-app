@@ -22,7 +22,9 @@ const TvShowPage = () => {
     mutationFn: async (currentPage: string) => {
       try {
         const response = await api.patch("/single_page_tv-show", {
-          data: currentPage,
+          data: {
+            currentPage,
+          },
         })
 
         if (!tvShowsView.length) {
