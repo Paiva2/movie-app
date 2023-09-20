@@ -52,7 +52,11 @@ export default class AuthenticationController {
 
       return res
         .status(200)
-        .send({ message: "Authentication success.", token: token })
+        .send({
+          message: "Authentication success.",
+          token: token,
+          userId: userInformations.id,
+        })
     })
   }
 
@@ -69,9 +73,7 @@ export default class AuthenticationController {
         .send({ message: "Password must have at least 5 characters." })
     }
 
-    const isUserRegistered = await authenticationModel.checkIfUserExists(
-      username
-    )
+    const isUserRegistered = await authenticationModel.checkIfUserExists(username)
 
     if (isUserRegistered) {
       return res.status(409).send({ message: "Username already exists." })
@@ -80,10 +82,7 @@ export default class AuthenticationController {
     const hashedPassword = encryptPassword(10, password)
 
     try {
-      await authenticationModel.submitRegisterToDatabase(
-        username,
-        hashedPassword
-      )
+      await authenticationModel.submitRegisterToDatabase(username, hashedPassword)
 
       return res.status(201).send({ message: "User created with success!" })
     } catch (error) {
@@ -102,9 +101,7 @@ export default class AuthenticationController {
         .send({ message: "Username or Password can't be empty." })
     }
 
-    const isUserRegistered = await authenticationModel.checkIfUserExists(
-      username
-    )
+    const isUserRegistered = await authenticationModel.checkIfUserExists(username)
 
     if (!isUserRegistered) {
       return res.status(404).send({ message: "User not found." })
@@ -113,10 +110,7 @@ export default class AuthenticationController {
     const hashedPassword = encryptPassword(10, password)
 
     try {
-      await authenticationModel.submitUserPasswordChange(
-        username,
-        hashedPassword
-      )
+      await authenticationModel.submitUserPasswordChange(username, hashedPassword)
 
       return res.status(200).send({ message: "Password updated with success!" })
     } catch {

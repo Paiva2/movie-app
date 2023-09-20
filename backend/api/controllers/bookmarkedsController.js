@@ -18,9 +18,7 @@ export default class BookmarkedsController {
 
     const decodedToken = jwt.verify(userToken, process.env.JWT_SECRET)
 
-    const isUserRegistered = await bookmarkedsModel.checkIfUserExists(
-      decodedToken
-    )
+    const isUserRegistered = await bookmarkedsModel.checkIfUserExists(decodedToken)
 
     if (!isUserRegistered) {
       return res.status(409).send({ message: "User not found." })
@@ -42,19 +40,14 @@ export default class BookmarkedsController {
         try {
           await bookmarkedsModel.insertBookmarked(filmToPerformAction)
 
-          return res
-            .status(201)
-            .send({ message: "Film bookmarked with success!" })
+          return res.status(201).send({ message: "Film bookmarked with success!" })
         } catch {
           return res.status(500).end()
         }
 
       case "action=remove":
         try {
-          await bookmarkedsModel.removeBookmarked(
-            dataInfos,
-            isUserRegistered.id
-          )
+          await bookmarkedsModel.removeBookmarked(dataInfos, isUserRegistered.id)
 
           return res.status(200).send({
             message: "Film removed from bookmarked list with success!",
@@ -77,8 +70,9 @@ export default class BookmarkedsController {
 
     const decodedToken = jwt.verify(userToken, process.env.JWT_SECRET)
 
-    const userInformations =
-      await bookmarkedsModel.getUserBookmarkedsOnDatabase(decodedToken)
+    const userInformations = await bookmarkedsModel.getUserBookmarkedsOnDatabase(
+      decodedToken
+    )
 
     if (!userInformations) {
       return res.status(409).end()
