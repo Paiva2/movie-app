@@ -15,6 +15,7 @@ export default function formatSchema(
         first_air_date: movies.release_date ?? movies.first_air_date,
         overview: movies.overview,
         media_type: movies.media_type ?? movies.mediaType ?? categoryDefault,
+        genre_ids: movies.genre_ids,
       },
     ]
 

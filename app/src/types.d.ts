@@ -11,6 +11,7 @@ export type FilmProps = {
   filmId?: string
   mediaType?: string
   media_type?: string
+  genre_ids: number[]
 }
 
 export type BookmarkedFormatSchema = Omit<FilmProps, "id">

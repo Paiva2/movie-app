@@ -66,6 +66,7 @@ export const CardOverlay = styled.div`
       font-weight: bold;
       font-size: 1.375rem;
       margin-bottom: 0.1875rem;
+      padding-right: 0.3125rem;
     }
   }
 
