@@ -1,6 +1,6 @@
 import PageContainer from "../../components/PageContainer"
 import { useContext, useEffect, useState } from "react"
-import { ColumnsContainer, FilterList, FilterTrigger, PageHeader } from "./styles"
+import { ColumnsContainer, PageHeader } from "./styles"
 import { AppContextProvider } from "../../contexts/AppContext"
 import { UserContextProvider } from "../../contexts/UserContext"
 import formatSchema from "../../utils/formatSchema"
@@ -10,13 +10,17 @@ import { api } from "../../lib/api"
 import { FilmProps } from "../../types"
 import SeeMore from "../../components/SeeMore"
 import GridDataComponent from "../../components/GridDataComponent"
-import { CaretDown } from "@phosphor-icons/react"
 import { moviesGenreList } from "../../mocks/moviesGenreList"
+import FilterCategories from "../../components/FilterCategories"
 
 const MoviesPage = () => {
-  const [openFilterList, setOpenFilterList] = useState(false)
-
-  const { homeMovies, setCurrentPage, currentPage } = useContext(AppContextProvider)
+  const {
+    homeMovies,
+    currentPage,
+    filteredCategories,
+    setOpenFilterList,
+    setCurrentPage,
+  } = useContext(AppContextProvider)
 
   const { bookmarkedMovies } = useContext(UserContextProvider)
 
@@ -58,33 +62,26 @@ const MoviesPage = () => {
 
   const formatMoviesSchema = formatSchema(moviesView, "movie")
 
+  let displayMovies: FilmProps[] = [] as FilmProps[]
+
+  if (filteredCategories.length > 0) {
+    displayMovies = formatMoviesSchema.filter((movies) => {
+      for (const genre of movies.genre_ids) {
+        return filteredCategories.includes(String(genre))
+      }
+    })
+  } else {
+    displayMovies = formatMoviesSchema
+  }
+
   return (
     <PageContainer>
-      <ColumnsContainer>
+      <ColumnsContainer onClick={() => setOpenFilterList(false)}>
         <PageHeader>
           <h1>Movies</h1>
-          <span>
-            <FilterTrigger
-              $visibility={openFilterList}
-              onClick={() => setOpenFilterList(!openFilterList)}
-            >
-              Filter <CaretDown size={25} weight="bold" />
-            </FilterTrigger>
-            <FilterList $visibility={openFilterList}>
-              {moviesGenreList.map((genre) => {
-                return (
-                  <li key={genre.id}>
-                    <label>
-                      <input type="checkbox" />
-                      <span>{genre.name}</span>
-                    </label>
-                  </li>
-                )
-              })}
-            </FilterList>
-          </span>
+          <FilterCategories genreList={moviesGenreList} />
         </PageHeader>
-        <GridDataComponent dataToList={formatMoviesSchema} />
+        <GridDataComponent dataToList={displayMovies} />
         {!!formatMoviesSchema.length && currentPage < 10 && (
           <SeeMore setCurrentPage={setCurrentPage} />
         )}

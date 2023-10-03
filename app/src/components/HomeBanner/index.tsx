@@ -11,7 +11,8 @@ import { UserContextProvider } from "../../contexts/UserContext"
 import checkIfIsBookmarked from "../../utils/checkIfIsBookmarked"
 
 const HomeBanner = () => {
-  const { handleSetBookmark, bookmarkedMovies } = useContext(UserContextProvider)
+  const { handleSetBookmark, bookmarkedMovies } =
+    useContext(UserContextProvider)
 
   if (!bookmarkedMovies) return
 
@@ -25,6 +26,7 @@ const HomeBanner = () => {
       poster_path: "/fqldf2t8ztc9aiwn3k6mlX3tvRT.jpg",
       media_type: "tv",
       first_air_date: "2021-11-06",
+      genre_ids: [12],
     }
 
     const category = "tv"
@@ -63,7 +65,10 @@ const HomeBanner = () => {
               $bg="#7c5dfa"
               type="button"
             >
-              <a target="__blank" href="https://www.youtube.com/watch?v=3Svs_hl897c">
+              <a
+                target="__blank"
+                href="https://www.youtube.com/watch?v=3Svs_hl897c"
+              >
                 Watch now
               </a>
             </BannerButtons>

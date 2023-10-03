@@ -29,6 +29,12 @@ interface AppContextInterface {
 
   currentPage: number
   setCurrentPage: Dispatch<SetStateAction<number>>
+
+  openFilterList: boolean
+  setOpenFilterList: Dispatch<SetStateAction<boolean>>
+
+  filteredCategories: string[]
+  setFilteredCategories: Dispatch<SetStateAction<string[]>>
 }
 
 export const AppContextProvider = createContext<AppContextInterface>(
@@ -42,6 +48,9 @@ const AppContext = ({ children }: AppContextProviderProps) => {
   const [openMovieModal, setOpenMovieModal] = useState(false)
   const [searchValues, setSearchValues] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
+
+  const [openFilterList, setOpenFilterList] = useState(false)
+  const [filteredCategories, setFilteredCategories] = useState<string[]>([])
 
   const { data: homeMovies, isLoading: homeMoviesIsLoading } = useQuery({
     queryKey: ["getHomeMovies"],
@@ -68,6 +77,10 @@ const AppContext = ({ children }: AppContextProviderProps) => {
         openMovieModal,
         searchValues,
         currentPage,
+        openFilterList,
+        filteredCategories,
+        setFilteredCategories,
+        setOpenFilterList,
         setCurrentPage,
         setSearchValues,
         setOpenMovieModal,
