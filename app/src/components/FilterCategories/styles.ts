@@ -32,7 +32,7 @@ export const FilterList = styled.ul<FilterListVisibility>`
   width: 100%;
   gap: 0.625rem;
   text-align: center;
-  padding: 1.25rem 0px;
+  padding: 1.25rem 1.25rem;
   right: 0;
   left: 0;
   opacity: ${(props) => (props.$visibility ? "1" : "0")};
@@ -47,8 +47,8 @@ export const FilterList = styled.ul<FilterListVisibility>`
     label {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 0.9375rem;
+      justify-content: space-between;
+      gap: 10px;
 
       input {
         width: 17px;

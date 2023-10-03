@@ -1,4 +1,4 @@
-export const moviesGenreList = [
+export const moviesCategoryList = [
   {
     id: 28,
     name: "Action",

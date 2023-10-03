@@ -10,17 +10,12 @@ import { api } from "../../lib/api"
 import { FilmProps } from "../../types"
 import SeeMore from "../../components/SeeMore"
 import GridDataComponent from "../../components/GridDataComponent"
-import { moviesGenreList } from "../../mocks/moviesGenreList"
 import FilterCategories from "../../components/FilterCategories"
+import { moviesCategoryList } from "../../mocks/moviesCategoryList"
 
 const MoviesPage = () => {
-  const {
-    homeMovies,
-    currentPage,
-    filteredCategories,
-    setOpenFilterList,
-    setCurrentPage,
-  } = useContext(AppContextProvider)
+  const { homeMovies, currentPage, filteredCategories, setCurrentPage } =
+    useContext(AppContextProvider)
 
   const { bookmarkedMovies } = useContext(UserContextProvider)
 
@@ -76,10 +71,10 @@ const MoviesPage = () => {
 
   return (
     <PageContainer>
-      <ColumnsContainer onClick={() => setOpenFilterList(false)}>
+      <ColumnsContainer>
         <PageHeader>
           <h1>Movies</h1>
-          <FilterCategories genreList={moviesGenreList} />
+          <FilterCategories genreList={moviesCategoryList} />
         </PageHeader>
         <GridDataComponent dataToList={displayMovies} />
         {!!formatMoviesSchema.length && currentPage < 10 && (
