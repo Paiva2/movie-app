@@ -27,8 +27,10 @@ const TrendingPage = () => {
     mutationFn: async (currentPage: string) => {
       try {
         const response = await api.post("/trending-movies", {
-          data: currentPage,
+          data: { currentPage },
         })
+
+        console.log(currentPage)
 
         if (!trendingsView.length) {
           setTrendingsView(response.data.results)
