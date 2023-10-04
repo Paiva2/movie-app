@@ -30,8 +30,6 @@ const TrendingPage = () => {
           data: { currentPage },
         })
 
-        console.log(currentPage)
-
         if (!trendingsView.length) {
           setTrendingsView(response.data.results)
         } else {
