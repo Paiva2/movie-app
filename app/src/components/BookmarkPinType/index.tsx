@@ -1,4 +1,5 @@
 import { BookmarkSimple } from "@phosphor-icons/react"
+import { useIsMobile } from "../../hooks/useIsMobile"
 
 interface BookMarkPinType {
   isBookmarked: boolean
@@ -6,13 +7,27 @@ interface BookMarkPinType {
 }
 
 const BookmarkPinType = ({ isBookmarked, changeOnHover }: BookMarkPinType) => {
+  const isMobile = useIsMobile(768)
+
+  const manipulatePynColorHoverOnList = isMobile
+    ? "fill"
+    : changeOnHover
+    ? "regular"
+    : "fill"
+
+  const manipulatePynColorHoverOutList = isMobile
+    ? "regular"
+    : changeOnHover
+    ? "fill"
+    : "regular"
+
   switch (isBookmarked) {
     case true:
       return (
         <BookmarkSimple
           key="on_list"
           color="#fff"
-          weight={changeOnHover ? "regular" : "fill"}
+          weight={manipulatePynColorHoverOnList}
           size={25}
         />
       )
@@ -20,7 +35,7 @@ const BookmarkPinType = ({ isBookmarked, changeOnHover }: BookMarkPinType) => {
       return (
         <BookmarkSimple
           key="out_list"
-          weight={changeOnHover ? "fill" : "regular"}
+          weight={manipulatePynColorHoverOutList}
           color="#fff"
           size={25}
         />

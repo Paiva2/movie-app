@@ -32,9 +32,17 @@ export const ArrowsContainer = styled.div`
 export const LeftButton = styled.button`
   position: absolute;
   left: 25px;
+
+  @media (max-width: 768px) {
+    left: 15px;
+  }
 `
 
 export const RightButton = styled.button`
   position: absolute;
   right: 25px;
+
+  @media (max-width: 768px) {
+    right: 15px;
+  }
 `

@@ -5,6 +5,7 @@ import VideoPreview from "../VideoPreview"
 import {
   BannerButtons,
   BannerButtonsContainer,
+  CloseModalMobile,
   FilmTexts,
   ModalContainer,
   ModalFilmBackground,
@@ -14,6 +15,7 @@ import {
 import { useContext, useState } from "react"
 import { api } from "../../lib/api"
 import { AppContextProvider } from "../../contexts/AppContext"
+import { X } from "@phosphor-icons/react"
 
 const MovieModal = () => {
   const {
@@ -60,12 +62,19 @@ const MovieModal = () => {
       }
     },
 
-    enabled:
-      !!selectedFilmDescriptions.id && !!selectedFilmDescriptions.media_type,
+    enabled: !!selectedFilmDescriptions.id && !!selectedFilmDescriptions.media_type,
   })
 
   if (!openMovieModal) {
     bookmarkedUrl = ""
+  }
+
+  const getBody = document.querySelector("body") as HTMLElement
+
+  if (openMovieModal) {
+    getBody.style.overflow = "hidden"
+  } else {
+    getBody.style.overflow = "initial"
   }
 
   return (
@@ -83,6 +92,13 @@ const MovieModal = () => {
         onClick={(e) => e.stopPropagation()}
         $visibility={openMovieModal}
       >
+        <CloseModalMobile
+          type="button"
+          onClick={() => setOpenMovieModal(!openMovieModal)}
+        >
+          {" "}
+          <X size={40} color="#fff" weight="bold" />
+        </CloseModalMobile>
         <ModalFilmDescriptions>
           <span>
             <img

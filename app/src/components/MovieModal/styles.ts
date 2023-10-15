@@ -19,6 +19,22 @@ export const ModalOverlay = styled.div<ModalVisibility>`
   transition: all 0.3s ease-in-out;
   opacity: ${(props) => (props.$visibility ? "1" : "0")};
   visibility: ${(props) => (props.$visibility ? "visible" : "hidden")};
+
+  @media (max-width: 1024px) {
+    align-items: center;
+  }
+`
+
+export const CloseModalMobile = styled.button`
+  display: none;
+
+  @media (max-width: 768px) {
+    all: unset;
+    display: flex;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
 `
 
 export const ModalContainer = styled.div<ModalVisibility>`
@@ -28,7 +44,7 @@ export const ModalContainer = styled.div<ModalVisibility>`
   transform: translate(-50%, 0);
   width: 100%;
   max-width: 120rem;
-  height: 300px;
+  height: 18.75rem;
   display: flex;
   justify-content: space-between;
   transition: all 0.3s ease-in-out;
@@ -37,6 +53,16 @@ export const ModalContainer = styled.div<ModalVisibility>`
 
   transform: ${(props) =>
     props.$visibility ? "translateY(0%)" : "translateY(100%)"};
+
+  @media (max-width: 1024px) {
+    position: relative;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 1.25rem;
+    padding-top: 4.375rem;
+    gap: 1.875rem;
+  }
 `
 
 export const ModalFilmDescriptions = styled.div`
@@ -56,6 +82,22 @@ export const ModalFilmDescriptions = styled.div`
       object-fit: contain;
     }
   }
+
+  @media (max-width: 768px) {
+    padding: 0;
+    max-height: 45%;
+    gap: 0.9375rem;
+
+    &:first-child > span:first-child {
+      width: 50%;
+    }
+
+    span {
+      img {
+        object-fit: cover;
+      }
+    }
+  }
 `
 
 export const FilmTexts = styled.span`
@@ -70,11 +112,38 @@ export const FilmTexts = styled.span`
     max-height: 90%;
     overflow: auto;
   }
+
+  @media (max-width: 768px) {
+    padding: 0;
+    max-width: 50%;
+
+    span {
+      padding: 5px;
+    }
+
+    h1 {
+      font-size: 1.375rem;
+    }
+
+    p {
+      margin-top: 0.9375rem;
+      line-height: 1.25rem;
+      font-size: 0.875rem;
+    }
+  }
 `
 
 export const BannerButtonsContainer = styled.div`
   display: flex;
   gap: 0.625rem;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+
+    a:first-child {
+      display: none;
+    }
+  }
 `
 
 interface BannerButtons {
@@ -88,8 +157,7 @@ interface ModalBackgroundProps {
 }
 
 export const ModalFilmBackground = styled.div<ModalBackgroundProps>`
-  background-image: ${(props) =>
-    props.$bgImage ? `url(${props.$bgImage})` : ""};
+  background-image: ${(props) => (props.$bgImage ? `url(${props.$bgImage})` : "")};
   width: 55%;
   height: 100%;
   background-size: 100% 100%;

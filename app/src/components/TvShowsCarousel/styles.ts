@@ -41,6 +41,11 @@ export const CarouselWrapper = styled.div`
   .arrowRight {
     top: 45%;
   }
+
+  @media (max-width: 768px) {
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+  }
 `
 
 export const CardOverlay = styled.div`
@@ -61,16 +66,32 @@ export const CardOverlay = styled.div`
     padding-left: 1.25rem;
     padding-bottom: 1.25rem;
     align-self: end;
+    gap: 0.625rem;
 
-    p:first-child {
-      font-weight: bold;
+    p:first-child,
+    p:nth-child(2) {
       font-size: 1.375rem;
-      margin-bottom: 0.1875rem;
+
+      font-size: 0.8125rem;
     }
   }
 
   &:hover {
     opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    opacity: 1;
+
+    div {
+      padding-left: 0.625rem;
+      padding-bottom: 0.625rem;
+      padding-right: 0.625rem;
+
+      p:first-child {
+        font-size: 0.8125rem;
+      }
+    }
   }
 `
 

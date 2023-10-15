@@ -18,4 +18,9 @@ export const SectionTitle = styled.div`
   padding-right: 3.125rem;
   padding-top: 1.25rem;
   text-transform: uppercase;
+
+  @media (max-width: 768px) {
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+  }
 `

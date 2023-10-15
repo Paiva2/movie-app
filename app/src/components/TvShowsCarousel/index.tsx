@@ -77,9 +77,7 @@ const TvShowsCarousel = () => {
                       <p>{film.name}</p>
                       <p>
                         Release:{" "}
-                        {new Date(film.first_air_date).toLocaleDateString(
-                          "en-US"
-                        )}
+                        {new Date(film.first_air_date).toLocaleDateString("en-US")}
                       </p>
                     </div>
                     <BookmarkButton

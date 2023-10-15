@@ -25,7 +25,8 @@ const CarouselComponent = ({
     slides: { perView: perView, spacing: 8 },
     breakpoints: {
       "(max-width: 768px)": {
-        slides: { perView: 1, spacing: 5 },
+        mode: "snap",
+        slides: { perView: 2, spacing: 5 },
       },
     },
 
