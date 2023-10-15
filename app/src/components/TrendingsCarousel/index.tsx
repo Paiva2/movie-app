@@ -35,9 +35,7 @@ const TrendingsCarousel = () => {
 
     queryFn: async () => {
       try {
-        const response = await api.post<{ results: FilmProps[] }>(
-          "/trending-movies"
-        )
+        const response = await api.post<{ results: FilmProps[] }>("/trending-movies")
 
         return response.data.results
       } catch (e) {
@@ -78,9 +76,7 @@ const TrendingsCarousel = () => {
                       <p>{film.name}</p>
                       <p>
                         Release:{" "}
-                        {new Date(film.first_air_date).toLocaleDateString(
-                          "en-US"
-                        )}
+                        {new Date(film.first_air_date).toLocaleDateString("en-US")}
                       </p>
                     </div>
                     <MovieTypePin>

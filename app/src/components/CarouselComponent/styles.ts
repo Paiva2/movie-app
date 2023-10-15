@@ -34,7 +34,7 @@ export const LeftButton = styled.button`
   left: 25px;
 
   @media (max-width: 768px) {
-    left: 15px;
+    left: 10px;
   }
 `
 
@@ -43,6 +43,6 @@ export const RightButton = styled.button`
   right: 25px;
 
   @media (max-width: 768px) {
-    right: 15px;
+    right: 10px;
   }
 `

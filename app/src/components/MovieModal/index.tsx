@@ -12,10 +12,11 @@ import {
   ModalFilmDescriptions,
   ModalOverlay,
 } from "./styles"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { api } from "../../lib/api"
 import { AppContextProvider } from "../../contexts/AppContext"
 import { X } from "@phosphor-icons/react"
+import { useIsMobile } from "../../hooks/useIsMobile"
 
 const MovieModal = () => {
   const {
@@ -26,6 +27,7 @@ const MovieModal = () => {
   } = useContext(UserContextProvider)
 
   const { openMovieModal, setOpenMovieModal } = useContext(AppContextProvider)
+  const isMobile = useIsMobile()
 
   const bookmarkedFilmsIds = bookmarkedMovies?.bookmarkedFilms?.map(
     (films) => films.filmId
@@ -69,6 +71,12 @@ const MovieModal = () => {
     bookmarkedUrl = ""
   }
 
+  useEffect(() => {
+    if (!isMobile) {
+      setOpenMovieModal(false)
+    }
+  }, [isMobile])
+
   const getBody = document.querySelector("body") as HTMLElement
 
   if (openMovieModal) {
@@ -94,7 +102,13 @@ const MovieModal = () => {
       >
         <CloseModalMobile
           type="button"
-          onClick={() => setOpenMovieModal(!openMovieModal)}
+          onClick={() => {
+            setSelectedFilmDescriptions({} as FilmProps)
+
+            queryClient.invalidateQueries("getDataVideoPreview")
+
+            setOpenMovieModal(!openMovieModal)
+          }}
         >
           {" "}
           <X size={40} color="#fff" weight="bold" />

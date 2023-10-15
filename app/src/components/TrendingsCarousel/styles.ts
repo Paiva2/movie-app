@@ -11,6 +11,7 @@ export const Banner = styled.div`
 export const BannerWrapper = styled.div`
   display: flex;
   gap: 0.625rem;
+  height: 100%;
 `
 
 export const TrendingCard = styled.div`
@@ -43,8 +44,8 @@ export const CarouselWrapper = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding-right: 0.625rem;
-    padding-left: 0.625rem;
+    padding: 0;
+    padding-left: 0.3125rem;
   }
 `
 
@@ -65,6 +66,7 @@ export const CardOverlay = styled.div`
   div {
     padding-left: 1.25rem;
     padding-bottom: 1.25rem;
+
     align-self: end;
 
     p:first-child {

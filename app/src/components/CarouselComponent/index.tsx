@@ -21,12 +21,11 @@ const CarouselComponent = ({
   const [sliderRef, carouselRef] = useKeenSlider({
     mode: "free-snap",
     loop: true,
-    rtl: true,
     slides: { perView: perView, spacing: 8 },
     breakpoints: {
       "(max-width: 768px)": {
         mode: "snap",
-        slides: { perView: 2, spacing: 5 },
+        slides: { perView: 1.5, spacing: 5 },
       },
     },
 
@@ -44,7 +43,7 @@ const CarouselComponent = ({
         <ArrowsContainer>
           <LeftButton
             className="arrowLeft"
-            onClick={() => carouselRef.current?.next()}
+            onClick={() => carouselRef.current?.prev()}
             type="button"
           >
             <CaretLeft weight="bold" size="45" />
@@ -52,7 +51,7 @@ const CarouselComponent = ({
 
           <RightButton
             className="arrowRight"
-            onClick={() => carouselRef.current?.prev()}
+            onClick={() => carouselRef.current?.next()}
             type="button"
           >
             <CaretRight weight="bold" size="45" />
