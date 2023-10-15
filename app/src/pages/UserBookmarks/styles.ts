@@ -74,6 +74,17 @@ export const CardOverlay = styled.div`
       font-size: 1.375rem;
       margin-bottom: 0.1875rem;
     }
+
+    @media (max-width: 768px) {
+      padding: 0;
+      padding: 0.9375rem;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      justify-content: center;
+    }
   }
 
   &:hover {
