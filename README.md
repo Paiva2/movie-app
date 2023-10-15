@@ -22,7 +22,7 @@ Back-end:
 
 ## Preview
 
-<iframe width="640" height="360" src="https://www.loom.com/embed/ed871ce1cfab4a1daeac60b5d6506083?sid=ca4629d6-168d-4fe7-9c6f-58c784f0af0f" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+### Watch a video preview: https://www.loom.com/embed/ed871ce1cfab4a1daeac60b5d6506083?sid=c83224a7-68dc-42f1-91f2-3a70dde343c5
 
 # Screenshots
 
