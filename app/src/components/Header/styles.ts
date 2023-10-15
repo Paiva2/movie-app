@@ -18,12 +18,15 @@ export const HeaderContainer = styled.header<HeaderProps>`
   top: 0;
   z-index: 1000;
   transition: all 0.2s ease-in-out;
-  font-size: ${(props) => (props.$absolutePosition ? "1rem" : ".875rem")};
 
-  .profile-pic {
-    transition: all 0.3s ease-in-out;
-    width: ${(props) => (props.$absolutePosition ? "2.1875rem" : "1.5625rem")};
-    height: ${(props) => (props.$absolutePosition ? "2.1875rem" : "1.5625rem")};
+  @media (min-width: 940px) {
+    font-size: ${(props) => (props.$absolutePosition ? "1rem" : ".875rem")};
+
+    .profile-pic {
+      transition: all 0.3s ease-in-out;
+      width: ${(props) => (props.$absolutePosition ? "2.1875rem" : "1.5625rem")};
+      height: ${(props) => (props.$absolutePosition ? "2.1875rem" : "1.5625rem")};
+    }
   }
 `
 
@@ -36,8 +39,19 @@ export const HeaderAndSearchWrapper = styled.div`
   justify-content: space-between;
   width: 80%;
   align-items: center;
-  gap: 40px;
+  gap: 2.5rem;
   max-width: 75rem;
+`
+
+export const HamburguerMenuTrigger = styled.button`
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  padding-top: 0.3125rem;
+
+  @media (min-width: 1040px) {
+    display: none;
+  }
 `
 
 export const SearchHeaderWrapper = styled.div<SearchBarVisibilityProps>`
@@ -74,6 +88,10 @@ export const SearchHeaderWrapper = styled.div<SearchBarVisibilityProps>`
       font-size: 1rem;
     }
   }
+
+  @media (max-width: 1040px) {
+    width: 100%;
+  }
 `
 
 export const HeaderWrapper = styled.header`
@@ -84,6 +102,44 @@ export const HeaderWrapper = styled.header`
   justify-content: space-between;
   position: sticky;
   top: 0;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 0px 1.125rem;
+  }
+`
+
+interface NavMenuMobileVisibility {
+  $visible: boolean
+}
+
+export const MobileMenuOverlay = styled.div<NavMenuMobileVisibility>`
+  @media (max-width: 1040px) {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    visibility: ${(props) => (props.$visible ? "visible" : "hidden")};
+    opacity: ${(props) => (props.$visible ? "1" : "0")};
+    transition: all 0.3s ease-in-out;
+  }
+`
+
+export const CloseMobileMenu = styled.button`
+  display: none;
+
+  @media (max-width: 1040px) {
+    all: unset;
+    display: flex;
+    width: 95%;
+    justify-content: flex-end;
+  }
 `
 
 export const NavMenu = styled.nav`
@@ -96,6 +152,7 @@ export const NavMenu = styled.nav`
     color: #fff;
     text-transform: uppercase;
     font-weight: 600;
+    transition: all 0.3s ease-in-out;
 
     li {
       width: 100%;
@@ -125,6 +182,39 @@ export const NavMenu = styled.nav`
       right: 0;
       bottom: -7px;
     }
+
+    @media (max-width: 1040px) {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background-color: #1f1f24;
+      left: 0;
+      right: 0;
+      top: 0;
+      width: 100%;
+      margin: 0;
+      height: 100vh;
+      padding-top: 2.5rem;
+
+      li {
+        a {
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #fff;
+
+          &:after {
+            content: "" "";
+            max-width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1040px) {
+    width: 60%;
   }
 `
 

@@ -18,7 +18,7 @@ import { UserContextProvider } from "../../contexts/UserContext"
 import { AppContextProvider } from "../../contexts/AppContext"
 import { UserCircle, X } from "@phosphor-icons/react"
 
-const Menu = () => {
+const MenuProfile = () => {
   const { userAuthenticated } = useContext(AuthContextProvider)
   const { userProfile, bookmarkedMovies } = useContext(UserContextProvider)
 
@@ -89,6 +89,12 @@ const Menu = () => {
         encType="multipart/form-data"
         $menuVisibility={openMenuProfile}
       >
+        <CloseButton
+          type="button"
+          onClick={() => setOpenMenuProfile(!openMenuProfile)}
+        >
+          <X size={30} weight="bold" color="#fff" />
+        </CloseButton>
         <ProfilePictureWrapper>
           <label>
             <img
@@ -123,16 +129,9 @@ const Menu = () => {
             Logout
           </LogoutButton>
         </ProfileMenuNav>
-
-        <CloseButton
-          type="button"
-          onClick={() => setOpenMenuProfile(!openMenuProfile)}
-        >
-          <X size={30} weight="bold" color="#fff" />
-        </CloseButton>
       </ProfileMenu>
     </ProfileMenuOverlay>
   )
 }
 
-export default Menu
+export default MenuProfile

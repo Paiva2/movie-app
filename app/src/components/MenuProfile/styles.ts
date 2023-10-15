@@ -29,8 +29,8 @@ export const ProfileMenu = styled.form<ProfileMenuAttachment>`
   flex-direction: column;
   color: #fff;
   background: #000;
-  padding: 3.125rem 1.25rem;
-  height: 50%;
+  padding: 2.5rem;
+  height: 70%;
   width: 30%;
   border-radius: 3px;
   align-items: center;
@@ -41,6 +41,20 @@ export const ProfileMenu = styled.form<ProfileMenuAttachment>`
     props.$menuVisibility ? "translateX(0%)" : "translateX(100%)"};
   gap: 1.25rem;
   word-break: break-all;
+  top: 60px;
+  box-sizing: border-box;
+
+  @media (min-width: 1040px) {
+    top: ${(props) => (props.$menuScrolled ? "70px" : "60px")};
+  }
+
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
 `
 
 export const ProfilePictureWrapper = styled.div`
