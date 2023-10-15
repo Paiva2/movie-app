@@ -1,4 +1,4 @@
-import { useState, useContext } from "react"
+import { useContext } from "react"
 import {
   Banner,
   BannerWrapper,
@@ -26,8 +26,6 @@ const TvShowsCarousel = () => {
   } = useContext(UserContextProvider)
 
   const { openMovieModal, setOpenMovieModal } = useContext(AppContextProvider)
-
-  const [changeBookmark, setChangeBookmark] = useState(false)
 
   const { data: tvShows, isLoading } = useQuery({
     queryKey: ["getHomeTvShows"],
@@ -81,8 +79,6 @@ const TvShowsCarousel = () => {
                       </p>
                     </div>
                     <BookmarkButton
-                      onMouseOver={() => setChangeBookmark(true)}
-                      onMouseLeave={() => setChangeBookmark(false)}
                       disabled={bookmarkingData}
                       onClick={(e) => {
                         e.stopPropagation()
@@ -94,10 +90,7 @@ const TvShowsCarousel = () => {
                         )
                       }}
                     >
-                      <BookmarkPinType
-                        isBookmarked={isBookmarked}
-                        changeOnHover={changeBookmark}
-                      />
+                      <BookmarkPinType isBookmarked={isBookmarked} />
                     </BookmarkButton>
                   </CardOverlay>
                 </TvShowCard>

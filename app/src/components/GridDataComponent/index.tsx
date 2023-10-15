@@ -1,14 +1,8 @@
-import {
-  BookmarkButton,
-  Card,
-  CardOverlay,
-  Column,
-  MovieTypePin,
-} from "./styles"
+import { BookmarkButton, Card, CardOverlay, Column, MovieTypePin } from "./styles"
 import checkIfIsBookmarked from "../../utils/checkIfIsBookmarked"
 import BookmarkPinType from "../BookmarkPinType"
 import { UserContextProvider } from "../../contexts/UserContext"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { AppContextProvider } from "../../contexts/AppContext"
 import { FilmProps } from "../../types"
 
@@ -17,8 +11,6 @@ const GridDataComponent = ({ dataToList }: { dataToList: FilmProps[] }) => {
 
   const { handleSetBookmark, setSelectedFilmDescriptions, bookmarkedMovies } =
     useContext(UserContextProvider)
-
-  const [changeBookmark, setChangeBookmark] = useState(false)
 
   if (!bookmarkedMovies) return <></>
 
@@ -58,8 +50,6 @@ const GridDataComponent = ({ dataToList }: { dataToList: FilmProps[] }) => {
                 <p>{movie.media_type}</p>
               </MovieTypePin>
               <BookmarkButton
-                onMouseOver={() => setChangeBookmark(true)}
-                onMouseLeave={() => setChangeBookmark(false)}
                 onClick={(e) => {
                   e.stopPropagation()
 
@@ -70,10 +60,7 @@ const GridDataComponent = ({ dataToList }: { dataToList: FilmProps[] }) => {
                   )
                 }}
               >
-                <BookmarkPinType
-                  isBookmarked={isBookmarked}
-                  changeOnHover={changeBookmark}
-                />
+                <BookmarkPinType isBookmarked={isBookmarked} />
               </BookmarkButton>
             </CardOverlay>
           </Card>

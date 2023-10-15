@@ -4,19 +4,31 @@ export const ColumnsContainer = styled.div`
   padding: 3.125rem;
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 1.5625rem;
   color: #fff;
+
+  @media (max-width: 768px) {
+    padding: 0.625rem;
+    text-align: center;
+    gap: 1.25rem;
+  }
 `
 
 export const BookmarkedColumn = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
   gap: 1.875rem;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `
 
 export const BookmarkedCard = styled.div`
   border-radius: 8px;
-  max-width: 200px;
+  max-width: 12.5rem;
   overflow: hidden;
   border: 1px solid #292929;
   position: relative;
@@ -31,6 +43,10 @@ export const BookmarkedCard = styled.div`
 
   &:hover {
     transform: translateY(-3%);
+  }
+
+  @media (max-width: 768px) {
+    max-width: 85%;
   }
 `
 
@@ -61,6 +77,10 @@ export const CardOverlay = styled.div`
   }
 
   &:hover {
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
     opacity: 1;
   }
 `

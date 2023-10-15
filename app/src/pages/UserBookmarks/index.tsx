@@ -1,4 +1,4 @@
-import { useState, useContext, Fragment } from "react"
+import { useContext, Fragment } from "react"
 import { UserContextProvider } from "../../contexts/UserContext"
 import { formatBookmarkedMoviesSchema } from "../../utils/formatSchema"
 import {
@@ -25,8 +25,6 @@ const UserBookmarks = () => {
     useContext(UserContextProvider)
 
   const { openMovieModal, setOpenMovieModal } = useContext(AppContextProvider)
-
-  const [changeBookmark, setChangeBookmark] = useState(false)
 
   if (!bookmarkedMovies?.bookmarkedFilms) return null
 
@@ -103,8 +101,6 @@ const UserBookmarks = () => {
                           </p>
                         </div>
                         <BookmarkButton
-                          onMouseOver={() => setChangeBookmark(true)}
-                          onMouseLeave={() => setChangeBookmark(false)}
                           onClick={(e) => {
                             e.stopPropagation()
 
@@ -115,10 +111,7 @@ const UserBookmarks = () => {
                             )
                           }}
                         >
-                          <BookmarkPinType
-                            isBookmarked={isBookmarked}
-                            changeOnHover={changeBookmark}
-                          />
+                          <BookmarkPinType isBookmarked={isBookmarked} />
                         </BookmarkButton>
                       </CardOverlay>
                     </BookmarkedCard>

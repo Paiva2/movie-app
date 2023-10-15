@@ -29,10 +29,12 @@ export const FilterList = styled.ul<FilterListVisibility>`
   z-index: 10;
   background-color: #252424;
   color: #fff;
-  width: 100%;
+  width: 80%;
   gap: 0.625rem;
   text-align: center;
   padding: 1.25rem 1.25rem;
+  max-height: 31.25rem;
+  overflow: auto;
   right: 0;
   left: 0;
   opacity: ${(props) => (props.$visibility ? "1" : "0")};

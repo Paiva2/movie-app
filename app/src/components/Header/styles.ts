@@ -41,6 +41,10 @@ export const HeaderAndSearchWrapper = styled.div`
   align-items: center;
   gap: 2.5rem;
   max-width: 75rem;
+
+  @media (max-width: 768px) {
+    gap: 1.5625rem;
+  }
 `
 
 export const HamburguerMenuTrigger = styled.button`

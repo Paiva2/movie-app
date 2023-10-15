@@ -102,7 +102,7 @@ export const ModalFilmDescriptions = styled.div`
 
 export const FilmTexts = styled.span`
   padding-top: 1.875rem;
-  max-width: 35%;
+  max-width: 50%;
   word-break: break-word;
   display: flex;
   flex-direction: column;
@@ -111,6 +111,7 @@ export const FilmTexts = styled.span`
   span {
     max-height: 90%;
     overflow: auto;
+    padding-right: 1.25rem;
   }
 
   @media (max-width: 768px) {

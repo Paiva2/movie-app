@@ -17,6 +17,7 @@ export const NoBookmarksTexts = styled.div`
   flex-direction: column;
   gap: 0.3125rem;
   align-items: center;
+  box-sizing: border-box;
 
   a {
     font-weight: 500;
@@ -25,5 +26,19 @@ export const NoBookmarksTexts = styled.div`
 
   a:hover {
     text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    text-align: center;
+    padding: 0.625rem;
+
+    h1 {
+      font-size: 24px;
+    }
+
+    a {
+      text-decoration: underline;
+      max-width: 70%;
+    }
   }
 `

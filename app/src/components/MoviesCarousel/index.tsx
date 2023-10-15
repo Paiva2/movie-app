@@ -7,7 +7,7 @@ import {
   MovieCard,
 } from "./styles"
 import CarouselComponent from "../CarouselComponent"
-import { useState, useContext } from "react"
+import { useContext } from "react"
 import { UserContextProvider } from "../../contexts/UserContext"
 import formatSchema from "../../utils/formatSchema"
 import { AppContextProvider } from "../../contexts/AppContext"
@@ -25,8 +25,6 @@ const MoviesCarousel = () => {
   const { openMovieModal, setOpenMovieModal } = useContext(AppContextProvider)
 
   const { homeMovies, homeMoviesIsLoading } = useContext(AppContextProvider)
-
-  const [changeBookmark, setChangeBookmark] = useState(false)
 
   if (homeMoviesIsLoading || !homeMovies || !bookmarkedMovies) return <></>
 
@@ -60,14 +58,10 @@ const MoviesCarousel = () => {
                       <p>{film.name}</p>
                       <p>
                         Release:{" "}
-                        {new Date(film.first_air_date).toLocaleDateString(
-                          "en-US"
-                        )}
+                        {new Date(film.first_air_date).toLocaleDateString("en-US")}
                       </p>
                     </div>
                     <BookmarkButton
-                      onMouseOver={() => setChangeBookmark(true)}
-                      onMouseLeave={() => setChangeBookmark(false)}
                       disabled={bookmarkingData}
                       onClick={(e) => {
                         e.stopPropagation()
@@ -79,10 +73,7 @@ const MoviesCarousel = () => {
                         )
                       }}
                     >
-                      <BookmarkPinType
-                        isBookmarked={isBookmarked}
-                        changeOnHover={changeBookmark}
-                      />
+                      <BookmarkPinType isBookmarked={isBookmarked} />
                     </BookmarkButton>
                   </CardOverlay>
                 </MovieCard>

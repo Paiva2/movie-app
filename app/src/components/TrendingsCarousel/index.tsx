@@ -1,4 +1,4 @@
-import { useState, useContext } from "react"
+import { useContext } from "react"
 import {
   Banner,
   BannerWrapper,
@@ -27,8 +27,6 @@ const TrendingsCarousel = () => {
   } = useContext(UserContextProvider)
 
   const { openMovieModal, setOpenMovieModal } = useContext(AppContextProvider)
-
-  const [changeBookmark, setChangeBookmark] = useState(false)
 
   const { data: trendings, isLoading } = useQuery({
     queryKey: ["getHomeTrendings"],
@@ -83,8 +81,6 @@ const TrendingsCarousel = () => {
                       <p>{film.media_type}</p>
                     </MovieTypePin>
                     <BookmarkButton
-                      onMouseOver={() => setChangeBookmark(true)}
-                      onMouseLeave={() => setChangeBookmark(false)}
                       disabled={bookmarkingData}
                       onClick={(e) => {
                         e.stopPropagation()
@@ -96,10 +92,7 @@ const TrendingsCarousel = () => {
                         )
                       }}
                     >
-                      <BookmarkPinType
-                        isBookmarked={isBookmarked}
-                        changeOnHover={changeBookmark}
-                      />
+                      <BookmarkPinType isBookmarked={isBookmarked} />
                     </BookmarkButton>
                   </CardOverlay>
                 </TrendingCard>
