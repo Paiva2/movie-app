@@ -4,12 +4,20 @@ export const BannerContainer = styled.div`
   width: 100%;
   max-height: 28.125rem;
   position: relative;
+
+  @media (max-width: 768px) {
+    height: 18.75rem;
+  }
 `
 export const Banner = styled.img`
   width: 100%;
   height: 100%;
   max-height: 28.125rem;
   object-fit: cover;
+
+  @media (max-width: 768px) {
+    height: 18.75rem;
+  }
 `
 
 export const BannerOverlay = styled.div`
@@ -22,6 +30,12 @@ export const BannerOverlay = styled.div`
   -webkit-box-shadow: inset 0px -200px 270px -4px rgba(0, 0, 0, 0.85);
   -moz-box-shadow: inset 0px -200px 270px -4px rgba(0, 0, 0, 0.85);
   box-shadow: inset 0px -200px 270px -4px rgba(0, 0, 0, 0.85);
+
+  @media (max-width: 768px) {
+    box-shadow: inset 10px -17px 242px -34px rgba(0, 0, 0, 0.85);
+    -webkit-box-shadow: inset 10px -17px 242px -34px rgba(0, 0, 0, 0.85);
+    -moz-box-shadow: inset 10px -17px 242px -34px rgba(0, 0, 0, 0.85);
+  }
 `
 
 export const BannerTitle = styled.div`
@@ -36,6 +50,22 @@ export const BannerTitle = styled.div`
     line-height: 3.125rem;
     font-weight: 900;
   }
+
+  @media (max-width: 1024px) {
+    span {
+      font-size: 1.875rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 0px 1.125rem;
+    width: 50%;
+
+    span {
+      font-size: 1.25rem;
+      line-height: 2.125rem;
+    }
+  }
 `
 
 export const BannerButtonsContainer = styled.div`
@@ -43,6 +73,11 @@ export const BannerButtonsContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.625rem;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    gap: 1.25rem;
+  }
 `
 
 interface BannerButtons {
