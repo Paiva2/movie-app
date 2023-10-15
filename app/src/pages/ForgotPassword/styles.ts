@@ -9,6 +9,12 @@ export const ForgotPasswordContainer = styled.div`
   background-image: url("https://i.imgur.com/kQYjzkA.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
+
+  @media (max-width: 768px) {
+    box-sizing: border-box;
+    padding: 0.625rem;
+    background-size: cover;
+  }
 `
 
 export const ForgotPasswordWrapper = styled.div`
@@ -20,6 +26,12 @@ export const ForgotPasswordWrapper = styled.div`
   flex-direction: column;
   gap: 1.875rem;
   width: 30%;
+  transition: all 0.2s ease-in-out;
+
+  @media (max-width: 768px) {
+    padding: 1.25rem;
+    width: 100%;
+  }
 `
 
 export const ForgotPasswordTitles = styled.div`
@@ -31,6 +43,12 @@ export const ForgotPasswordTitles = styled.div`
     margin-top: 5px;
     font-size: 0.875rem;
     color: gray;
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 1.5rem;
+    }
   }
 `
 
@@ -57,6 +75,14 @@ export const ForgotPasswordForm = styled.form`
 
       &:focus {
         border: 2px solid #7c5dfa;
+      }
+    }
+
+    @media (max-width: 768px) {
+      font-size: 0.875rem;
+
+      input {
+        font-size: 0.875rem;
       }
     }
   }
@@ -113,6 +139,13 @@ export const ForgotPasswordFooter = styled.div`
 
     &:hover:not(:disabled) {
       background-color: #9277ff;
+    }
+  }
+
+  @media (max-width: 768px) {
+    &,
+    button {
+      font-size: 0.875rem;
     }
   }
 `
