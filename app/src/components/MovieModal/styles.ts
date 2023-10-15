@@ -164,6 +164,10 @@ export const ModalFilmBackground = styled.div<ModalBackgroundProps>`
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: right;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `
 
 export const BannerButtons = styled.a<BannerButtons>`

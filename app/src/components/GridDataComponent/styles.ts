@@ -4,6 +4,13 @@ export const Column = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
   gap: 1.875rem;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 `
 
 export const Card = styled.div`
@@ -23,6 +30,10 @@ export const Card = styled.div`
 
   &:hover {
     transform: translateY(-3%);
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%;
   }
 `
 
@@ -50,9 +61,20 @@ export const CardOverlay = styled.div`
       font-size: 1.375rem;
       margin-bottom: 0.1875rem;
     }
+
+    @media (max-width: 768px) {
+      box-sizing: border-box;
+      padding: 1.25rem;
+      text-align: center;
+      width: 100%;
+    }
   }
 
   &:hover {
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
     opacity: 1;
   }
 `

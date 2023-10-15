@@ -19,6 +19,11 @@ export const FilterTrigger = styled.button<FilterListVisibility>`
     transform: ${(props) =>
       props.$visibility ? "rotate(180deg);" : "rotate(0deg);"};
   }
+
+  @media (max-width: 768px) {
+    min-width: 100%;
+    gap: 1.875rem;
+  }
 `
 
 export const FilterList = styled.ul<FilterListVisibility>`
@@ -50,11 +55,11 @@ export const FilterList = styled.ul<FilterListVisibility>`
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 0.625rem;
 
       input {
-        width: 17px;
-        height: 17px;
+        width: 1.0625rem;
+        height: 1.0625rem;
         accent-color: #5b38e9;
         cursor: pointer;
       }
@@ -62,6 +67,22 @@ export const FilterList = styled.ul<FilterListVisibility>`
       span {
         min-width: 6.875rem;
       }
+
+      @media (max-width: 768px) {
+        justify-content: center;
+        gap: 3.75rem;
+
+        input {
+          width: 1.5625rem;
+          height: 1.5625rem;
+        }
+      }
     }
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    box-sizing: border-box;
+    gap: 1.5625rem;
   }
 `
